@@ -3,15 +3,30 @@ import { FieldProps } from "formik";
 import React from "react";
 
 interface InputComponentProps extends FieldProps {
+  variant: "standard" | "filled" | "outlined" | undefined;
+  margin: "normal" | "none" | "dense" | undefined;
   label: string;
   type: string;
+  size: "small" | "medium" | undefined;
 }
 
-const InputComponent = ({ label, type, field }: InputComponentProps) => {
+const InputComponent = ({
+  variant = "outlined",
+  margin = "normal",
+  label,
+  type,
+  size = "medium",
+  field,
+}: InputComponentProps) => {
   return (
-    <Box pb={2}>
-      <TextField type={type} label={label} {...field} />
-    </Box>
+    <TextField
+      variant={variant}
+      margin={margin}
+      type={type}
+      label={label}
+      size={size}
+      {...field}
+    />
   );
 };
 
