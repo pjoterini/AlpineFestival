@@ -3,12 +3,13 @@ export interface GuestRegistrationFormValues {
   lastName: string;
   email: string;
   tel: string;
-  stayTime: string;
+  arrival: Date;
+  exit: Date;
   accomodationComment?: string;
-  presentaion?: boolean;
+  presents: boolean;
   ownsPc?: boolean;
   speechLength?: string;
-  specials?: string;
+  specialNeeds?: string;
 }
 
 export interface GuestRegistrationFormProps {
