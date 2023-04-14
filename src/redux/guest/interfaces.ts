@@ -3,7 +3,7 @@ export interface GuestRegistrationFormValues {
   lastName: string;
   email: string;
   tel: string;
-  arrival: Date;
+  arrival: Date | null | string;
   exit: Date;
   accomodationComment?: string;
   presents: boolean;

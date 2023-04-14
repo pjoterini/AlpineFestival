@@ -1,21 +1,20 @@
 import { GuestRegistrationFormProps } from "@/redux/guest/interfaces";
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import { Box, Button, FormControlLabel, MenuItem } from "@mui/material";
 import { Stack } from "@mui/system";
-import { Field, Form, Formik } from "formik";
-import { CheckboxWithLabel, Select, Switch } from "formik-mui";
-import { DatePicker } from "@mui/x-date-pickers";
-import InputComponent from "./InputComponent";
-import { speechLengthOptions } from "./GuestRegistrationUtils";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Field, Form, Formik } from "formik";
+import { CheckboxWithLabel, Select, Switch, TextField } from "formik-mui";
+import {
+  speechLengthOptions,
+  useDatesWithoutSeconds,
+} from "./GuestRegistrationUtils";
+import InputComponent from "./InputComponent";
 
 const GuestRegistration = ({ onSubmit }: GuestRegistrationFormProps) => {
+  let [preArrival, preExit] = useDatesWithoutSeconds();
+
   return (
     <Formik
       initialValues={{
@@ -23,9 +22,8 @@ const GuestRegistration = ({ onSubmit }: GuestRegistrationFormProps) => {
         lastName: "",
         email: "",
         tel: "",
-        // invoking these dates creates hydration error
-        arrival: new Date(),
-        exit: new Date(),
+        arrival: preArrival,
+        exit: preExit,
         accomodationComment: "",
         presents: false,
         ownsPc: false,
@@ -34,7 +32,7 @@ const GuestRegistration = ({ onSubmit }: GuestRegistrationFormProps) => {
       }}
       onSubmit={(values) => onSubmit(values)}
     >
-      {({ values }) => (
+      {({ values, setValues, setFieldValue }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Form>
             <Box p={4}>
@@ -71,7 +69,12 @@ const GuestRegistration = ({ onSubmit }: GuestRegistrationFormProps) => {
                       component={DatePicker}
                       label="Arrival Date"
                       name="arrival"
-                      inputFormat="MM/dd/yyyy"
+                      onChange={(value: Date) => {
+                        console.log(value);
+                        setFieldValue("arrival", value);
+                      }}
+                      // onChange={(e: any) => setValues(e.$d)}
+                      // inputFormat="MM/dd/yyyy"
                     />
                   </Box>
                   <Box pt={{ xs: "10px", lg: "0px" }} pl={{ lg: "20px" }}>
@@ -79,7 +82,7 @@ const GuestRegistration = ({ onSubmit }: GuestRegistrationFormProps) => {
                       component={DatePicker}
                       label="Exit Date"
                       name="exit"
-                      inputFormat="MM/dd/yyyy"
+                      // inputFormat="MM/dd/yyyy"
                     />
                   </Box>
                 </Stack>

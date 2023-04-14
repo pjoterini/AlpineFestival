@@ -28,7 +28,7 @@ export const speechLengthOptions = [
 // https://mui.com/x/react-date-pickers/localization/
 
 import { createTheme } from "@mui/material/styles";
-import { deDE } from "@mui/x-date-pickers/locales";
+import { plPL } from "@mui/x-date-pickers/locales";
 
 export const theme = createTheme(
   {
@@ -36,5 +36,18 @@ export const theme = createTheme(
       primary: { main: "#1976d2" },
     },
   },
-  deDE // use 'de' locale for UI texts (start, next month, ...)
+  plPL // use 'de' locale for UI texts (start, next month, ...)
 );
+
+// DATES GENERATOR
+
+export const useDatesWithoutSeconds = () => {
+  let preArrival: Date;
+  let preExit: Date;
+  preArrival = new Date();
+  preArrival.setSeconds(0, 0);
+  preExit = new Date();
+  preExit.setSeconds(0, 0);
+
+  return [preArrival, preExit];
+};
