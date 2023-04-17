@@ -1,11 +1,7 @@
 import GuestRegistration from "./GuestRegistration.component";
 
-const onSubmit = (values: any) => {
-  console.log(values);
-};
-
 const GuestRegistrationContainer = () => {
-  return <GuestRegistration onSubmit={onSubmit} />;
+  return <GuestRegistration />;
 };
 
 export default GuestRegistrationContainer;

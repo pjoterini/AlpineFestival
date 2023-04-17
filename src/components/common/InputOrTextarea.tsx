@@ -1,10 +1,9 @@
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { FieldProps } from "formik";
-import React from "react";
 
 // USAGE: PASSING MULTILINE TRUE PROP WILL MAKE THIS COMPONENT TEXT AREA
 
-export interface InputComponentProps extends FieldProps {
+interface IProps extends FieldProps {
   variant: "standard" | "filled" | "outlined" | undefined;
   margin: "normal" | "none" | "dense" | undefined;
   multiline: boolean | undefined;
@@ -14,7 +13,7 @@ export interface InputComponentProps extends FieldProps {
   size: "small" | "medium" | undefined;
 }
 
-const InputComponent = ({
+const InputOrTextarea = ({
   variant = "outlined",
   margin = "normal",
   multiline = undefined,
@@ -23,7 +22,7 @@ const InputComponent = ({
   type,
   size = "medium",
   field,
-}: InputComponentProps) => {
+}: IProps) => {
   return (
     <TextField
       multiline={multiline}
@@ -38,4 +37,4 @@ const InputComponent = ({
   );
 };
 
-export default InputComponent;
+export default InputOrTextarea;
