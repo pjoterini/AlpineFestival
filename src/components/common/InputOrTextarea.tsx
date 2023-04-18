@@ -16,7 +16,7 @@ interface IProps extends FieldProps {
 const InputOrTextarea = ({
   variant = "outlined",
   margin = "normal",
-  multiline = undefined,
+  multiline,
   rows = 3,
   label,
   type,
