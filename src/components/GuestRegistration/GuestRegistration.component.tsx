@@ -2,15 +2,14 @@ import { Box, Button, MenuItem } from "@mui/material";
 import { Stack } from "@mui/system";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import { ErrorMessage, Field, Form, Formik, FormikErrors } from "formik";
+import { Field, Form, Formik } from "formik";
 import { CheckboxWithLabel, Select } from "formik-mui";
 import { t } from "i18next";
-import { InputError } from "../common/InputError";
-import InputOrTextarea from "../common/InputOrTextarea";
+import GMInput from "../common/GMInput";
 import { guestRegistrationSchema } from "./utils/guestRegistrationSchema";
 import { speechLengthOptions } from "./utils/speechLengthOptions";
 
-export interface IProps {
+interface IProps {
   onSubmit: (values: GuestRegistrationFormProps) => void;
 }
 
@@ -28,11 +27,7 @@ export interface GuestRegistrationFormProps {
   specialNeeds?: string;
 }
 
-const GuestRegistration = () => {
-  const onSubmit = (values: GuestRegistrationFormProps) => {
-    console.log(values);
-  };
-
+const GuestRegistration = ({ onSubmit }: IProps) => {
   const earliestDate = new Date("2023-05-12T00:00:00.000Z");
   const latestDate = new Date("2023-05-24T00:00:00.000Z");
 
@@ -62,42 +57,38 @@ const GuestRegistration = () => {
                 <Field
                   name="firstName"
                   label={t("guestForm.firstName")}
-                  component={InputOrTextarea}
+                  component={GMInput}
+                  error={errors.firstName}
+                  touched={touched.firstName}
                 />
-                {errors.firstName && touched.firstName && (
-                  <InputError error={errors.firstName} />
-                )}
 
                 <Field
                   name="lastName"
                   label={t("guestForm.lastName")}
-                  component={InputOrTextarea}
+                  component={GMInput}
+                  error={errors.lastName}
+                  touched={touched.lastName}
                 />
-                {errors.lastName && touched.lastName && (
-                  <InputError error={errors.lastName} />
-                )}
+
                 <Field
                   name="email"
                   type="email"
                   label={t("guestForm.email")}
-                  component={InputOrTextarea}
+                  component={GMInput}
+                  error={errors.email}
+                  touched={touched.email}
                 />
-                {errors.email && touched.email && (
-                  <InputError error={errors.email} />
-                )}
+
                 <Field
                   name="tel"
                   type="tel"
                   label={t("guestForm.tel")}
-                  component={InputOrTextarea}
+                  component={GMInput}
+                  error={errors.tel}
+                  touched={touched.tel}
                 />
-                {errors.tel && touched.tel && <InputError error={errors.tel} />}
 
-                <Stack
-                  direction={{ xs: "column", lg: "row" }}
-                  pt="15px"
-                  pb="10px"
-                >
+                <Stack direction={{ xs: "column", lg: "row" }} pt={2} pb={1}>
                   {/* DateRangePicker is included on Pro package, thus we're using DatePickers */}
                   <Box>
                     <Field
@@ -112,7 +103,7 @@ const GuestRegistration = () => {
                       views={["day"]}
                     />
                   </Box>
-                  <Box pt={{ xs: "10px", lg: "0px" }} pl={{ lg: "20px" }}>
+                  <Box pt={{ xs: 3, lg: 0 }} pl={{ lg: 3 }}>
                     <Field
                       component={DatePicker}
                       label={t("guestForm.departureDate")}
@@ -128,15 +119,14 @@ const GuestRegistration = () => {
                 </Stack>
 
                 <Field
-                  component={InputOrTextarea}
+                  component={GMInput}
                   name="accomodationComment"
                   label={t("guestForm.accomodationComment")}
                   type="textarea"
                   multiline={true}
+                  error={errors.accomodationComment}
+                  touched={touched.accomodationComment}
                 />
-                {errors.accomodationComment && touched.accomodationComment && (
-                  <InputError error={errors.accomodationComment} />
-                )}
 
                 <Field
                   component={CheckboxWithLabel}
@@ -173,15 +163,14 @@ const GuestRegistration = () => {
                     </Field>
 
                     <Field
-                      component={InputOrTextarea}
+                      component={GMInput}
                       name="specialNeeds"
                       label={t("guestForm.specialNeeds")}
                       type="textarea"
                       multiline={true}
+                      error={errors.specialNeeds}
+                      touched={touched.specialNeeds}
                     />
-                    {errors.specialNeeds && touched.specialNeeds && (
-                      <InputError error={errors.specialNeeds} />
-                    )}
                   </>
                 )}
                 <Box mt={2}>

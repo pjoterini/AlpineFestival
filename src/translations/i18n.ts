@@ -4,7 +4,6 @@ import { translationsENG } from "./eng";
 import { translationsPL } from "./pl";
 
 i18n.use(initReactI18next).init({
-  // debug: true,
   lng: "pl",
   resources: {
     pl: {

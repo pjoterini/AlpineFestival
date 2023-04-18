@@ -1,9 +1,9 @@
 import { TextField } from "@mui/material";
 import { FieldProps } from "formik";
-
-// USAGE: PASSING MULTILINE TRUE PROP WILL MAKE THIS COMPONENT TEXT AREA
+import { InputError } from "./InputError";
 
 interface IProps extends FieldProps {
+  name: string;
   variant: "standard" | "filled" | "outlined" | undefined;
   margin: "normal" | "none" | "dense" | undefined;
   multiline: boolean | undefined;
@@ -11,9 +11,11 @@ interface IProps extends FieldProps {
   label: string;
   type: string;
   size: "small" | "medium" | undefined;
+  error: string;
+  touched: boolean | undefined;
 }
 
-const InputOrTextarea = ({
+const GMInput = ({
   variant = "outlined",
   margin = "normal",
   multiline,
@@ -21,20 +23,26 @@ const InputOrTextarea = ({
   label,
   type,
   size = "medium",
+  error,
+  touched,
   field,
 }: IProps) => {
   return (
-    <TextField
-      multiline={multiline}
-      minRows={rows}
-      variant={variant}
-      margin={margin}
-      type={type}
-      label={label}
-      size={size}
-      {...field}
-    />
+    <>
+      <TextField
+        multiline={multiline}
+        minRows={rows}
+        variant={variant}
+        margin={margin}
+        type={type}
+        label={label}
+        size={size}
+        error={error && touched ? true : false}
+        {...field}
+      />
+      {error && touched && <InputError error={error} />}
+    </>
   );
 };
 
-export default InputOrTextarea;
+export default GMInput;
