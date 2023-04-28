@@ -1,51 +1,36 @@
-import { Box, Button, MenuItem } from "@mui/material";
-import { Stack } from "@mui/system";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import { Field, Form, Formik } from "formik";
-import { CheckboxWithLabel, Select } from "formik-mui";
-import { t } from "i18next";
-import GMInput from "../common/GMInput";
-import { guestRegistrationSchema } from "./utils/guestRegistrationSchema";
-import { speechLengthOptions } from "./utils/speechLengthOptions";
+import { GuestRegistrationFormProps } from '@/redux/guest/interfaces'
+import { Box, Button, MenuItem } from '@mui/material'
+import { Stack } from '@mui/system'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs from 'dayjs'
+import { Field, Form, Formik } from 'formik'
+import { CheckboxWithLabel, Select } from 'formik-mui'
+import { t } from 'i18next'
+import GMInput from '../common/GMInput'
+import { arrivalDate, departureDate } from './utils/arrivalAndDepartureDates'
+import { guestRegistrationSchema } from './utils/guestRegistrationSchema'
+import { speechLengthOptions } from './utils/speechLengthOptions'
 
 interface IProps {
-  onSubmit: (values: GuestRegistrationFormProps) => void;
-}
-
-export interface GuestRegistrationFormProps {
-  firstName: string;
-  lastName: string;
-  email: string;
-  tel: string;
-  arrival: Date;
-  departure: Date;
-  accomodationComment?: string;
-  presents: boolean;
-  ownsPc?: boolean;
-  speechLength?: string;
-  specialNeeds?: string;
+  onSubmit: (values: GuestRegistrationFormProps) => void
 }
 
 const GuestRegistration = ({ onSubmit }: IProps) => {
-  const earliestDate = new Date("2023-05-12T00:00:00.000Z");
-  const latestDate = new Date("2023-05-24T00:00:00.000Z");
-
   return (
     <>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          tel: "",
-          arrival: earliestDate,
-          departure: latestDate,
-          accomodationComment: "",
+          firstName: '',
+          lastName: '',
+          email: '',
+          tel: '',
+          arrival: arrivalDate,
+          departure: departureDate,
+          accomodationComment: '',
           presents: false,
           ownsPc: false,
-          speechLength: "0-15",
-          specialNeeds: "",
+          speechLength: '0-15',
+          specialNeeds: ''
         }}
         validationSchema={guestRegistrationSchema}
         onSubmit={(values) => onSubmit(values)}
@@ -53,76 +38,76 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
         {({ values, touched, setFieldValue, errors }) => (
           <Form>
             <Box p={4}>
-              <Stack width="40%" minWidth="320px">
+              <Stack width='40%' minWidth='320px'>
                 <Field
-                  name="firstName"
-                  label={t("guestForm.firstName")}
+                  name='firstName'
+                  label={t('guestForm.firstName')}
                   component={GMInput}
                   error={errors.firstName}
                   touched={touched.firstName}
                 />
 
                 <Field
-                  name="lastName"
-                  label={t("guestForm.lastName")}
+                  name='lastName'
+                  label={t('guestForm.lastName')}
                   component={GMInput}
                   error={errors.lastName}
                   touched={touched.lastName}
                 />
 
                 <Field
-                  name="email"
-                  type="email"
-                  label={t("guestForm.email")}
+                  name='email'
+                  type='email'
+                  label={t('guestForm.email')}
                   component={GMInput}
                   error={errors.email}
                   touched={touched.email}
                 />
 
                 <Field
-                  name="tel"
-                  type="tel"
-                  label={t("guestForm.tel")}
+                  name='tel'
+                  type='tel'
+                  label={t('guestForm.tel')}
                   component={GMInput}
                   error={errors.tel}
                   touched={touched.tel}
                 />
 
-                <Stack direction={{ xs: "column", lg: "row" }} pt={2} pb={1}>
+                <Stack direction={{ xs: 'column', lg: 'row' }} pt={2} pb={1}>
                   {/* DateRangePicker is included on Pro package, thus we're using DatePickers */}
                   <Box>
                     <Field
                       component={DatePicker}
-                      label={t("guestForm.arrivalDate")}
-                      name="arrival"
+                      label={t('guestForm.arrivalDate')}
+                      name='arrival'
                       onChange={(value: Date) => {
-                        setFieldValue("arrival", value);
+                        setFieldValue('arrival', value)
                       }}
-                      minDate={dayjs.utc(earliestDate)}
-                      maxDate={dayjs.utc(latestDate)}
-                      views={["day"]}
+                      minDate={dayjs.utc(arrivalDate)}
+                      maxDate={dayjs.utc(departureDate)}
+                      views={['day']}
                     />
                   </Box>
                   <Box pt={{ xs: 3, lg: 0 }} pl={{ lg: 3 }}>
                     <Field
                       component={DatePicker}
-                      label={t("guestForm.departureDate")}
-                      name="departure"
+                      label={t('guestForm.departureDate')}
+                      name='departure'
                       onChange={(value: Date) => {
-                        setFieldValue("departure", value);
+                        setFieldValue('departure', value)
                       }}
-                      minDate={dayjs.utc(earliestDate)}
-                      maxDate={dayjs.utc(latestDate)}
-                      views={["day"]}
+                      minDate={dayjs.utc(arrivalDate)}
+                      maxDate={dayjs.utc(departureDate)}
+                      views={['day']}
                     />
                   </Box>
                 </Stack>
 
                 <Field
                   component={GMInput}
-                  name="accomodationComment"
-                  label={t("guestForm.accomodationComment")}
-                  type="textarea"
+                  name='accomodationComment'
+                  label={t('guestForm.accomodationComment')}
+                  type='textarea'
                   multiline={true}
                   error={errors.accomodationComment}
                   touched={touched.accomodationComment}
@@ -130,27 +115,27 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
 
                 <Field
                   component={CheckboxWithLabel}
-                  type="checkbox"
-                  name="presents"
-                  Label={{ label: t("guestForm.presents") }}
+                  type='checkbox'
+                  name='presents'
+                  Label={{ label: t('guestForm.presents') }}
                 />
                 {values.presents && (
                   <>
                     <Box pb={2}>
                       <Field
                         component={CheckboxWithLabel}
-                        type="checkbox"
-                        name="ownsPc"
-                        Label={{ label: t("guestForm.ownsPc") }}
+                        type='checkbox'
+                        name='ownsPc'
+                        Label={{ label: t('guestForm.ownsPc') }}
                       />
                     </Box>
 
                     <Field
                       component={Select}
-                      name="speechLength"
-                      label={t("guestForm.speechLength")}
+                      name='speechLength'
+                      label={t('guestForm.speechLength')}
                       formHelperText={{
-                        children: t("guestForm.speechLengthHelperText"),
+                        children: t('guestForm.speechLengthHelperText')
                       }}
                     >
                       {Object.entries(speechLengthOptions).map(
@@ -164,9 +149,9 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
 
                     <Field
                       component={GMInput}
-                      name="specialNeeds"
-                      label={t("guestForm.specialNeeds")}
-                      type="textarea"
+                      name='specialNeeds'
+                      label={t('guestForm.specialNeeds')}
+                      type='textarea'
                       multiline={true}
                       error={errors.specialNeeds}
                       touched={touched.specialNeeds}
@@ -174,8 +159,8 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
                   </>
                 )}
                 <Box mt={2}>
-                  <Button variant="outlined" type="submit">
-                    {t("guestForm.submit")}
+                  <Button variant='outlined' type='submit'>
+                    {t('guestForm.submit')}
                   </Button>
                 </Box>
               </Stack>
@@ -184,7 +169,7 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
         )}
       </Formik>
     </>
-  );
-};
+  )
+}
 
-export default GuestRegistration;
+export default GuestRegistration

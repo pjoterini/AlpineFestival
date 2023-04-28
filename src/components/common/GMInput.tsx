@@ -1,31 +1,31 @@
-import { TextField } from "@mui/material";
-import { FieldProps } from "formik";
-import { InputError } from "./InputError";
+import { TextField } from '@mui/material'
+import { FieldProps } from 'formik'
+import { InputError } from './InputError'
 
 interface IProps extends FieldProps {
-  name: string;
-  variant: "standard" | "filled" | "outlined" | undefined;
-  margin: "normal" | "none" | "dense" | undefined;
-  multiline: boolean | undefined;
-  rows: number;
-  label: string;
-  type: string;
-  size: "small" | "medium" | undefined;
-  error: string;
-  touched: boolean | undefined;
+  name: string
+  variant: 'standard' | 'filled' | 'outlined' | undefined
+  margin: 'normal' | 'none' | 'dense' | undefined
+  multiline: boolean | undefined
+  rows: number
+  label: string
+  type: string
+  size: 'small' | 'medium' | undefined
+  error: string
+  touched: boolean | undefined
 }
 
 const GMInput = ({
-  variant = "outlined",
-  margin = "normal",
+  variant = 'outlined',
+  margin = 'normal',
   multiline,
   rows = 3,
   label,
   type,
-  size = "medium",
+  size = 'medium',
   error,
   touched,
-  field,
+  field
 }: IProps) => {
   return (
     <>
@@ -37,12 +37,12 @@ const GMInput = ({
         type={type}
         label={label}
         size={size}
-        error={error && touched ? true : false}
+        error={!!error && !!touched}
         {...field}
       />
       {error && touched && <InputError error={error} />}
     </>
-  );
-};
+  )
+}
 
-export default GMInput;
+export default GMInput
