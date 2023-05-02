@@ -1,5 +1,5 @@
-import GuestRegistrationContainer from "@/components/GuestRegistration/GuestRegistration.container";
-import Head from "next/head";
+import GuestRegistrationContainer from '@/components/GuestRegistration/GuestRegistration.container';
+import Head from 'next/head';
 
 export default function Home() {
   return (

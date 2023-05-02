@@ -1,9 +1,9 @@
-import { Box, Button, Stack } from "@mui/material";
-import React from "react";
+import { Box, Button, Stack } from '@mui/material';
+import React from 'react';
 
 export const LanguageBtns = () => {
   const changeLang = () => {
-    console.log("change lang");
+    console.log('change lang');
   };
 
   return (

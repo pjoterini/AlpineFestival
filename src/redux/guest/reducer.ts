@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 export const guestSlice = createSlice({
   name: 'guest',
   initialState: {},
-  reducers: {}
-})
+  reducers: {},
+});
 
-export default guestSlice.reducer
+export default guestSlice.reducer;

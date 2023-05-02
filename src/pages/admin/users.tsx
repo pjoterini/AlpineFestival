@@ -1,6 +1,6 @@
-import AdminLayout from "@/components/AdminLayout/AdminLayout";
-import Head from "next/head";
-import { NextPageWithLayout } from "../_app";
+import AdminLayout from '@/components/AdminLayout/AdminLayout';
+import Head from 'next/head';
+import { NextPageWithLayout } from '../_app';
 
 const Users: NextPageWithLayout = () => {
   return (

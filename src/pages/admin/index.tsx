@@ -1,7 +1,7 @@
-import AdminLayout from "@/components/AdminLayout/AdminLayout";
-import GuestsTableContainer from "@/components/GuestsTable/GuestsTable.container";
-import Head from "next/head";
-import { NextPageWithLayout } from "../_app";
+import AdminLayout from '@/components/AdminLayout/AdminLayout';
+import GuestsTableContainer from '@/components/GuestsTable/GuestsTable.container';
+import Head from 'next/head';
+import { NextPageWithLayout } from '../_app';
 
 const Guests: NextPageWithLayout = () => {
   return (
