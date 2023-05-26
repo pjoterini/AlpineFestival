@@ -10,6 +10,7 @@ import utc from 'dayjs/plugin/utc';
 import type { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
+import { Navbar } from '@/components/Navbar/Navbar';
 dayjs.extend(utc);
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -33,6 +34,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           plPL.components.MuiLocalizationProvider.defaultProps.localeText
         }
       >
+        <Navbar />
         <Component {...pageProps} />
       </LocalizationProvider>
     </ThemeProvider>

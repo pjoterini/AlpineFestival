@@ -11,8 +11,8 @@ export const guestRegistrationSchema = Yup.object({
     .max(50, `${t('guestFormValidation.lastNameTooLong')}`)
     .required(`${t('guestFormValidation.lastNameRequired')}`),
   email: Yup.string()
-    .email(`${t('guestFormValidation.emailInvalid')}`)
-    .required(`${t('guestFormValidation.emailRequired')}`),
+    .email(`${t('formValidation.emailInvalid')}`)
+    .required(`${t('formValidation.emailRequired')}`),
   tel: Yup.string().required(`${t('guestFormValidation.telRequired')}`),
   arrival: Yup.date()
     .required(`${t('guestFormValidation.arrivalRequired')}`)
