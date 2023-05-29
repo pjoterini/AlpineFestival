@@ -2,7 +2,7 @@ import { GuestRegistrationFormProps } from '@/redux/guest/interfaces';
 import GuestRegistration from './GuestRegistration.component';
 
 const GuestRegistrationContainer = () => {
-  const onSubmit = (values: GuestRegistrationFormProps) => {
+  const onSubmit = (values: Partial<GuestRegistrationFormProps>) => {
     console.log(values);
   };
 

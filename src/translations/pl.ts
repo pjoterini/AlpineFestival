@@ -52,6 +52,8 @@ export const translationsPL = {
     telRequired: 'Podaj numer telefonu',
     arrivalRequired: 'Podaj datę przyjazdu',
     departureRequired: 'Podaj datę wyjazdu',
+    dateTypeError: 'Data ma nieprawidłowy format',
+    departureMin: 'Data wyjazdu musi być późniejsza od daty przyjazdu',
     commentTooLong: 'Komentarz musi się składać z mniej niż 500 liter',
   },
   loginUserFormValidation: {

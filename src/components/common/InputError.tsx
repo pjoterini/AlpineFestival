@@ -1,5 +1,4 @@
 import { Box } from '@mui/system';
-
 interface IProps {
   error: string;
 }
