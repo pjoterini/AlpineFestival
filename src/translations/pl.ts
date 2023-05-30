@@ -13,6 +13,9 @@ export const translationsPL = {
     password: 'Hasło',
     login: 'Zaloguj',
     logout: 'Wyloguj',
+    hello: 'Cześć',
+    guestRegistration: 'Rejestracja Gościa',
+    adminPanel: 'Panel Admina',
   },
   guest: {
     checkIn: 'Odprawa',

@@ -18,14 +18,16 @@ export const Navbar = () => {
 
   return (
     <Stack direction="row" p={4} spacing={4} alignItems="center">
-      <Link href="/">GuestRegistration / Home</Link>
+      <Link href="/">{t('common.guestRegistration')}</Link>
       {user && !loading && (
         <>
+          <Link href="/admin">{t('common.adminPanel')}</Link>
+          <Box>
+            {t('common.hello')} {user.email}
+          </Box>
           <Button variant="outlined" onClick={logout}>
             {t('common.logout')}
           </Button>
-          <Link href="/admin">Guests Table</Link>
-          <Box>hello {user.email}</Box>
         </>
       )}
       {!user && !loading && (
