@@ -8,7 +8,7 @@ export enum SpeechLength {
 }
 
 export interface IGuest {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   checkIn?: boolean;
@@ -16,17 +16,23 @@ export interface IGuest {
   organizer?: number;
   email: string;
   tel: string;
-  arrival: Date;
-  departure: Date;
+  arrival: string;
+  departure: string;
   accommodation?: string;
   accomodationComment?: string;
   presents: boolean;
   ownsPc?: boolean;
-  speechLength?: SpeechLength;
+  speechLength: SpeechLength | null;
   specialNeeds?: string;
 }
 
 export type GuestRegistrationFormProps = Omit<
   IGuest,
-  'id' | 'checkIn' | 'type' | 'organizer' | 'accommodation'
+  | 'id'
+  | 'checkIn'
+  | 'type'
+  | 'organizer'
+  | 'accommodation'
+  | 'arrival'
+  | 'departure'
 >;

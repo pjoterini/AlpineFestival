@@ -21,6 +21,7 @@ export const translationsPL = {
     checkIn: 'Odprawa',
     accommodationNote: 'Notatka do noclego',
     accommodation: 'Nocleg',
+    presents: 'Prezentacja',
     ownComputer: 'Własny komputer',
     speechLength: 'Długość prezentacji (minuty)',
     specialRequirements: 'Specjalne wymagania',

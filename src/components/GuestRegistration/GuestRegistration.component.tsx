@@ -1,22 +1,17 @@
-import {
-  GuestRegistrationFormProps,
-  SpeechLength,
-} from '@/redux/guest/interfaces';
+import { GuestRegistrationFormProps } from '@/redux/guest/interfaces';
 import { Box, Button, MenuItem } from '@mui/material';
 import { Stack } from '@mui/system';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
 import { t } from 'i18next';
+import GMDatePicker from '../common/GMDatePicker';
 import GMInput from '../common/GMInput';
-import { InputError } from '../common/InputError';
 import { arrivalDate, departureDate } from './utils/arrivalAndDepartureDates';
-import { guestRegistrationSchema } from './utils/validationSchemas/guestRegistrationSchema';
 import { speechLengthOptions } from './utils/speechLengthOptions';
+import { guestRegistrationSchema } from './utils/validationSchemas/guestRegistrationSchema';
 
 interface IProps {
-  onSubmit: (values: Partial<GuestRegistrationFormProps>) => void;
+  onSubmit: (values: GuestRegistrationFormProps) => void;
 }
 
 const GuestRegistration = ({ onSubmit }: IProps) => {
@@ -28,16 +23,16 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
           lastName: '',
           email: '',
           tel: '',
-          arrival: undefined,
-          departure: undefined,
+          arrival: arrivalDate,
+          departure: departureDate,
           accomodationComment: '',
           presents: false,
           ownsPc: false,
-          speechLength: SpeechLength.min0_15,
+          speechLength: null,
           specialNeeds: '',
         }}
         validationSchema={guestRegistrationSchema}
-        onSubmit={(values) => onSubmit(values)}
+        onSubmit={onSubmit}
       >
         {({ values, touched, setFieldValue, errors }) => (
           <Form>
@@ -79,51 +74,29 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
               <Stack direction={{ xs: 'column', lg: 'row' }} pt={2} pb={1}>
                 {/* DateRangePicker is included on Pro package, thus we're using DatePickers */}
                 <Box>
-                  <Field
-                    component={DatePicker}
-                    label={t('guestForm.arrivalDate')}
+                  <GMDatePicker
+                    label={t(`guestForm.arrivalDate`)}
                     name="arrival"
-                    onChange={(value: Date) => {
-                      setFieldValue('arrival', value);
-                    }}
-                    minDate={dayjs.utc(arrivalDate)}
-                    maxDate={dayjs.utc(departureDate)}
-                    views={['day']}
-                    disablePast
-                    slotProps={{
-                      textField: {
-                        error: !!errors.arrival && !!touched.arrival,
-                      },
-                    }}
+                    setFieldValue={setFieldValue}
+                    error={errors.arrival}
+                    touched={touched.arrival}
+                    disablePast={true}
+                    minDate={arrivalDate}
+                    maxDate={departureDate}
+                    value={values.arrival}
                   />
-                  <Box pt={1}>
-                    {errors.arrival && touched.arrival && (
-                      <InputError error={errors.arrival} />
-                    )}
-                  </Box>
                 </Box>
                 <Box pt={{ xs: 3, lg: 0 }} pl={{ lg: 3 }}>
-                  <Field
-                    component={DatePicker}
-                    label={t('guestForm.departureDate')}
+                  <GMDatePicker
+                    label={t(`guestForm.departureDate`)}
                     name="departure"
-                    onChange={(value: Date) => {
-                      setFieldValue('departure', value);
-                    }}
-                    minDate={values.arrival}
-                    maxDate={dayjs.utc(departureDate)}
-                    views={['day']}
-                    slotProps={{
-                      textField: {
-                        error: !!errors.departure && !!touched.departure,
-                      },
-                    }}
+                    setFieldValue={setFieldValue}
+                    error={errors.departure}
+                    touched={touched.departure}
+                    minDate={arrivalDate}
+                    maxDate={departureDate}
+                    value={values.departure}
                   />
-                  <Box pt={1}>
-                    {errors.departure && touched.departure && (
-                      <InputError error={errors.departure} />
-                    )}
-                  </Box>
                 </Box>
               </Stack>
 
@@ -140,6 +113,11 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
               <Field
                 component={CheckboxWithLabel}
                 type="checkbox"
+                onClick={() => {
+                  values.ownsPc = false;
+                  values.speechLength = null;
+                  values.specialNeeds = '';
+                }}
                 name="presents"
                 Label={{ label: t('guestForm.presents') }}
               />
@@ -158,6 +136,7 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
                     component={Select}
                     name="speechLength"
                     label={t('guest.speechLength')}
+                    value={values.speechLength || ''}
                     formHelperText={{
                       children: t('guestForm.speechLengthHelperText'),
                     }}
