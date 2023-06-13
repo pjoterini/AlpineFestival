@@ -77,7 +77,7 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
               touched={touched.tel}
             />
 
-            <Stack direction={{ xs: 'column', sm: 'row' }} pt={2} pb={1}>
+            <Stack direction={{ xs: 'column', sm: 'row' }} pt={2}>
               {/* DateRangePicker is included on Pro package, thus we're using DatePickers */}
               <Box>
                 <GMDatePicker
@@ -92,7 +92,7 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
                   value={values.arrival}
                 />
               </Box>
-              <Box pt={{ xs: 3, sm: 0 }} pl={{ sm: 3 }}>
+              <Box pt={{ xs: 2, sm: 0 }} pl={{ sm: 3 }}>
                 <GMDatePicker
                   label={t(`guestForm.departureDate`)}
                   name="departure"
