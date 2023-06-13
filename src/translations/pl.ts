@@ -6,6 +6,7 @@ export const translationsPL = {
     email: 'Email',
     type: 'Typ',
     guardian: 'Opiekun',
+    organizer: 'Organizator',
     organizers: 'Organizatorzy',
     firstName: 'Imię',
     lastName: 'Nazwisko',

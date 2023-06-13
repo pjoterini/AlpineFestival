@@ -1,4 +1,5 @@
 import { IGuest } from '@/redux/guest/interfaces';
+import { Container } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
@@ -49,7 +50,11 @@ interface IProps {
 }
 
 const GuestsTable = ({ guests }: IProps) => {
-  return <DataGrid rows={guests} columns={columns} autoHeight />;
+  return (
+    <Container sx={{ pt: { xs: 2, sm: 4 } }}>
+      <DataGrid rows={guests} columns={columns} autoHeight />
+    </Container>
+  );
 };
 
 export default GuestsTable;

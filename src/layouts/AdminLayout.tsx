@@ -2,7 +2,6 @@ import { ADMIN_PANEL, ADMIN_USERS } from '@/constants/routes';
 import { AppBar, Container, Tab, Tabs, Toolbar } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const a11yProps = (index: number) => ({
@@ -10,15 +9,18 @@ const a11yProps = (index: number) => ({
   'aria-controls': `nav-tabpanel-${index}`,
 });
 
-const AdminLayout = (page: ReactElement) => {
+const AdminLayout = () => {
   const { t } = useTranslation();
   const { asPath } = useRouter();
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: 'white' }}>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: 'white', height: '48px' }}
+      >
         <Container>
-          <Toolbar sx={{ alignItems: 'end' }}>
+          <Toolbar sx={{ alignItems: 'start' }}>
             <Tabs value={asPath}>
               <Tab
                 label={t('common.guests')}
@@ -38,7 +40,6 @@ const AdminLayout = (page: ReactElement) => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Container sx={{ py: 4 }}>{page}</Container>
     </>
   );
 };

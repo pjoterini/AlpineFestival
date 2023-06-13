@@ -1,7 +1,6 @@
-import { ILogin } from '@/pages/login';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-
 import { auth } from '../config';
+import { ILogin } from '@/components/LoginForm/LoginForm.container';
 
 export const loginUser = async (values: ILogin) => {
   const { userEmail, password } = values;
