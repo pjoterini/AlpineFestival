@@ -16,7 +16,7 @@ const columns: GridColDef[] = [
 
 const UsersTable = () => {
   return (
-    <Container sx={{ pt: { xs: 2, sm: 4 } }}>
+    <Container>
       <DataGrid rows={rows} columns={columns} autoHeight />
     </Container>
   );

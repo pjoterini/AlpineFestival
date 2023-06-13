@@ -1,5 +1,5 @@
 import { GuestRegistrationFormProps } from '@/redux/guest/interfaces';
-import { Box, Button, MenuItem } from '@mui/material';
+import { Box, Button, MenuItem, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
@@ -40,6 +40,9 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
             mx="auto"
             width={{ xs: '100%', sm: '60%' }}
           >
+            <Typography variant="h5" component="h1">
+              {t('guestForm.guestForm')}
+            </Typography>
             <Field
               name="firstName"
               label={t('common.firstName')}

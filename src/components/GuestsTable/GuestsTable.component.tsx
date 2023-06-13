@@ -51,7 +51,7 @@ interface IProps {
 
 const GuestsTable = ({ guests }: IProps) => {
   return (
-    <Container sx={{ pt: { xs: 2, sm: 4 } }}>
+    <Container>
       <DataGrid rows={guests} columns={columns} autoHeight />
     </Container>
   );

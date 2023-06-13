@@ -36,7 +36,13 @@ export const Navbar = () => {
           }}
         >
           <Box py={1} display={{ xs: 'none', sm: 'flex' }}>
-            <Image src={logo} width={180} height={65} alt="Festival logo" />
+            <Image
+              src={logo}
+              width={180}
+              height={65}
+              alt="Festival logo"
+              priority
+            />
           </Box>
           <Stack
             direction="row"
@@ -46,14 +52,12 @@ export const Navbar = () => {
             {user && !loading && (
               <>
                 <Link href="/">
-                  <Typography color="primary">
+                  <Button color="primary">
                     {t('common.guestRegistration')}
-                  </Typography>
+                  </Button>
                 </Link>
                 <Link href="/admin">
-                  <Typography color="primary">
-                    {t('common.adminPanel')}
-                  </Typography>
+                  <Button color="primary">{t('common.adminPanel')}</Button>
                 </Link>
                 <Typography
                   color="primary"

@@ -32,6 +32,7 @@ export const translationsPL = {
     emailRequired: 'Podaj Email',
   },
   guestForm: {
+    guestForm: 'Formularz Gościa',
     arrivalDate: 'Data Przyjazdu',
     departureDate: 'Data Wyjazdu',
     accomodationComment: 'Komentarz odnośnie zakwaterowania',

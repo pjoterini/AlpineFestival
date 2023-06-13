@@ -22,9 +22,12 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  // const getLayout = Component.getLayout ?? ((page) => page);
   if (Component.getLayout) {
-    return Component.getLayout(<Component {...pageProps} />);
+    return Component.getLayout(
+      <Container sx={{ py: { xs: 2, sm: 3 } }}>
+        <Component {...pageProps} />
+      </Container>
+    );
   }
 
   return (
@@ -38,7 +41,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         }
       >
         <Navbar />
-        <Container>
+        <Container sx={{ py: { xs: 2, sm: 3 } }}>
           <Component {...pageProps} />
         </Container>
       </LocalizationProvider>
