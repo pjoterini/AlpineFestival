@@ -14,33 +14,35 @@ const AdminLayout = () => {
   const { asPath } = useRouter();
 
   return (
-    <>
-      <AppBar
-        position="static"
-        sx={{ backgroundColor: 'white', height: '48px' }}
-      >
-        <Container>
-          <Toolbar sx={{ alignItems: 'start' }}>
-            <Tabs value={asPath}>
-              <Tab
-                label={t('common.guests')}
-                component={Link}
-                href={ADMIN_PANEL}
-                value={ADMIN_PANEL}
-                {...a11yProps(0)}
-              />
-              <Tab
-                label={t('common.organizers')}
-                component={Link}
-                href={ADMIN_USERS}
-                value={ADMIN_USERS}
-                {...a11yProps(1)}
-              />
-            </Tabs>
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </>
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: 'white',
+        height: '48px',
+        top: '81px',
+      }}
+    >
+      <Container>
+        <Toolbar sx={{ alignItems: 'start' }}>
+          <Tabs value={asPath}>
+            <Tab
+              label={t('common.guests')}
+              component={Link}
+              href={ADMIN_PANEL}
+              value={ADMIN_PANEL}
+              {...a11yProps(0)}
+            />
+            <Tab
+              label={t('common.organizers')}
+              component={Link}
+              href={ADMIN_USERS}
+              value={ADMIN_USERS}
+              {...a11yProps(1)}
+            />
+          </Tabs>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

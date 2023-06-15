@@ -6,9 +6,12 @@ import { CheckboxWithLabel, Select } from 'formik-mui';
 import { t } from 'i18next';
 import GMDatePicker from '../common/GMDatePicker';
 import GMInput from '../common/GMInput';
-import { arrivalDate, departureDate } from './utils/arrivalAndDepartureDates';
-import { speechLengthOptions } from './utils/speechLengthOptions';
-import { guestRegistrationSchema } from './utils/guestRegistrationSchema';
+import {
+  arrivalDate,
+  departureDate,
+} from './guestRegistration.arrivalAndDepartureDates';
+import { guestRegistrationSchema } from './guestRegistration.schema';
+import { speechLengthOptions } from './guestRegistration.speechLengthOptions';
 
 interface IProps {
   onSubmit: (values: GuestRegistrationFormProps) => void;
@@ -165,8 +168,8 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
                 />
               </>
             )}
-            <Box mx="auto" mt={2} mb={5}>
-              <Button variant="outlined" type="submit">
+            <Box ml="auto" mt={2} mb={5}>
+              <Button variant="contained" type="submit" size="large">
                 {t('guestForm.submit')}
               </Button>
             </Box>

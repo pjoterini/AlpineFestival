@@ -1,8 +1,8 @@
 import UsersTableContainer from '@/components/UsersTable/UsersTable.container';
+import Loader from '@/components/common/Loader';
 import { auth } from '@/firebase/config';
 import AdminLayout from '@/layouts/AdminLayout';
 import { Navbar } from '@/layouts/Navbar';
-import { Container, Typography } from '@mui/material';
 import Head from 'next/head';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { NextPageWithLayout } from '../_app';
@@ -15,13 +15,7 @@ const Users: NextPageWithLayout = () => {
       <Head>
         <title>Users</title>
       </Head>
-      {!loading && user ? (
-        <UsersTableContainer />
-      ) : (
-        <Container>
-          <Typography>Loading...</Typography>
-        </Container>
-      )}
+      {!loading && user ? <UsersTableContainer /> : <Loader />}
     </>
   );
 };
