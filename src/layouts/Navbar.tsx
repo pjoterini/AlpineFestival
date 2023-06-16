@@ -1,4 +1,4 @@
-import { HOME, LANDING_PAGE, LOGIN } from '@/constants/routes';
+import { ADMIN_PANEL, HOME, LANDING_PAGE, LOGIN } from '@/constants/routes';
 import { logoutUser } from '@/firebase/auth/logoutUser';
 import { auth } from '@/firebase/config';
 import { Box, Button, Stack, Typography } from '@mui/material';
@@ -82,7 +82,7 @@ export const Navbar = () => {
             )}
           </Stack>
         </Toolbar>
-        {router.pathname.includes('admin') && <AdminNavbar />}
+        {router.pathname.includes(ADMIN_PANEL) && <AdminNavbar />}
       </Container>
     </AppBar>
   );
