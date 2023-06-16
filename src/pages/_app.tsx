@@ -1,3 +1,4 @@
+import Layout from '@/layouts/Layout';
 import '@/styles/globals.css';
 import { theme } from '@/styles/theme';
 import '@/translations/i18n';
@@ -7,10 +8,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pl';
 import utc from 'dayjs/plugin/utc';
+import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
-import { NextPage } from 'next';
-import { Navbar } from '@/components/Navbar/Navbar';
 dayjs.extend(utc);
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -22,9 +22,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page);
-
-  return getLayout(
+  return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider
         dateLibInstance={dayjs.utc}
@@ -34,8 +32,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           plPL.components.MuiLocalizationProvider.defaultProps.localeText
         }
       >
-        <Navbar />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </LocalizationProvider>
     </ThemeProvider>
   );

@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { rows } from './mock';
 import i18next from 'i18next';
+import { rows } from './mock';
 
 const columns: GridColDef[] = [
   {
