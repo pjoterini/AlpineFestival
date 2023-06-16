@@ -1,7 +1,6 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { rows } from './mock';
 import i18next from 'i18next';
-import { Container } from '@mui/material';
+import { rows } from './mock';
 
 const columns: GridColDef[] = [
   {
@@ -15,11 +14,7 @@ const columns: GridColDef[] = [
 ];
 
 const UsersTable = () => {
-  return (
-    <Container>
-      <DataGrid rows={rows} columns={columns} autoHeight />
-    </Container>
-  );
+  return <DataGrid rows={rows} columns={columns} autoHeight />;
 };
 
 export default UsersTable;

@@ -1,8 +1,8 @@
-import { Navbar } from '@/layouts/Navbar';
+import Layout from '@/layouts/Layout';
 import '@/styles/globals.css';
 import { theme } from '@/styles/theme';
 import '@/translations/i18n';
-import { ThemeProvider, Container } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import { LocalizationProvider, plPL } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -22,14 +22,6 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  if (Component.getLayout) {
-    return Component.getLayout(
-      <Container sx={{ py: { xs: 2, sm: 3 } }}>
-        <Component {...pageProps} />
-      </Container>
-    );
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider
@@ -40,10 +32,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           plPL.components.MuiLocalizationProvider.defaultProps.localeText
         }
       >
-        <Navbar />
-        <Container sx={{ py: { xs: 2, sm: 3 } }}>
+        <Layout>
           <Component {...pageProps} />
-        </Container>
+        </Layout>
       </LocalizationProvider>
     </ThemeProvider>
   );

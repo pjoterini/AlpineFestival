@@ -9,17 +9,17 @@ const a11yProps = (index: number) => ({
   'aria-controls': `nav-tabpanel-${index}`,
 });
 
-const AdminLayout = () => {
+const AdminNavbar = () => {
   const { t } = useTranslation();
   const { asPath } = useRouter();
 
   return (
     <AppBar
       position="sticky"
+      color="default"
       sx={{
-        backgroundColor: 'white',
         height: '48px',
-        top: '81px',
+        top: '84px',
       }}
     >
       <Container>
@@ -46,4 +46,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default AdminNavbar;

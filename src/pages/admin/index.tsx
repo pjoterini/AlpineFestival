@@ -1,8 +1,6 @@
 import GuestsTableContainer from '@/components/GuestsTable/GuestsTable.container';
 import Loader from '@/components/common/Loader';
 import { auth } from '@/firebase/config';
-import AdminLayout from '@/layouts/AdminLayout';
-import { Navbar } from '@/layouts/Navbar';
 import Head from 'next/head';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { NextPageWithLayout } from '../_app';
@@ -18,16 +16,6 @@ const Guests: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {!loading && user ? <GuestsTableContainer /> : <Loader />}
-    </>
-  );
-};
-
-Guests.getLayout = function NextPageWithLayout(page) {
-  return (
-    <>
-      <Navbar />
-      <AdminLayout />
-      {page}
     </>
   );
 };

@@ -7,10 +7,10 @@ import { t } from 'i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import logo from '../assets/logo.png';
+import logo from '../public/logo.png';
 import Container from '@mui/material/Container';
 import Image from 'next/image';
-import { HOME, LANDING_PAGE, LOGIN_FORM } from '@/constants/routes';
+import { HOME, LANDING_PAGE, LOGIN } from '@/constants/routes';
 
 export const Navbar = () => {
   const [user, loading] = useAuthState(auth);
@@ -24,9 +24,10 @@ export const Navbar = () => {
   return (
     <AppBar
       position="sticky"
+      color="default"
       sx={{
-        backgroundColor: 'white',
-        padding: { xs: 1, sm: 0 },
+        pt: 1,
+        minHeight: '85px',
       }}
     >
       <Container>
@@ -36,7 +37,7 @@ export const Navbar = () => {
             justifyContent: { xs: 'flex-end', sm: 'space-between' },
           }}
         >
-          <Box py={1} display={{ xs: 'none', sm: 'flex' }}>
+          <Box display={{ xs: 'none', sm: 'flex' }}>
             <Link href={LANDING_PAGE}>
               <Image
                 src={logo}
@@ -75,7 +76,7 @@ export const Navbar = () => {
             )}
             {!user && !loading && (
               <Button variant="outlined">
-                <Link href={LOGIN_FORM}>{t('common.organizer')}</Link>
+                <Link href={LOGIN}>{t('common.organizer')}</Link>
               </Button>
             )}
           </Stack>
