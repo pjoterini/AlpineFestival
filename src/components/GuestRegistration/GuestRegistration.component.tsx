@@ -149,6 +149,7 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
                   formHelperText={{
                     children: t('guestForm.speechLengthHelperText'),
                   }}
+                  MenuProps={{ disableScrollLock: true }}
                 >
                   {Object.entries(speechLengthOptions).map(([key, name]) => (
                     <MenuItem key={key} value={key}>

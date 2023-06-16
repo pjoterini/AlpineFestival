@@ -1,16 +1,17 @@
+import { HOME, LANDING_PAGE, LOGIN } from '@/constants/routes';
 import { logoutUser } from '@/firebase/auth/logoutUser';
 import { auth } from '@/firebase/config';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import { t } from 'i18next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import logo from '../public/logo.png';
-import Container from '@mui/material/Container';
-import Image from 'next/image';
-import { HOME, LANDING_PAGE, LOGIN } from '@/constants/routes';
+import AdminNavbar from './AdminNavbar';
 
 export const Navbar = () => {
   const [user, loading] = useAuthState(auth);
@@ -81,6 +82,7 @@ export const Navbar = () => {
             )}
           </Stack>
         </Toolbar>
+        {router.pathname.includes('admin') && <AdminNavbar />}
       </Container>
     </AppBar>
   );
