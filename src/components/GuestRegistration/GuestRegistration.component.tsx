@@ -6,12 +6,9 @@ import { CheckboxWithLabel, Select } from 'formik-mui';
 import { t } from 'i18next';
 import GMDatePicker from '../common/GMDatePicker';
 import GMInput from '../common/GMInput';
-import {
-  arrivalDate,
-  departureDate,
-} from './guestRegistration.arrivalAndDepartureDates';
+import { arrivalDate, departureDate } from './arrivalAndDepartureDates';
 import { guestRegistrationSchema } from './guestRegistration.schema';
-import { speechLengthOptions } from './guestRegistration.speechLengthOptions';
+import { speechLengthOptions } from './speechLengthOptions';
 
 interface IProps {
   onSubmit: (values: GuestRegistrationFormProps) => void;
