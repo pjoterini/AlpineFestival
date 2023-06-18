@@ -32,8 +32,20 @@ const columns: GridColDef[] = [
     field: 'accommodation',
     headerName: i18next.t<string>('guest.accommodation'),
   },
-  { field: 'presents', headerName: i18next.t<string>('guest.presents') },
-  { field: 'ownsPc', headerName: i18next.t<string>('guest.ownComputer') },
+  {
+    field: 'presents',
+    headerName: i18next.t<string>('guest.presents'),
+    valueGetter: ({ row }) =>
+      row.presents
+        ? i18next.t<string>('common.yes')
+        : i18next.t<string>('common.no'),
+  },
+  {
+    field: 'ownsPc',
+    headerName: i18next.t<string>('guest.ownComputer'),
+    valueGetter: ({ row }) =>
+      row.ownsPc ? i18next.t<string>('common.yes') : null,
+  },
   {
     field: 'speechLength',
     headerName: i18next.t<string>('guest.speechLength'),
