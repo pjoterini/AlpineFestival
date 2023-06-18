@@ -1,5 +1,5 @@
 import { addGuest } from '@/firebase/database/guest/addGuest';
-import { GuestRegistrationFormProps } from '@/redux/guest/interfaces';
+import { GuestRegistrationFormProps } from '@/redux/guests/interfaces';
 import GuestRegistration from './GuestRegistration.component';
 
 const GuestRegistrationContainer = () => {

@@ -1,5 +1,5 @@
 import firebaseApp from '@/firebase/config';
-import { GuestRegistrationFormProps } from '@/redux/guest/interfaces';
+import { GuestRegistrationFormProps } from '@/redux/guests/interfaces';
 import { getDatabase, push, ref, set } from 'firebase/database';
 
 export function addGuest(guest: GuestRegistrationFormProps) {

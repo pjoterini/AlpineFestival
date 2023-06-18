@@ -1,4 +1,4 @@
-import { IGuest } from '@/redux/guest/interfaces';
+import { IGuest } from '@/redux/guests/interfaces';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
 import i18next from 'i18next';

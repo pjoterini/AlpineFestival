@@ -1,5 +1,5 @@
 import { getGuests } from '@/firebase/database/guest/getGuests';
-import { IGuest } from '@/redux/guest/interfaces';
+import { IGuest } from '@/redux/guests/interfaces';
 import { useEffect, useState } from 'react';
 import GuestsTable from './GuestsTable.component';
 

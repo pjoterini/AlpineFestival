@@ -1,4 +1,4 @@
-import { IUser } from '@/redux/user/interfaces';
+import { IUser } from '@/redux/users/interfaces';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import i18next from 'i18next';
 

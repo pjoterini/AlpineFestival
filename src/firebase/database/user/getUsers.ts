@@ -1,5 +1,5 @@
 import firebaseApp from '@/firebase/config';
-import { IUser } from '@/redux/user/interfaces';
+import { IUser } from '@/redux/users/interfaces';
 import { child, get, getDatabase, ref } from 'firebase/database';
 
 export const getUsers = async () => {

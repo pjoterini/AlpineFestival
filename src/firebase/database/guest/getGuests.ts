@@ -1,5 +1,5 @@
 import firebaseApp from '@/firebase/config';
-import { IGuest } from '@/redux/guest/interfaces';
+import { IGuest } from '@/redux/guests/interfaces';
 import { child, get, getDatabase, ref } from 'firebase/database';
 
 export const getGuests = async () => {
