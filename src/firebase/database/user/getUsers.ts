@@ -9,10 +9,11 @@ export const getUsers = async () => {
     const snapshot = await get(child(dbRef, `users/`));
     if (snapshot.exists()) {
       const data = snapshot.val();
-      const arrayData = Object.entries(data).map((entry) => ({
-        ...(entry[1] as IUser),
-        id: entry[0],
+      const arrayData = Object.entries(data).map(([id, user]) => ({
+        ...(user as IUser),
+        id,
       }));
+
       return arrayData;
     }
     return [];
