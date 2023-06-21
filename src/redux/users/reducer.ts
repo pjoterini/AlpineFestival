@@ -1,42 +1,37 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { IUser } from './interfaces';
-import { getUsers } from '@/firebase/database/user/getUsers';
+import { fetchUsers } from './actions';
 
 interface IProps {
   users: IUser[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: null | string;
+  error: undefined | string;
 }
 
 const initialState: IProps = {
   users: [],
   status: 'idle',
-  error: null,
+  error: undefined,
 };
-
-export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-  try {
-    const data = await getUsers();
-    if (data) {
-      return data;
-    }
-  } catch (err) {
-    console.error(err);
-  }
-  return [];
-});
 
 export const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchUsers.fulfilled, (state, { payload }) => {
-      state.users = payload;
-    });
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchUsers.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        state.users = payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
   },
 });
-
-export const {} = usersSlice.actions;
 
 export default usersSlice.reducer;

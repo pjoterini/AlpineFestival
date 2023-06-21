@@ -6,3 +6,5 @@ export interface IUser {
   tel: string;
   type: string;
 }
+
+export type firebaseUser = Omit<IUser, 'id'>;
