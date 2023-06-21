@@ -8,3 +8,10 @@ export interface IUser {
 }
 
 export type firebaseUser = Omit<IUser, 'id'>;
+
+export enum status {
+  IDLE = 'idle',
+  LOADING = 'loading',
+  SUCCEEDED = 'succeeded',
+  FAILED = 'FAILED',
+}
