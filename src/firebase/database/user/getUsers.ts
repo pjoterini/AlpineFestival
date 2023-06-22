@@ -1,5 +1,5 @@
 import firebaseApp from '@/firebase/config';
-import { firebaseUser } from '@/redux/users/interfaces';
+import { IFirebaseUser } from '@/redux/users/interfaces';
 import { child, get, getDatabase, ref } from 'firebase/database';
 
 export const getUsers = async () => {
@@ -10,7 +10,7 @@ export const getUsers = async () => {
     if (snapshot.exists()) {
       const data = snapshot.val();
       const arrayData = Object.entries(data).map(([id, user]) => ({
-        ...(user as firebaseUser),
+        ...(user as IFirebaseUser),
         id,
       }));
 

@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IUser, status } from './interfaces';
+import { IUser, Status } from './interfaces';
 import { fetchUsers } from './actions';
 
 interface IProps {
   users: IUser[];
-  status: status;
+  status: Status;
   error: undefined | string;
 }
 
 const initialState: IProps = {
   users: [],
-  status: status.IDLE,
+  status: Status.IDLE,
   error: undefined,
 };
 
@@ -21,15 +21,15 @@ export const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
-        state.status = status.LOADING;
+        state.status = Status.LOADING;
         state.error = undefined;
       })
       .addCase(fetchUsers.fulfilled, (state, { payload }) => {
-        state.status = status.SUCCEEDED;
+        state.status = Status.SUCCEEDED;
         state.users = payload;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
-        state.status = status.FAILED;
+        state.status = Status.FAILED;
         state.error = action.error.message;
       });
   },
