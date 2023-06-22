@@ -1,6 +1,6 @@
+import { IUser } from '@/redux/users/interfaces';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import i18next from 'i18next';
-import { rows } from './mock';
 
 const columns: GridColDef[] = [
   {
@@ -13,8 +13,12 @@ const columns: GridColDef[] = [
   { field: 'type', headerName: i18next.t<string>('common.type') },
 ];
 
-const UsersTable = () => {
-  return <DataGrid rows={rows} columns={columns} autoHeight />;
+interface IProps {
+  users: IUser[];
+}
+
+const UsersTable = ({ users }: IProps) => {
+  return <DataGrid rows={users} columns={columns} autoHeight />;
 };
 
 export default UsersTable;

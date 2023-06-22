@@ -1,4 +1,4 @@
-import { GuestRegistrationFormProps } from '@/redux/guest/interfaces';
+import { GuestRegistrationFormProps } from '@/redux/guests/interfaces';
 import { Box, Button, MenuItem, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';

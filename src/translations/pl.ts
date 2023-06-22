@@ -1,5 +1,7 @@
 export const translationsPL = {
   common: {
+    yes: 'Tak',
+    no: 'Nie',
     guest: 'Gość',
     guests: 'Goście',
     nameAndSurrname: 'Imię i nazwisko',

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import guestReducer from './guest/reducer';
+import guestsReducer from './guests/reducer';
+import usersReducer from './users/reducer';
 import { apiSlice } from './api/apislice';
 
 export const store = configureStore({
   reducer: {
-    guest: guestReducer,
+    guests: guestsReducer,
+    users: usersReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
