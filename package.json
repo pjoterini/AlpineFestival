@@ -13,6 +13,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/base": "^5.0.0-alpha.127",
+    "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.126",
     "@mui/material": "^5.12.0",
     "@mui/system": "^5.11.16",
@@ -22,6 +23,7 @@
     "dayjs": "^1.11.7",
     "eslint-config-next": "13.2.4",
     "firebase": "^9.21.0",
+    "firebase-tools": "^12.4.5",
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
     "formik-mui-lab": "^1.0.0",
@@ -32,6 +34,7 @@
     "react-dom": "18.2.0",
     "react-firebase-hooks": "^5.1.1",
     "react-i18next": "^12.2.0",
+    "react-phone-input-2": "^2.15.1",
     "react-redux": "^8.0.5",
     "tiny-warning": "^1.0.3",
     "yup": "^1.1.1"

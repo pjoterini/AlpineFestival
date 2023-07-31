@@ -3,17 +3,20 @@ import * as Yup from 'yup';
 
 export const guestRegistrationSchema = Yup.object({
   firstName: Yup.string()
-    .min(2, `${t('guestFormValidation.firstNameTooShort')}`)
-    .max(50, `${t('guestFormValidation.firstNameTooLong')}`)
-    .required(`${t('guestFormValidation.firstNameRequired')}`),
+    .min(2, `${t('formValidation.firstNameTooShort')}`)
+    .max(50, `${t('formValidation.firstNameTooLong')}`)
+    .required(`${t('formValidation.firstNameRequired')}`),
   lastName: Yup.string()
-    .min(2, `${t('guestFormValidation.lastNameTooShort')}`)
-    .max(50, `${t('guestFormValidation.lastNameTooLong')}`)
-    .required(`${t('guestFormValidation.lastNameRequired')}`),
+    .min(2, `${t('formValidation.lastNameTooShort')}`)
+    .max(50, `${t('formValidation.lastNameTooLong')}`)
+    .required(`${t('formValidation.lastNameRequired')}`),
   email: Yup.string()
     .email(`${t('formValidation.emailInvalid')}`)
     .required(`${t('formValidation.emailRequired')}`),
-  tel: Yup.string().required(`${t('guestFormValidation.telRequired')}`),
+  tel: Yup.string()
+    .required(`${t('formValidation.telRequired')}`)
+    .min(8, `${t('formValidation.telTooShort')}`)
+    .max(13, `${t('formValidation.telTooLong')}`),
   arrival: Yup.string()
     .typeError(`${t('guestFormValidation.dateTypeError')}`)
     .required(`${t('guestFormValidation.arrivalRequired')}`),

@@ -1,6 +1,6 @@
-import { ADMIN_PANEL, HOME, LANDING_PAGE, LOGIN } from '@/constants/routes';
+import { GUEST_FORM, LANDING_PAGE, LOGIN, PANEL } from '@/constants/routes';
 import { logoutUser } from '@/firebase/auth/logoutUser';
-import { auth } from '@/firebase/config';
+import { useIsAdmin } from '@/firebase/auth/useIsAdmin';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
@@ -9,17 +9,16 @@ import { t } from 'i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import logo from '../public/logo.png';
 import AdminNavbar from './AdminNavbar';
 
 export const Navbar = () => {
-  const [user, loading] = useAuthState(auth);
+  const { isAdmin, user, loading } = useIsAdmin();
   const router = useRouter();
 
   const logout = async () => {
     await logoutUser();
-    router.push(HOME);
+    router.push(GUEST_FORM);
   };
 
   return (
@@ -31,14 +30,16 @@ export const Navbar = () => {
         minHeight: '85px',
       }}
     >
-      <Container>
+      <Container
+        sx={{ paddingLeft: { xs: 0, sm: 2 }, paddingRight: { xs: 0, sm: 2 } }}
+      >
         <Toolbar
           disableGutters
           sx={{
             justifyContent: { xs: 'flex-end', sm: 'space-between' },
           }}
         >
-          <Box display={{ xs: 'none', sm: 'flex' }}>
+          <Box display={{ xs: 'none', md: 'flex' }}>
             <Link href={LANDING_PAGE}>
               <Image
                 src={logo}
@@ -50,19 +51,21 @@ export const Navbar = () => {
             </Link>
           </Box>
           <Stack
-            direction="row"
+            direction={{ xs: 'column', sm: 'row' }}
             spacing={{ xs: 2, sm: 4 }}
+            width={{ xs: '100%' }}
+            justifyContent={{ xs: 'center', sm: 'flex-end' }}
             alignItems={{ xs: 'center' }}
           >
             {user && !loading && (
               <>
-                <Link href={HOME}>
+                <Link href={GUEST_FORM}>
                   <Button color="primary">
                     {t('common.guestRegistration')}
                   </Button>
                 </Link>
-                <Link href="/admin">
-                  <Button color="primary">{t('common.adminPanel')}</Button>
+                <Link href={PANEL}>
+                  <Button color="primary">{t('common.userPanel')}</Button>
                 </Link>
                 <Typography
                   color="primary"
@@ -76,13 +79,13 @@ export const Navbar = () => {
               </>
             )}
             {!user && !loading && (
-              <Button variant="outlined">
-                <Link href={LOGIN}>{t('common.organizer')}</Link>
-              </Button>
+              <Link href={LOGIN}>
+                <Button variant="outlined"> {t('common.organizer')}</Button>
+              </Link>
             )}
           </Stack>
         </Toolbar>
-        {router.pathname.includes(ADMIN_PANEL) && <AdminNavbar />}
+        {router.pathname.includes(PANEL) && <AdminNavbar isAdmin={isAdmin} />}
       </Container>
     </AppBar>
   );

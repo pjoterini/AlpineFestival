@@ -9,6 +9,8 @@
 
 # testing
 /coverage
+/scripts.txt
+/firebase-debug.log
 
 # next.js
 /.next/

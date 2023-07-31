@@ -5,17 +5,17 @@ import Head from 'next/head';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { NextPageWithLayout } from '../_app';
 
-const Users: NextPageWithLayout = () => {
+const UsersTable: NextPageWithLayout = () => {
   const [user, loading] = useAuthState(auth);
 
   return (
     <>
       <Head>
-        <title>Users</title>
+        <title>Users Table</title>
       </Head>
       {!loading && user ? <UsersTableContainer /> : <Loader />}
     </>
   );
 };
 
-export default Users;
+export default UsersTable;

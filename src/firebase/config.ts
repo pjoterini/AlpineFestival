@@ -1,5 +1,7 @@
 import { FirebaseApp, getApp, getApps, initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getDatabase, ref } from 'firebase/database';
+import { getFunctions } from 'firebase/functions';
 
 let firebaseApp: FirebaseApp;
 
@@ -19,5 +21,8 @@ if (!getApps().length) {
 }
 
 export const auth = getAuth(firebaseApp);
+export const db = getDatabase(firebaseApp);
+export const dbRef = ref(getDatabase(firebaseApp));
+export const functions = getFunctions(firebaseApp);
 
 export default firebaseApp;

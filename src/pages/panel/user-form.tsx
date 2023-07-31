@@ -1,18 +1,18 @@
-import GuestRegistrationContainer from '@/components/GuestRegistration/GuestRegistration.container';
+import UserRegistrationContainer from '@/components/UserRegistration/UserRegistration.container';
 import { t } from 'i18next';
 import Head from 'next/head';
 
-const GuestForm = () => {
+const UserForm = () => {
   return (
     <>
       <Head>
-        <title>{t('guestForm.guestForm')}</title>
+        <title>{t('userForm.userForm')}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <GuestRegistrationContainer />
+      <UserRegistrationContainer />
     </>
   );
 };
 
-export default GuestForm;
+export default UserForm;

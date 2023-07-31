@@ -1,5 +1,6 @@
 export const LANDING_PAGE = 'https://www.festiwalgorski.pl/';
-export const HOME = '/';
+export const GUEST_FORM = '/';
 export const LOGIN = '/login';
-export const ADMIN_PANEL = '/admin';
-export const ADMIN_USERS = `${ADMIN_PANEL}/users`;
+export const PANEL = '/panel';
+export const USER_FORM = `${PANEL}/user-form`;
+export const USERS_TABLE = `${PANEL}/users`;

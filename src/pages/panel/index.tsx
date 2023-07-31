@@ -5,13 +5,13 @@ import Head from 'next/head';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { NextPageWithLayout } from '../_app';
 
-const Guests: NextPageWithLayout = () => {
+const GuestsTable: NextPageWithLayout = () => {
   const [user, loading] = useAuthState(auth);
 
   return (
     <>
       <Head>
-        <title>Guests</title>
+        <title>Guests Table</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -20,4 +20,4 @@ const Guests: NextPageWithLayout = () => {
   );
 };
 
-export default Guests;
+export default GuestsTable;

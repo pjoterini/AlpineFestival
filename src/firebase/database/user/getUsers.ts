@@ -13,7 +13,6 @@ export const getUsers = async () => {
         ...(user as IFirebaseUser),
         id,
       }));
-
       return arrayData;
     }
     return [];

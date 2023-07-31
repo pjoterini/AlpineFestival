@@ -1,3 +1,5 @@
+import { FormikState } from 'formik';
+
 export enum SpeechLength {
   min0_15 = '0-15',
   min15_30 = '15-30',
@@ -13,7 +15,7 @@ export interface IGuest {
   lastName: string;
   checkIn?: boolean;
   type?: string;
-  organizer?: number;
+  organizer?: string;
   email: string;
   tel: string;
   arrival: string;
@@ -28,11 +30,16 @@ export interface IGuest {
 
 export type GuestRegistrationFormProps = Omit<
   IGuest,
-  | 'id'
-  | 'checkIn'
-  | 'type'
-  | 'organizer'
-  | 'accommodation'
-  | 'arrival'
-  | 'departure'
+  'id' | 'checkIn' | 'type' | 'organizer' | 'accommodation'
 >;
+
+type GuestRegistrationFormPropsRequired = Required<GuestRegistrationFormProps>;
+
+interface GuestRegistrationResetFormProps
+  extends Omit<GuestRegistrationFormPropsRequired, 'speechLength'> {
+  speechLength: null;
+}
+
+export type ResetGuestForm = (
+  nextState?: Partial<FormikState<GuestRegistrationResetFormProps>> | undefined
+) => void;

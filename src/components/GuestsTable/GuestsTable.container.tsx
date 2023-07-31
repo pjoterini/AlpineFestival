@@ -1,23 +1,25 @@
-import { getGuests } from '@/firebase/database/guest/getGuests';
-import { IGuest } from '@/redux/guests/interfaces';
-import { useEffect, useState } from 'react';
+import { fetchGuests } from '@/redux/guests/actions';
+import { selectGuests } from '@/redux/guests/selectors';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useEffect } from 'react';
 import GuestsTable from './GuestsTable.component';
+import { selectUsers } from '@/redux/users/selectors';
+import { fetchUsers } from '@/redux/users/actions';
 
 const GuestsTableContainer = () => {
-  const [guests, setGuests] = useState<IGuest[]>([]);
+  const guests = useAppSelector(selectGuests);
+  const users = useAppSelector(selectUsers);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const guestGetter = async () => {
-      const data = await getGuests();
-      if (data) {
-        setGuests(data);
-      }
-    };
+    dispatch(fetchGuests());
+    if (users.length === 0) {
+      dispatch(fetchUsers());
+    }
+  }, [dispatch, users.length]);
 
-    guestGetter();
-  }, []);
-
-  return <GuestsTable guests={guests} />;
+  return <GuestsTable guests={guests} users={users} />;
 };
 
 export default GuestsTableContainer;

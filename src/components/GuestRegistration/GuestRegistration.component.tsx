@@ -1,20 +1,31 @@
-import { GuestRegistrationFormProps } from '@/redux/guests/interfaces';
+import { Status } from '@/redux/enums/status';
+import {
+  GuestRegistrationFormProps,
+  ResetGuestForm,
+} from '@/redux/guests/interfaces';
 import { Box, Button, MenuItem, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
 import { t } from 'i18next';
+import 'react-phone-input-2/lib/style.css';
 import GMDatePicker from '../common/GMDatePicker';
 import GMInput from '../common/GMInput';
+import { InputError } from '../common/InputError';
 import { arrivalDate, departureDate } from './arrivalAndDepartureDates';
 import { guestRegistrationSchema } from './guestRegistration.schema';
 import { speechLengthOptions } from './speechLengthOptions';
+import StyledPhoneInput from './StyledPhoneInput';
 
 interface IProps {
-  onSubmit: (values: GuestRegistrationFormProps) => void;
+  onSubmit: (
+    values: GuestRegistrationFormProps,
+    resetForm: ResetGuestForm
+  ) => void;
+  formSubmitStatus: Status;
 }
 
-const GuestRegistration = ({ onSubmit }: IProps) => {
+const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
   return (
     <Formik
       initialValues={{
@@ -31,7 +42,7 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
         specialNeeds: '',
       }}
       validationSchema={guestRegistrationSchema}
-      onSubmit={onSubmit}
+      onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}
     >
       {({ values, touched, setFieldValue, errors }) => (
         <Form>
@@ -68,14 +79,23 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
               touched={touched.email}
             />
 
-            <Field
-              name="tel"
-              type="tel"
-              label={t('common.tel')}
-              component={GMInput}
-              error={errors.tel}
-              touched={touched.tel}
-            />
+            <Box mt={1}>
+              <StyledPhoneInput
+                inputProps={{
+                  name: 'tel',
+                }}
+                onChange={(tel: string) => {
+                  setFieldValue('tel', tel);
+                }}
+                country={'pl'}
+                containerClass={`react-phone-number ${
+                  errors.tel ? 'error' : ''
+                }`}
+              />
+              <Box mt={1}>
+                {errors.tel && touched.tel && <InputError error={errors.tel} />}
+              </Box>
+            </Box>
 
             <Stack direction={{ xs: 'column', sm: 'row' }} pt={2}>
               {/* DateRangePicker is included on Pro package, thus we're using DatePickers */}
@@ -171,6 +191,21 @@ const GuestRegistration = ({ onSubmit }: IProps) => {
                 {t('guestForm.submit')}
               </Button>
             </Box>
+            {formSubmitStatus !== Status.IDLE && (
+              <Typography
+                variant="h5"
+                mx="auto"
+                color={
+                  formSubmitStatus === Status.FAILED
+                    ? 'error.main'
+                    : 'success.main'
+                }
+              >
+                {formSubmitStatus === Status.FAILED
+                  ? t('formValidation.formSubmitMessageError')
+                  : t('formValidation.formSubmitMessageSuccess')}
+              </Typography>
+            )}
           </Stack>
         </Form>
       )}
