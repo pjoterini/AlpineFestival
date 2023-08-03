@@ -1,4 +1,10 @@
-import { USER_FORM, PANEL, USERS_TABLE } from '@/constants/routes';
+import {
+  USER_FORM,
+  PANEL,
+  USERS_TABLE,
+  ACCOMMODATIONS,
+  ACCOMMODATION_FORM,
+} from '@/constants/routes';
 import { Tab, Tabs } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { t } from 'i18next';
@@ -49,6 +55,30 @@ const AdminNavbar = ({ isAdmin }: IProps) => {
           href={USERS_TABLE}
           value={USERS_TABLE}
           {...a11yProps(1)}
+        />
+        <Tab
+          sx={{
+            paddingLeft: { xs: 0, md: 2 },
+            paddingRight: { xs: 1, md: 2 },
+            fontSize: { xs: '11px', sm: '14px' },
+          }}
+          label={t('common.accommodations')}
+          component={Link}
+          href={ACCOMMODATIONS}
+          value={ACCOMMODATIONS}
+          {...a11yProps(3)}
+        />
+        <Tab
+          sx={{
+            paddingLeft: { xs: 0, md: 2 },
+            paddingRight: { xs: 1, md: 2 },
+            fontSize: { xs: '11px', sm: '14px' },
+          }}
+          label={t('accommodationForm.accommodationForm')}
+          component={Link}
+          href={ACCOMMODATION_FORM}
+          value={ACCOMMODATION_FORM}
+          {...a11yProps(4)}
         />
         {isAdmin && (
           <Tab

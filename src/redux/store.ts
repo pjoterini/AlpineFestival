@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import guestsReducer from './guests/reducer';
 import usersReducer from './users/reducer';
+import accommodationsReducer from './accomodations/reducer';
 import { apiSlice } from './api/apislice';
 
 export const store = configureStore({
   reducer: {
     guests: guestsReducer,
     users: usersReducer,
+    accommodations: accommodationsReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

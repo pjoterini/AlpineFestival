@@ -13,6 +13,9 @@ export const translationsPL = {
     guardian: 'Opiekun',
     organizer: 'Organizator',
     organizers: 'Organizatorzy',
+    accommodation: 'Nocleg',
+    accommodations: 'Noclegi',
+    address: 'adres',
     firstName: 'Imię',
     lastName: 'Nazwisko',
     tel: 'Telefon',
@@ -38,6 +41,9 @@ export const translationsPL = {
     deleteUser: 'Czy jesteś pewny, że chcesz usunąć tego organizatora?',
   },
   formValidation: {
+    addressTooShort: 'Adres musi się składać z ponad 2 liter',
+    addressTooLong: 'Adres musi się składać z mniej niż 50 liter',
+    addressRequired: 'Podaj Adres',
     firstNameTooShort: 'Imię musi się składać z ponad 2 liter',
     firstNameTooLong: 'Imię musi się składać z mniej niż 50 liter',
     firstNameRequired: 'Podaj imię',
@@ -47,6 +53,7 @@ export const translationsPL = {
     telRequired: 'Podaj numer telefonu',
     telTooShort: 'Numer telefonu musi się składać z więcej niż 8 znaków',
     telTooLong: 'Numer telefonu musi się składać z mniej niż 15 znaków',
+    telLength: 'Numer telefonu musi się składać z 9 znaków',
     emailInvalid: 'Niepoprawny email',
     emailRequired: 'Podaj Email',
     passwordRequired: 'Podaj hasło',
@@ -83,5 +90,8 @@ export const translationsPL = {
   },
   userFormValidation: {
     isAdminRequired: 'Podaj status organizatora',
+  },
+  accommodationForm: {
+    accommodationForm: 'Formularz Noclegu',
   },
 };
