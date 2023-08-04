@@ -15,7 +15,8 @@ export const translationsPL = {
     organizers: 'Organizatorzy',
     accommodation: 'Nocleg',
     accommodations: 'Noclegi',
-    address: 'adres',
+    address: 'Adres',
+    name: 'Nazwa',
     firstName: 'Imię',
     lastName: 'Nazwisko',
     tel: 'Telefon',
@@ -29,7 +30,7 @@ export const translationsPL = {
   },
   guest: {
     checkIn: 'Odprawa',
-    accommodationNote: 'Notatka do noclego',
+    accommodationNote: 'Notatka do noclegu',
     accommodation: 'Nocleg',
     presents: 'Prezentacja',
     ownComputer: 'Własny komputer',
@@ -59,6 +60,7 @@ export const translationsPL = {
     passwordRequired: 'Podaj hasło',
     formSubmitMessageError: 'Coś poszło nie tak.',
     formSubmitMessageSuccess: 'Twój formularz został wysłany',
+    formEditMessageSuccess: 'Dane pomyślnie edytowane',
   },
   guestForm: {
     guestForm: 'Formularz Gościa',
@@ -93,5 +95,9 @@ export const translationsPL = {
   },
   accommodationForm: {
     accommodationForm: 'Formularz Noclegu',
+  },
+  editAccommodationForm: {
+    editAccommodationForm: 'Edytuj dane noclegowni',
+    save: 'Zapisz',
   },
 };

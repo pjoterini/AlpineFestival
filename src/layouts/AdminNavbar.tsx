@@ -31,7 +31,7 @@ const AdminNavbar = ({ isAdmin }: IProps) => {
         alignItems: 'flex-end',
       }}
     >
-      <Tabs value={asPath}>
+      <Tabs value={asPath} variant="scrollable" allowScrollButtonsMobile>
         <Tab
           sx={{
             paddingLeft: { xs: 0, md: 2 },

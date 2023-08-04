@@ -1,7 +1,9 @@
 import { useIsAdmin } from '@/firebase/auth/useIsAdmin';
 import { IAccommodation } from '@/redux/accomodations/interfaces';
+import ModalMUI from './EditModal/ModalMUI';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import i18next from 'i18next';
+import { useState } from 'react';
 
 interface IProps {
   accommodations: IAccommodation[];
@@ -9,6 +11,13 @@ interface IProps {
 
 const AccommodationsTable = ({ accommodations }: IProps) => {
   const { isAdmin } = useIsAdmin();
+  const [currentRow, setCurrentRow] = useState<IAccommodation | null>(null);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setCurrentRow(null);
+  };
 
   const columns: GridColDef[] = [
     {
@@ -31,12 +40,19 @@ const AccommodationsTable = ({ accommodations }: IProps) => {
   ];
 
   return (
-    <DataGrid
-      rows={accommodations}
-      columns={columns}
-      autoHeight
-      getRowId={(row) => row.id}
-    />
+    <>
+      <DataGrid
+        rows={accommodations}
+        columns={columns}
+        autoHeight
+        getRowId={(row) => row.id}
+        onRowClick={(row) => {
+          handleOpen();
+          setCurrentRow(row.row);
+        }}
+      />
+      <ModalMUI open={open} handleClose={handleClose} currentRow={currentRow} />
+    </>
   );
 };
 
