@@ -30,7 +30,6 @@ const AdminNavbar = ({ isAdmin }: IProps) => {
           sx={{
             paddingLeft: { xs: 0, md: 2 },
             paddingRight: { xs: 1, md: 2 },
-            fontSize: { xs: '11px', sm: '14px' },
           }}
           label={t('common.guests')}
           component={Link}
@@ -42,7 +41,6 @@ const AdminNavbar = ({ isAdmin }: IProps) => {
           sx={{
             paddingLeft: { xs: 0, md: 2 },
             paddingRight: { xs: 2, md: 2 },
-            fontSize: { xs: '11px', sm: '14px' },
           }}
           label={t('common.organizers')}
           component={Link}
@@ -55,7 +53,6 @@ const AdminNavbar = ({ isAdmin }: IProps) => {
             sx={{
               paddingLeft: { xs: 0, md: 2 },
               paddingRight: { xs: 1, md: 2 },
-              fontSize: { xs: '11px', sm: '14px' },
             }}
             label={t('userForm.userForm')}
             component={Link}
