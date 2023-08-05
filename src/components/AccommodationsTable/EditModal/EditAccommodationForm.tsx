@@ -15,12 +15,17 @@ interface IProps {
     values: IAccommodation,
     resetForm: ResetEditAccommodationForm
   ) => void;
+  onDelete: (
+    accommodationId: string
+    // resetForm: ResetEditAccommodationForm
+  ) => void;
   formSubmitStatus: Status;
   currentRow: IAccommodation | null;
 }
 
 const EditAccommodationForm = ({
   onSubmit,
+  onDelete,
   formSubmitStatus,
   currentRow,
 }: IProps) => {
@@ -38,7 +43,7 @@ const EditAccommodationForm = ({
       {({ touched, errors }) => (
         <Form>
           <Stack mx="auto" width="100%">
-            <Typography variant="h5" component="h1">
+            <Typography mb={1} variant="h5" component="h1">
               {t('editAccommodationForm.editAccommodationForm')}
             </Typography>
             <Field
@@ -65,6 +70,16 @@ const EditAccommodationForm = ({
             />
 
             <Box ml="auto" mt={2} mb={5}>
+              <Button
+                onClick={() => currentRow && onDelete(currentRow.id)}
+                sx={{ mr: 1 }}
+                color="error"
+                variant="contained"
+                type="button"
+                size="large"
+              >
+                {t('editAccommodationForm.delete')}
+              </Button>
               <Button variant="contained" type="submit" size="large">
                 {t('editAccommodationForm.save')}
               </Button>

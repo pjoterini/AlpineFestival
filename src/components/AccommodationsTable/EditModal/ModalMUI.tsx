@@ -1,4 +1,7 @@
-import { updateAccommodation } from '@/redux/accomodations/actions';
+import {
+  deleteAccommodation,
+  updateAccommodation,
+} from '@/redux/accomodations/actions';
 import {
   IAccommodation,
   ResetEditAccommodationForm,
@@ -32,6 +35,15 @@ const ModalMUI = ({ open, currentRow, handleClose }: IProps) => {
   const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
   const dispatch = useAppDispatch();
 
+  const onDelete = async (accommodationId: string) => {
+    const result = await dispatch(deleteAccommodation(accommodationId));
+    if (!result) {
+      setFormSubmitStatus(Status.FAILED);
+    } else {
+      setFormSubmitStatus(Status.SUCCEEDED);
+    }
+  };
+
   const onSubmit = async (
     values: IAccommodation,
     resetForm: ResetEditAccommodationForm
@@ -58,6 +70,7 @@ const ModalMUI = ({ open, currentRow, handleClose }: IProps) => {
         <Box sx={style}>
           <EditAccommodationForm
             onSubmit={onSubmit}
+            onDelete={onDelete}
             formSubmitStatus={formSubmitStatus}
             currentRow={currentRow}
           />

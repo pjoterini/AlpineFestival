@@ -97,7 +97,8 @@ export const translationsPL = {
     accommodationForm: 'Formularz Noclegu',
   },
   editAccommodationForm: {
-    editAccommodationForm: 'Edytuj dane noclegowni',
+    editAccommodationForm: 'Edycja Danych Noclegowni',
     save: 'Zapisz',
+    delete: 'Usuń',
   },
 };
