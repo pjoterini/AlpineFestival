@@ -2,7 +2,7 @@ import { fetchAccommodations } from '@/redux/accomodations/actions';
 import { selectAccommodations } from '@/redux/accomodations/selectors';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useEffect } from 'react';
-import UsersTable from './AccommodationsTable.component';
+import AccommodationsTable from './AccommodationsTable.component';
 
 const AccommodationsTableContainer = () => {
   const accommodations = useAppSelector(selectAccommodations);
@@ -13,7 +13,7 @@ const AccommodationsTableContainer = () => {
     dispatch(fetchAccommodations());
   }, [dispatch]);
 
-  return <UsersTable accommodations={accommodations} />;
+  return <AccommodationsTable accommodations={accommodations} />;
 };
 
 export default AccommodationsTableContainer;

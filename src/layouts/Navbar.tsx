@@ -39,8 +39,8 @@ export const Navbar = () => {
             justifyContent: { xs: 'flex-end', sm: 'space-between' },
           }}
         >
-          <Box display={{ xs: 'none', md: 'flex' }}>
-            <Link href={LANDING_PAGE}>
+          <Link href={LANDING_PAGE}>
+            <Box display={{ xs: 'none', md: 'flex' }}>
               <Image
                 src={logo}
                 width={180}
@@ -48,8 +48,8 @@ export const Navbar = () => {
                 alt="Festival logo"
                 priority
               />
-            </Link>
-          </Box>
+            </Box>
+          </Link>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={{ xs: 2, sm: 4 }}

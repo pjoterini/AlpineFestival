@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Status } from '../enums/status';
 import {
-  deleteAccommodation,
+  deleteAccommodationAction,
   fetchAccommodations,
   updateAccommodation,
 } from './actions';
@@ -48,7 +48,7 @@ export const accommodationsSlice = createSlice({
           });
         }
       })
-      .addCase(deleteAccommodation.fulfilled, (state, { payload }) => {
+      .addCase(deleteAccommodationAction.fulfilled, (state, { payload }) => {
         state.status = Status.SUCCEEDED;
 
         if (payload) {

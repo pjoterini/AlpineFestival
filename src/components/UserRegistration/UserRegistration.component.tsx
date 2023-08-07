@@ -8,6 +8,7 @@ import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel } from 'formik-mui';
 import { t } from 'i18next';
+import FormStatusMessage from '../common/FormStatusMessage';
 import GMInput from '../common/GMInput';
 import { userRegistrationSchema } from './userRegistration.schema';
 
@@ -99,21 +100,10 @@ const UserRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
                 {t('guestForm.submit')}
               </Button>
             </Box>
-            {formSubmitStatus !== Status.IDLE && (
-              <Typography
-                variant="h5"
-                mx="auto"
-                color={
-                  formSubmitStatus === Status.FAILED
-                    ? 'error.main'
-                    : 'success.main'
-                }
-              >
-                {formSubmitStatus === Status.FAILED
-                  ? t('formValidation.formSubmitMessageError')
-                  : t('formValidation.formSubmitMessageSuccess')}
-              </Typography>
-            )}
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              message={t('formValidation.formSubmitMessageSuccess')}
+            />
           </Stack>
         </Form>
       )}

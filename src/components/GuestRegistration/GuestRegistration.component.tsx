@@ -9,6 +9,7 @@ import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
 import { t } from 'i18next';
 import 'react-phone-input-2/lib/style.css';
+import FormStatusMessage from '../common/FormStatusMessage';
 import GMDatePicker from '../common/GMDatePicker';
 import GMInput from '../common/GMInput';
 import { InputError } from '../common/InputError';
@@ -191,21 +192,10 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
                 {t('guestForm.submit')}
               </Button>
             </Box>
-            {formSubmitStatus !== Status.IDLE && (
-              <Typography
-                variant="h5"
-                mx="auto"
-                color={
-                  formSubmitStatus === Status.FAILED
-                    ? 'error.main'
-                    : 'success.main'
-                }
-              >
-                {formSubmitStatus === Status.FAILED
-                  ? t('formValidation.formSubmitMessageError')
-                  : t('formValidation.formSubmitMessageSuccess')}
-              </Typography>
-            )}
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              message={t('formValidation.formSubmitMessageSuccess')}
+            />
           </Stack>
         </Form>
       )}

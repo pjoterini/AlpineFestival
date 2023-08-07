@@ -1,5 +1,7 @@
 import {
   AccommodationFormProps,
+  FormType,
+  IAccommodation,
   ResetAccommodationForm,
 } from '@/redux/accomodations/interfaces';
 import { Status } from '@/redux/enums/status';
@@ -7,37 +9,74 @@ import { Box, Button, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { t } from 'i18next';
+import FormStatusMessage from '../common/FormStatusMessage';
 import GMInput from '../common/GMInput';
 import { accomodationFormSchema } from './AccomodationForm.schema';
 
 interface IProps {
-  onSubmit: (
+  formType: string;
+  formSubmitStatus: Status;
+  createAccommodation: (
     values: AccommodationFormProps,
     resetForm: ResetAccommodationForm
   ) => void;
-  formSubmitStatus: Status;
+  editAccommodation: (
+    values: AccommodationFormProps,
+    accommodationId?: string
+  ) => void;
+  deleteAccommodation: (accommodationId: string) => void;
+  currentRow?: IAccommodation | null;
 }
 
-const AccommodationForm = ({ onSubmit, formSubmitStatus }: IProps) => {
+const AccommodationForm = ({
+  formType,
+  formSubmitStatus,
+  createAccommodation,
+  editAccommodation,
+  deleteAccommodation,
+  currentRow,
+}: IProps) => {
+  let formMessageSuccess: string;
+  if (formType === FormType.CREATE) {
+    formMessageSuccess = 'formSubmitMessageSuccess';
+  } else if (formType === FormType.EDIT) {
+    formMessageSuccess = 'formEditMessageSuccess';
+  }
+
   return (
     <Formik
       initialValues={{
-        name: '',
-        address: '',
-        tel: '',
+        name: currentRow?.name || '',
+        address: currentRow?.address || '',
+        tel: currentRow?.tel || '',
       }}
       validationSchema={accomodationFormSchema}
-      onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}
+      onSubmit={(values, { resetForm }) => {
+        if (formType === FormType.CREATE) {
+          createAccommodation(values, resetForm);
+        } else if (formType === FormType.EDIT) {
+          editAccommodation(values, currentRow?.id);
+        }
+      }}
     >
       {({ touched, errors }) => (
         <Form>
           <Stack
-            mt={{ xs: 2, sm: 4 }}
+            mt={{
+              xs: formType === FormType.CREATE ? 2 : 0,
+              sm: formType === FormType.CREATE ? 4 : 0,
+            }}
             mx="auto"
-            width={{ xs: '100%', sm: '60%' }}
+            width={{
+              xs: '100%',
+              sm: formType === FormType.CREATE ? '60%' : '100%',
+            }}
           >
-            <Typography variant="h5" component="h1">
-              {t('accommodationForm.accommodationForm')}
+            <Typography variant="h5" component="h1" mb={1}>
+              {formType === FormType.CREATE &&
+                t('accommodationForm.accommodationForm')}
+              {formType === FormType.EDIT &&
+                t('accommodationForm.editAccommodationForm')}
             </Typography>
             <Field
               name="name"
@@ -63,25 +102,29 @@ const AccommodationForm = ({ onSubmit, formSubmitStatus }: IProps) => {
             />
 
             <Box ml="auto" mt={2} mb={5}>
+              {formType === FormType.EDIT && (
+                <Button
+                  onClick={() =>
+                    currentRow && deleteAccommodation(currentRow.id)
+                  }
+                  sx={{ mr: 1 }}
+                  color="error"
+                  variant="contained"
+                  type="button"
+                  size="large"
+                >
+                  {t('common.delete')}
+                </Button>
+              )}
               <Button variant="contained" type="submit" size="large">
-                {t('guestForm.submit')}
+                {formType === FormType.CREATE && t('guestForm.submit')}
+                {formType === FormType.EDIT && t('common.save')}
               </Button>
             </Box>
-            {formSubmitStatus !== Status.IDLE && (
-              <Typography
-                variant="h5"
-                mx="auto"
-                color={
-                  formSubmitStatus === Status.FAILED
-                    ? 'error.main'
-                    : 'success.main'
-                }
-              >
-                {formSubmitStatus === Status.FAILED
-                  ? t('formValidation.formSubmitMessageError')
-                  : t('formValidation.formSubmitMessageSuccess')}
-              </Typography>
-            )}
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              message={t(`formValidation.${formMessageSuccess}`)}
+            />
           </Stack>
         </Form>
       )}

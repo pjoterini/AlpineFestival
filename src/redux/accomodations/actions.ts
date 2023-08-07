@@ -32,7 +32,7 @@ export const updateAccommodation = createAsyncThunk(
   }
 );
 
-export const deleteAccommodation = createAsyncThunk(
+export const deleteAccommodationAction = createAsyncThunk(
   'accommodation/deleteAccommodation',
   async (accommodationId: string) => {
     try {

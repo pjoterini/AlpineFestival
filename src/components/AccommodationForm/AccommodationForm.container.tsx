@@ -1,35 +1,23 @@
-import { addAccommodation } from '@/firebase/database/accommodation/addAccommodation';
-import {
-  AccommodationFormProps,
-  ResetAccommodationForm,
-} from '@/redux/accomodations/interfaces';
-import { Status } from '@/redux/enums/status';
-import { useState } from 'react';
+import { FormType } from '@/redux/accomodations/interfaces';
 import AccomodationForm from './AccommodationForm.component';
+import useAccommodationFormActions from './useAccommodationFormActions';
 
 const AccommodationFormContainer = () => {
-  const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
-
-  const onSubmit = async (
-    values: AccommodationFormProps,
-    resetForm: ResetAccommodationForm
-  ) => {
-    const result = await addAccommodation(values);
-    if (!result) {
-      setFormSubmitStatus(Status.FAILED);
-    } else {
-      setFormSubmitStatus(Status.SUCCEEDED);
-      resetForm();
-    }
-  };
+  const {
+    formSubmitStatus,
+    createAccommodation,
+    editAccommodation,
+    deleteAccommodation,
+  } = useAccommodationFormActions();
 
   return (
-    <>
-      <AccomodationForm
-        onSubmit={onSubmit}
-        formSubmitStatus={formSubmitStatus}
-      />
-    </>
+    <AccomodationForm
+      formType={FormType.CREATE}
+      formSubmitStatus={formSubmitStatus}
+      createAccommodation={createAccommodation}
+      editAccommodation={editAccommodation}
+      deleteAccommodation={deleteAccommodation}
+    />
   );
 };
 

@@ -1,9 +1,9 @@
 import { useIsAdmin } from '@/firebase/auth/useIsAdmin';
 import { IAccommodation } from '@/redux/accomodations/interfaces';
-import ModalMUI from './EditModal/ModalMUI';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import i18next from 'i18next';
 import { useState } from 'react';
+import AccommodationEditModal from './AccommodationEditModal';
 
 interface IProps {
   accommodations: IAccommodation[];
@@ -51,7 +51,11 @@ const AccommodationsTable = ({ accommodations }: IProps) => {
           setCurrentRow(row.row);
         }}
       />
-      <ModalMUI open={open} handleClose={handleClose} currentRow={currentRow} />
+      <AccommodationEditModal
+        open={open}
+        handleClose={handleClose}
+        currentRow={currentRow}
+      />
     </>
   );
 };
