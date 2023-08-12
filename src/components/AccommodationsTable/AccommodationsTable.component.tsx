@@ -3,7 +3,7 @@ import { IAccommodation } from '@/redux/accomodations/interfaces';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import i18next from 'i18next';
 import { useState } from 'react';
-import AccommodationEditModal from './AccommodationEditModal';
+import AccommodationEditModal from './AccommodationEditModal.container';
 
 interface IProps {
   accommodations: IAccommodation[];

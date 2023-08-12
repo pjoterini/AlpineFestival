@@ -36,13 +36,6 @@ const AccommodationForm = ({
   deleteAccommodation,
   currentRow,
 }: IProps) => {
-  let formMessageSuccess: string;
-  if (formType === FormType.CREATE) {
-    formMessageSuccess = 'formSubmitMessageSuccess';
-  } else if (formType === FormType.EDIT) {
-    formMessageSuccess = 'formEditMessageSuccess';
-  }
-
   return (
     <Formik
       initialValues={{
@@ -121,10 +114,18 @@ const AccommodationForm = ({
                 {formType === FormType.EDIT && t('common.save')}
               </Button>
             </Box>
-            <FormStatusMessage
-              formSubmitStatus={formSubmitStatus}
-              message={t(`formValidation.${formMessageSuccess}`)}
-            />
+            {formType === FormType.CREATE && (
+              <FormStatusMessage
+                formSubmitStatus={formSubmitStatus}
+                message={t('formValidation.formSubmitMessageSuccess')}
+              />
+            )}
+            {formType === FormType.EDIT && (
+              <FormStatusMessage
+                formSubmitStatus={formSubmitStatus}
+                message={t('formValidation.formEditMessageSuccess')}
+              />
+            )}
           </Stack>
         </Form>
       )}
