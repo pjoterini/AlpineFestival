@@ -58,6 +58,7 @@ export const createUser = https.onCall(async (request, context) => {
     }
   } catch (error) {
     console.error(error);
+    return error;
   }
 });
 

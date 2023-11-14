@@ -1,3 +1,4 @@
+import { absenceOption } from '@/constants/absenceOption';
 import { IGuest } from '@/redux/guests/interfaces';
 import { IUser } from '@/redux/users/interfaces';
 import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
@@ -30,9 +31,7 @@ const GuestsTable = ({ guests, users }: IProps) => {
         width: 100,
         type: 'actions',
         renderCell: (params) => (
-          <UsersActions
-            {...{ params, selectedRowId, setSelectedRowId, users }}
-          />
+          <UsersActions {...{ params, selectedRowId, setSelectedRowId }} />
         ),
       },
       {
@@ -91,14 +90,11 @@ const GuestsTable = ({ guests, users }: IProps) => {
         headerName: i18next.t<string>('common.guardian'),
         width: 100,
         valueGetter: ({ row }) =>
-          !row.organizer
-            ? i18next.t<string>('common.none').toUpperCase()
-            : row.organizer,
+          row.organizer
+            ? `${row.organizer.firstName} ${row.organizer.lastName}`
+            : absenceOption,
         type: 'singleSelect',
-        valueOptions: [
-          i18next.t<string>('common.none').toUpperCase(),
-          ...organizersNames,
-        ],
+        valueOptions: [absenceOption, ...organizersNames],
         editable: true,
       },
       {
@@ -133,13 +129,8 @@ const GuestsTable = ({ guests, users }: IProps) => {
         width: 60,
         type: 'singleSelect',
         valueGetter: ({ row }) =>
-          !row.speechLength
-            ? i18next.t<string>('common.none').toUpperCase()
-            : row.speechLength,
-        valueOptions: [
-          i18next.t<string>('common.none').toUpperCase(),
-          ...speechLengthOptionsArray,
-        ],
+          row.speechLength ? row.speechLength : absenceOption,
+        valueOptions: [absenceOption, ...speechLengthOptionsArray],
         editable: true,
       },
       {

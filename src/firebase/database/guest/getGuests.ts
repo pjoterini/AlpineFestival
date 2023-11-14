@@ -1,5 +1,5 @@
 import { dbRef } from '@/firebase/config';
-import { GuestRegistrationFormProps } from '@/redux/guests/interfaces';
+import { IFirebaseGuest } from '@/redux/guests/interfaces';
 import { child, get } from 'firebase/database';
 
 export const getGuests = async () => {
@@ -8,7 +8,7 @@ export const getGuests = async () => {
     if (snapshot.exists()) {
       const data = snapshot.val();
       const arrayData = Object.entries(data).map(([id, guest]) => ({
-        ...(guest as GuestRegistrationFormProps),
+        ...(guest as IFirebaseGuest),
         id,
       }));
       return arrayData;

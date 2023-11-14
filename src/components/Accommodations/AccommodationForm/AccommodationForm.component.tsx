@@ -1,30 +1,30 @@
 import {
   AccommodationFormProps,
-  FormType,
   IAccommodation,
   ResetAccommodationForm,
 } from '@/redux/accomodations/interfaces';
+import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { Box, Button, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { t } from 'i18next';
-import FormStatusMessage from '../common/FormStatusMessage';
-import GMInput from '../common/GMInput';
+import FormStatusMessage from '../../common/FormStatusMessage';
+import GMInput from '../../common/GMInput';
 import { accomodationFormSchema } from './AccomodationForm.schema';
 
 interface IProps {
-  formType: string;
+  formType: FormType;
   formSubmitStatus: Status;
-  createAccommodation: (
+  createAccommodation?: (
     values: AccommodationFormProps,
     resetForm: ResetAccommodationForm
   ) => void;
-  editAccommodation: (
+  editAccommodation?: (
     values: AccommodationFormProps,
     accommodationId?: string
   ) => void;
-  deleteAccommodation: (accommodationId: string) => void;
+  deleteAccommodation?: (accommodationId: string) => void;
   currentRow?: IAccommodation | null;
 }
 
@@ -36,6 +36,9 @@ const AccommodationForm = ({
   deleteAccommodation,
   currentRow,
 }: IProps) => {
+  const isCreateForm = formType === FormType.CREATE;
+  const isEditForm = formType === FormType.EDIT;
+
   return (
     <Formik
       initialValues={{
@@ -45,32 +48,33 @@ const AccommodationForm = ({
       }}
       validationSchema={accomodationFormSchema}
       onSubmit={(values, { resetForm }) => {
-        if (formType === FormType.CREATE) {
-          createAccommodation(values, resetForm);
-        } else if (formType === FormType.EDIT) {
-          editAccommodation(values, currentRow?.id);
+        if (isCreateForm) {
+          createAccommodation?.(values, resetForm);
+        } else if (isEditForm) {
+          editAccommodation?.(values, currentRow?.id);
         }
       }}
     >
       {({ touched, errors }) => (
         <Form>
           <Stack
-            mt={{
-              xs: formType === FormType.CREATE ? 2 : 0,
-              sm: formType === FormType.CREATE ? 4 : 0,
-            }}
+            border={isCreateForm ? 'solid 1px' : 'none'}
+            borderRadius={1}
+            borderColor="primary.main"
             mx="auto"
+            px={isCreateForm ? 2 : 0}
+            pb={isCreateForm ? 2 : 0}
+            mb={isCreateForm ? 2 : 0}
             width={{
               xs: '100%',
-              sm: formType === FormType.CREATE ? '60%' : '100%',
+              sm: isCreateForm ? '50%' : '100%',
             }}
           >
-            <Typography variant="h5" component="h1" mb={1}>
-              {formType === FormType.CREATE &&
-                t('accommodationForm.accommodationForm')}
-              {formType === FormType.EDIT &&
-                t('accommodationForm.editAccommodationForm')}
-            </Typography>
+            {isEditForm && (
+              <Typography variant="h5" component="h1">
+                {t('accommodationForm.editAccommodation')}
+              </Typography>
+            )}
             <Field
               name="name"
               label={t('common.accommodation')}
@@ -93,12 +97,11 @@ const AccommodationForm = ({
               error={errors.tel}
               touched={touched.tel}
             />
-
-            <Box ml="auto" mt={2} mb={5}>
-              {formType === FormType.EDIT && (
+            <Box ml="auto" mt={1}>
+              {isEditForm && (
                 <Button
                   onClick={() =>
-                    currentRow && deleteAccommodation(currentRow.id)
+                    currentRow && deleteAccommodation?.(currentRow.id)
                   }
                   sx={{ mr: 1 }}
                   color="error"
@@ -110,17 +113,17 @@ const AccommodationForm = ({
                 </Button>
               )}
               <Button variant="contained" type="submit" size="large">
-                {formType === FormType.CREATE && t('guestForm.submit')}
-                {formType === FormType.EDIT && t('common.save')}
+                {isCreateForm && t('accommodationForm.addAccommodation')}
+                {isEditForm && t('common.save')}
               </Button>
             </Box>
-            {formType === FormType.CREATE && (
+            {isCreateForm && (
               <FormStatusMessage
                 formSubmitStatus={formSubmitStatus}
                 message={t('formValidation.formSubmitMessageSuccess')}
               />
             )}
-            {formType === FormType.EDIT && (
+            {isEditForm && (
               <FormStatusMessage
                 formSubmitStatus={formSubmitStatus}
                 message={t('formValidation.formEditMessageSuccess')}

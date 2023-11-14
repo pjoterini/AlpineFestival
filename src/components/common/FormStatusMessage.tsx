@@ -1,14 +1,19 @@
 import { Status } from '@/redux/enums/status';
 import { Typography } from '@mui/material';
-import { t } from 'i18next';
+import { DefaultTFuncReturn, t } from 'i18next';
 import React from 'react';
 
 interface IProps {
   formSubmitStatus: Status;
   message: string;
+  errorMessage?: string | DefaultTFuncReturn;
 }
 
-const FormStatusMessage = ({ formSubmitStatus, message }: IProps) => {
+const FormStatusMessage = ({
+  formSubmitStatus,
+  message,
+  errorMessage,
+}: IProps) => {
   return (
     <>
       {formSubmitStatus === Status.SUCCEEDED && (
@@ -18,7 +23,9 @@ const FormStatusMessage = ({ formSubmitStatus, message }: IProps) => {
       )}
       {formSubmitStatus === Status.FAILED && (
         <Typography variant="h5" mx="auto" color="error.main">
-          {t('formValidation.formSubmitMessageError')}
+          {errorMessage
+            ? errorMessage
+            : t('formValidation.formSubmitMessageError')}
         </Typography>
       )}
     </>

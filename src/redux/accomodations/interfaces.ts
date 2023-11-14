@@ -1,9 +1,5 @@
 import { FormikState } from 'formik';
 
-export enum FormType {
-  CREATE = 'create',
-  EDIT = 'edit',
-}
 export interface IAccommodation {
   id: string;
   name: string;

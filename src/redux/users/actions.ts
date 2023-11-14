@@ -16,7 +16,7 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   return [];
 });
 
-export const updateUser = createAsyncThunk(
+export const editUserAction = createAsyncThunk(
   'users/updateUser',
   async (editedUser: IUser) => {
     editedUser.tel = editedUser.tel.replace(/\s/g, '');
@@ -30,7 +30,7 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-export const deleteUser = createAsyncThunk(
+export const deleteUserAction = createAsyncThunk(
   'users/deleteUser',
   async (userId: string) => {
     try {

@@ -5,11 +5,12 @@ export interface IUser {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
   tel: string;
   isAdmin: boolean;
 }
 
-export interface UserRegistrationFormProps {
+export interface UserFormProps {
   firstName: string;
   lastName: string;
   email: string;
@@ -18,12 +19,18 @@ export interface UserRegistrationFormProps {
   isAdmin: boolean;
 }
 
-type UserRegistrationFormPropsRequired = Required<UserRegistrationFormProps>;
+type UserFormPropsRequired = Required<UserFormProps>;
 
 export type ResetUserForm = (
-  nextState?:
-    | Partial<FormikState<UserRegistrationFormPropsRequired>>
-    | undefined
+  nextState?: Partial<FormikState<UserFormPropsRequired>> | undefined
 ) => void;
 
 export type IFirebaseUser = Omit<IUser, 'id'>;
+
+export interface ICreateUserCloudFunctionResponse {
+  uid?: string;
+  errorInfo?: {
+    code: string;
+    message: string;
+  };
+}

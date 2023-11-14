@@ -13,7 +13,7 @@ import logo from '../public/logo.png';
 import AdminNavbar from './AdminNavbar';
 
 export const Navbar = () => {
-  const { isAdmin, user, loading } = useIsAdmin();
+  const { user, loading } = useIsAdmin();
   const router = useRouter();
 
   const logout = async () => {
@@ -85,7 +85,7 @@ export const Navbar = () => {
             )}
           </Stack>
         </Toolbar>
-        {router.pathname.includes(PANEL) && <AdminNavbar isAdmin={isAdmin} />}
+        {router.pathname.includes(PANEL) && user && !loading && <AdminNavbar />}
       </Container>
     </AppBar>
   );

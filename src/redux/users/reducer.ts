@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUsers, updateUser, deleteUser } from './actions';
-import { IUser } from './interfaces';
 import { Status } from '../enums/status';
+import { deleteUserAction, editUserAction, fetchUsers } from './actions';
+import { IUser } from './interfaces';
 
 interface IProps {
   users: IUser[];
@@ -33,7 +33,7 @@ export const usersSlice = createSlice({
         state.status = Status.SUCCEEDED;
         state.users = payload;
       })
-      .addCase(updateUser.fulfilled, (state, { payload }) => {
+      .addCase(editUserAction.fulfilled, (state, { payload }) => {
         state.status = Status.SUCCEEDED;
         if (payload) {
           state.users = state.users.map((user) => {
@@ -44,7 +44,7 @@ export const usersSlice = createSlice({
           });
         }
       })
-      .addCase(deleteUser.fulfilled, (state, { payload }) => {
+      .addCase(deleteUserAction.fulfilled, (state, { payload }) => {
         state.status = Status.SUCCEEDED;
         if (payload) {
           state.users = state.users.filter((user) => user.id !== payload);

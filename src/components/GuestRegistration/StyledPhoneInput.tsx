@@ -3,6 +3,7 @@ import PhoneInput from 'react-phone-input-2';
 
 const StyledPhoneInput = styled(PhoneInput)(({ theme }) => ({
   '&.react-phone-number input.form-control': {
+    fontFamily: 'Roboto',
     height: '56px',
     width: '100%',
     paddingTop: theme.spacing(1),

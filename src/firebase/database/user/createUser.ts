@@ -1,14 +1,17 @@
 import { createUser } from '@/firebase/cloudFunctions';
 import { db } from '@/firebase/config';
-import { UserRegistrationFormProps } from '@/redux/users/interfaces';
+import { UserFormProps } from '@/redux/users/interfaces';
 import { ref, set } from 'firebase/database';
 
-export const addUserFB = async (user: UserRegistrationFormProps) => {
+export const createUserFirebase = async (user: UserFormProps) => {
   try {
-    const result = await createUser(user);
+    const response = await createUser(user);
 
-    const unknownData = result.data as { uid: string };
-    const userId = unknownData.uid;
+    if (response.data.errorInfo) {
+      return response;
+    }
+
+    const userId = response.data.uid;
 
     const reference = ref(db, `users/${userId}`);
 
@@ -19,9 +22,8 @@ export const addUserFB = async (user: UserRegistrationFormProps) => {
 
     set(reference, userWithId);
 
-    return user;
+    return response;
   } catch (error) {
     console.error(error);
-    return false;
   }
 };
