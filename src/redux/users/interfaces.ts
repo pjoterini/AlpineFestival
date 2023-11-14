@@ -10,14 +10,7 @@ export interface IUser {
   isAdmin: boolean;
 }
 
-export interface UserFormProps {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  tel: string;
-  isAdmin: boolean;
-}
+export type UserFormProps = Omit<IUser, 'id'>;
 
 type UserFormPropsRequired = Required<UserFormProps>;
 

@@ -1,60 +1,102 @@
+import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import {
-  GuestRegistrationFormProps,
-  ResetGuestForm,
+  GuestEditFormProps,
+  GuestRegisterFormProps,
+  IGuest,
+  ResetGuestRegisterForm,
 } from '@/redux/guests/interfaces';
 import { Box, Button, MenuItem, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
-import { t } from 'i18next';
+import { DefaultTFuncReturn, t } from 'i18next';
 import 'react-phone-input-2/lib/style.css';
-import FormStatusMessage from '../common/FormStatusMessage';
-import GMDatePicker from '../common/GMDatePicker';
-import GMInput from '../common/GMInput';
-import { InputError } from '../common/InputError';
+import FormStatusMessage from '../../common/FormStatusMessage';
+import GMDatePicker from '../../common/GMDatePicker';
+import GMInput from '../../common/GMInput';
+import { InputError } from '../../common/InputError';
 import { arrivalDate, departureDate } from './arrivalAndDepartureDates';
-import { guestRegistrationSchema } from './guestRegistration.schema';
+import { guestFormSchema } from './guestForm.schema';
 import { speechLengthOptions } from './speechLengthOptions';
 import StyledPhoneInput from './StyledPhoneInput';
 
 interface IProps {
-  onSubmit: (
-    values: GuestRegistrationFormProps,
-    resetForm: ResetGuestForm
-  ) => void;
+  formType: FormType;
   formSubmitStatus: Status;
+  createGuest?: (
+    values: GuestRegisterFormProps,
+    resetForm: ResetGuestRegisterForm
+  ) => void;
+  editGuest?: (values: GuestEditFormProps, guestId?: string) => void;
+  deleteGuest?: (userId: string) => void;
+  currentRow?: IGuest | null;
+  errorMessage: string | DefaultTFuncReturn;
 }
 
-const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
+const GuestForm = ({
+  formType,
+  formSubmitStatus,
+  createGuest,
+  editGuest,
+  deleteGuest,
+  currentRow,
+  errorMessage,
+}: IProps) => {
+  const isCreateForm = formType === FormType.CREATE;
+  const isEditForm = formType === FormType.EDIT;
+
+  let initialValues: GuestRegisterFormProps | GuestEditFormProps = {
+    firstName: currentRow?.firstName || '',
+    lastName: currentRow?.lastName || '',
+    email: currentRow?.email || '',
+    tel: currentRow?.tel || '',
+    arrival: currentRow?.arrival || arrivalDate,
+    departure: currentRow?.departure || departureDate,
+    accomodationComment: currentRow?.firstName || '',
+    presents: currentRow?.presents || false,
+    ownsPc: currentRow?.ownsPc || false,
+    speechLength: currentRow?.speechLength || null,
+    specialNeeds: currentRow?.specialNeeds || '',
+  };
+
+  if (isEditForm) {
+    initialValues = {
+      ...initialValues,
+      checkIn: currentRow?.checkIn || false,
+      type: currentRow?.type || '',
+      organizer: currentRow?.organizer || null,
+      accommodation: currentRow?.accommodation || '',
+    };
+  }
+
   return (
     <Formik
-      initialValues={{
-        firstName: '',
-        lastName: '',
-        email: '',
-        tel: '',
-        arrival: arrivalDate,
-        departure: departureDate,
-        accomodationComment: '',
-        presents: false,
-        ownsPc: false,
-        speechLength: null,
-        specialNeeds: '',
+      initialValues={initialValues}
+      validationSchema={guestFormSchema}
+      onSubmit={(values, { resetForm }) => {
+        isCreateForm && createGuest?.(values, resetForm);
+        isEditForm && editGuest?.(values as GuestEditFormProps, currentRow?.id);
       }}
-      validationSchema={guestRegistrationSchema}
-      onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}
     >
       {({ values, touched, setFieldValue, errors }) => (
         <Form>
           <Stack
-            mt={{ xs: 2, sm: 4 }}
             mx="auto"
-            width={{ xs: '100%', sm: '60%' }}
+            px={isCreateForm ? 2 : 0}
+            pb={isCreateForm ? 2 : 0}
+            mb={isCreateForm ? 2 : 0}
+            width={{
+              xs: '100%',
+              sm: isCreateForm ? '50%' : '100%',
+            }}
           >
-            <Typography variant="h5" component="h1">
-              {t('guestForm.guestForm')}
-            </Typography>
+            {isEditForm && (
+              <Typography variant="h5" component="h1">
+                {t('guestForm.editGuest')}
+              </Typography>
+            )}
+
             <Field
               name="firstName"
               label={t('common.firstName')}
@@ -62,7 +104,6 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
               error={errors.firstName}
               touched={touched.firstName}
             />
-
             <Field
               name="lastName"
               label={t('common.lastName')}
@@ -70,7 +111,6 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
               error={errors.lastName}
               touched={touched.lastName}
             />
-
             <Field
               name="email"
               type="email"
@@ -79,7 +119,6 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
               error={errors.email}
               touched={touched.email}
             />
-
             <Box mt={1}>
               <StyledPhoneInput
                 inputProps={{
@@ -97,7 +136,38 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
                 {errors.tel && touched.tel && <InputError error={errors.tel} />}
               </Box>
             </Box>
-
+            {isEditForm && (
+              <>
+                <Field
+                  name="checkIn"
+                  label={t('common.checkIn')}
+                  component={GMInput}
+                  // error={errors.checkIn}
+                  // touched={touched.checkIn}
+                />
+                <Field
+                  name="type"
+                  label={t('common.type')}
+                  component={GMInput}
+                  // error={errors.checkIn}
+                  // touched={touched.checkIn}
+                />
+                <Field
+                  name="organizer"
+                  label={t('common.organizer')}
+                  component={GMInput}
+                  // error={errors.checkIn}
+                  // touched={touched.checkIn}
+                />
+                <Field
+                  name="accomodation"
+                  label={t('common.accommodation')}
+                  component={GMInput}
+                  // error={errors.checkIn}
+                  // touched={touched.checkIn}
+                />
+              </>
+            )}
             <Stack direction={{ xs: 'column', sm: 'row' }} pt={2}>
               {/* DateRangePicker is included on Pro package, thus we're using DatePickers */}
               <Box>
@@ -126,7 +196,6 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
                 />
               </Box>
             </Stack>
-
             <Field
               component={GMInput}
               name="accomodationComment"
@@ -158,7 +227,6 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
                     Label={{ label: t('guestForm.ownsPc') }}
                   />
                 </Box>
-
                 <Field
                   component={Select}
                   name="speechLength"
@@ -175,7 +243,6 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
                     </MenuItem>
                   ))}
                 </Field>
-
                 <Field
                   component={GMInput}
                   name="specialNeeds"
@@ -187,15 +254,42 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
                 />
               </>
             )}
+
             <Box ml="auto" mt={2} mb={5}>
+              {isEditForm && (
+                <Button
+                  onClick={() =>
+                    currentRow && deleteGuest && deleteGuest(currentRow.id)
+                  }
+                  sx={{ mr: 1 }}
+                  color="error"
+                  variant="contained"
+                  type="button"
+                  size="large"
+                >
+                  {t('common.delete')}
+                </Button>
+              )}
               <Button variant="contained" type="submit" size="large">
-                {t('guestForm.submit')}
+                {isCreateForm && t('guestForm.submit')}
+                {isEditForm && t('common.save')}
               </Button>
             </Box>
-            <FormStatusMessage
-              formSubmitStatus={formSubmitStatus}
-              message={t('formValidation.formSubmitMessageSuccess')}
-            />
+
+            {isCreateForm && (
+              <FormStatusMessage
+                formSubmitStatus={formSubmitStatus}
+                errorMessage={errorMessage}
+                message={t('formValidation.formSubmitMessageSuccess')}
+              />
+            )}
+            {isEditForm && (
+              <FormStatusMessage
+                formSubmitStatus={formSubmitStatus}
+                errorMessage={errorMessage}
+                message={t('formValidation.formEditMessageSuccess')}
+              />
+            )}
           </Stack>
         </Form>
       )}
@@ -203,4 +297,4 @@ const GuestRegistration = ({ onSubmit, formSubmitStatus }: IProps) => {
   );
 };
 
-export default GuestRegistration;
+export default GuestForm;

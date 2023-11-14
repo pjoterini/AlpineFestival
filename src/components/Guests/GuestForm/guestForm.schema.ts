@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import * as Yup from 'yup';
 
-export const guestRegistrationSchema = Yup.object({
+export const guestFormSchema = Yup.object({
   firstName: Yup.string()
     .min(2, `${t('formValidation.firstNameTooShort')}`)
     .max(50, `${t('formValidation.firstNameTooLong')}`)

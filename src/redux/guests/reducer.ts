@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { deleteGuest, fetchGuests, updateGuest } from './actions';
-import { IGuest } from './interfaces';
 import { Status } from '../enums/status';
+import { deleteGuestAction, editGuestAction, fetchGuests } from './actions';
+import { IGuest } from './interfaces';
 
 interface IProps {
   guests: IGuest[];
@@ -33,7 +33,7 @@ export const guestsSlice = createSlice({
         state.status = Status.SUCCEEDED;
         state.guests = payload;
       })
-      .addCase(updateGuest.fulfilled, (state, { payload }) => {
+      .addCase(editGuestAction.fulfilled, (state, { payload }) => {
         state.status = Status.SUCCEEDED;
         if (payload) {
           state.guests = state.guests.map((guest) => {
@@ -44,7 +44,7 @@ export const guestsSlice = createSlice({
           });
         }
       })
-      .addCase(deleteGuest.fulfilled, (state, { payload }) => {
+      .addCase(deleteGuestAction.fulfilled, (state, { payload }) => {
         state.status = Status.SUCCEEDED;
 
         if (payload) {

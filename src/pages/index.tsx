@@ -1,4 +1,4 @@
-import GuestRegistrationContainer from '@/components/GuestRegistration/GuestRegistration.container';
+import GuestFormContainer from '@/components/Guests/GuestForm/GuestForm.container';
 import { t } from 'i18next';
 import Head from 'next/head';
 
@@ -10,7 +10,7 @@ const GuestForm = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <GuestRegistrationContainer />
+      <GuestFormContainer />
     </>
   );
 };

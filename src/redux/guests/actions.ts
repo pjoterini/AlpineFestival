@@ -16,9 +16,10 @@ export const fetchGuests = createAsyncThunk('guests/fetchGuests', async () => {
   return [];
 });
 
-export const updateGuest = createAsyncThunk(
-  'guests/updateGuest',
+export const editGuestAction = createAsyncThunk(
+  'guests/editGuest',
   async (editedGuest: IGuest) => {
+    editedGuest.tel = editedGuest.tel.replace(/\s/g, '');
     try {
       const data = await setGuest(editedGuest);
       return data;
@@ -29,7 +30,7 @@ export const updateGuest = createAsyncThunk(
   }
 );
 
-export const deleteGuest = createAsyncThunk(
+export const deleteGuestAction = createAsyncThunk(
   'guests/deleteGuest',
   async (guestId: string) => {
     try {

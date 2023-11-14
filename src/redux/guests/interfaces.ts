@@ -29,20 +29,21 @@ export interface IGuest {
   specialNeeds?: string;
 }
 
-export type GuestRegistrationFormProps = Omit<
+export type GuestRegisterFormProps = Omit<
   IGuest,
   'id' | 'checkIn' | 'type' | 'organizer' | 'accommodation'
 >;
+export type GuestEditFormProps = Omit<IGuest, 'id'>;
 
-type GuestRegistrationFormPropsRequired = Required<GuestRegistrationFormProps>;
+type GuestRegisterFormPropsRequired = Required<GuestRegisterFormProps>;
 
-interface GuestRegistrationResetFormProps
-  extends Omit<GuestRegistrationFormPropsRequired, 'speechLength'> {
+interface GuestRegisterResetFormProps
+  extends Omit<GuestRegisterFormPropsRequired, 'speechLength'> {
   speechLength: null;
 }
 
-export type ResetGuestForm = (
-  nextState?: Partial<FormikState<GuestRegistrationResetFormProps>> | undefined
+export type ResetGuestRegisterForm = (
+  nextState?: Partial<FormikState<GuestRegisterResetFormProps>> | undefined
 ) => void;
 
 export type IFirebaseGuest = Omit<IGuest, 'id'>;
