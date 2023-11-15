@@ -1,3 +1,5 @@
+import FormButtonsContainer from '@/components/common/FormButtonsContainer';
+import FormContainer from '@/components/common/FormContainer';
 import {
   AccommodationFormProps,
   IAccommodation,
@@ -5,10 +7,9 @@ import {
 } from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
-import { Box, Button, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Button, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
-import { t } from 'i18next';
+import { DefaultTFuncReturn, t } from 'i18next';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMInput from '../../common/GMInput';
 import { accomodationFormSchema } from './AccomodationForm.schema';
@@ -26,6 +27,7 @@ interface IProps {
   ) => void;
   deleteAccommodation?: (accommodationId: string) => void;
   currentRow?: IAccommodation | null;
+  errorMessage: string | DefaultTFuncReturn;
 }
 
 const AccommodationForm = ({
@@ -35,6 +37,7 @@ const AccommodationForm = ({
   editAccommodation,
   deleteAccommodation,
   currentRow,
+  errorMessage,
 }: IProps) => {
   const isCreateForm = formType === FormType.CREATE;
   const isEditForm = formType === FormType.EDIT;
@@ -57,24 +60,11 @@ const AccommodationForm = ({
     >
       {({ touched, errors }) => (
         <Form>
-          <Stack
-            border={isCreateForm ? 'solid 1px' : 'none'}
-            borderRadius={1}
-            borderColor="primary.main"
-            mx="auto"
-            px={isCreateForm ? 2 : 0}
-            pb={isCreateForm ? 2 : 0}
-            mb={isCreateForm ? 2 : 0}
-            width={{
-              xs: '100%',
-              sm: isCreateForm ? '50%' : '100%',
-            }}
-          >
-            {isEditForm && (
-              <Typography variant="h5" component="h1">
-                {t('accommodationForm.editAccommodation')}
-              </Typography>
-            )}
+          <FormContainer>
+            <Typography variant="h5" component="h1" mb={1}>
+              {isCreateForm && t('accommodationForm.addAccommodation')}
+              {isEditForm && t('accommodationForm.editAccommodation')}
+            </Typography>
             <Field
               name="name"
               label={t('common.accommodation')}
@@ -97,7 +87,7 @@ const AccommodationForm = ({
               error={errors.tel}
               touched={touched.tel}
             />
-            <Box ml="auto" mt={1}>
+            <FormButtonsContainer>
               {isEditForm && (
                 <Button
                   onClick={() =>
@@ -116,20 +106,17 @@ const AccommodationForm = ({
                 {isCreateForm && t('accommodationForm.addAccommodation')}
                 {isEditForm && t('common.save')}
               </Button>
-            </Box>
-            {isCreateForm && (
-              <FormStatusMessage
-                formSubmitStatus={formSubmitStatus}
-                message={t('formValidation.formSubmitMessageSuccess')}
-              />
-            )}
-            {isEditForm && (
-              <FormStatusMessage
-                formSubmitStatus={formSubmitStatus}
-                message={t('formValidation.formEditMessageSuccess')}
-              />
-            )}
-          </Stack>
+            </FormButtonsContainer>
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              errorMessage={errorMessage}
+              message={
+                isCreateForm
+                  ? t('formValidation.formSubmitMessageSuccess')
+                  : t('formValidation.formEditMessageSuccess')
+              }
+            />
+          </FormContainer>
         </Form>
       )}
     </Formik>

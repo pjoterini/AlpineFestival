@@ -1,5 +1,4 @@
-import FormModalContainer from '@/components/common/FormModalContainer';
-import { Button, Modal } from '@mui/material';
+import { Button, Dialog } from '@mui/material';
 import { t } from 'i18next';
 import { useState } from 'react';
 import UserFormContainer from './UserForm.container';
@@ -18,16 +17,9 @@ const UserFormModal = () => {
       >
         {t('userForm.addUser')}
       </Button>
-      <Modal
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <FormModalContainer>
-          <UserFormContainer />
-        </FormModalContainer>
-      </Modal>
+      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+        <UserFormContainer />
+      </Dialog>
     </>
   );
 };

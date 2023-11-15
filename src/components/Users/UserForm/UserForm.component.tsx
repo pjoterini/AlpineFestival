@@ -1,7 +1,9 @@
+import FormButtonsContainer from '@/components/common/FormButtonsContainer';
+import FormContainer from '@/components/common/FormContainer';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { IUser, ResetUserForm, UserFormProps } from '@/redux/users/interfaces';
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel } from 'formik-mui';
@@ -53,12 +55,7 @@ const UserForm = ({
     >
       {({ touched, errors }) => (
         <Form>
-          <Stack
-            mx="auto"
-            width={{
-              xs: '100%',
-            }}
-          >
+          <FormContainer>
             <Typography variant="h5" component="h1" mb={1}>
               {isCreateForm && t('userForm.organizerData')}
               {isEditForm && t('userForm.editUser')}
@@ -108,7 +105,7 @@ const UserForm = ({
                 name="isAdmin"
                 Label={{ label: t('userForm.isAdmin') }}
               />
-              <Box ml="auto" my={1}>
+              <FormButtonsContainer>
                 {isEditForm && (
                   <Button
                     onClick={() =>
@@ -127,7 +124,7 @@ const UserForm = ({
                   {isCreateForm && t('userForm.addUser')}
                   {isEditForm && t('common.save')}
                 </Button>
-              </Box>
+              </FormButtonsContainer>
             </Stack>
             <FormStatusMessage
               formSubmitStatus={formSubmitStatus}
@@ -138,7 +135,7 @@ const UserForm = ({
                   : t('formValidation.formEditMessageSuccess')
               }
             />
-          </Stack>
+          </FormContainer>
         </Form>
       )}
     </Formik>

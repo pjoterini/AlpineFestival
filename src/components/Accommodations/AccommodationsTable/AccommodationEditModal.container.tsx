@@ -1,5 +1,4 @@
 import AccommodationForm from '@/components/Accommodations/AccommodationForm/AccommodationForm.component';
-import FormModalContainer from '@/components/common/FormModalContainer';
 import {
   deleteAccommodationAction,
   updateAccommodation,
@@ -11,8 +10,8 @@ import {
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { useAppDispatch } from '@/redux/store';
-import Modal from '@mui/material/Modal';
-import { t } from 'i18next';
+import { Dialog } from '@mui/material';
+import { DefaultTFuncReturn, t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 interface IProps {
@@ -22,6 +21,9 @@ interface IProps {
 
 const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
   const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
+  const [errorMessage, setErrorMessage] = useState<string | DefaultTFuncReturn>(
+    ''
+  );
   const dispatch = useAppDispatch();
 
   const editAccommodation = async (
@@ -33,6 +35,7 @@ const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
       (await dispatch(updateAccommodation({ id: accommodationId, ...values })));
     if (!result) {
       setFormSubmitStatus(Status.FAILED);
+      setErrorMessage('something went wrong');
     } else {
       setFormSubmitStatus(Status.SUCCEEDED);
     }
@@ -50,25 +53,22 @@ const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
   };
 
   return (
-    <Modal
+    <Dialog
       open={!!currentRow}
       onClose={() => {
         setFormSubmitStatus(Status.IDLE);
         setCurrentRow(null);
       }}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
     >
-      <FormModalContainer>
-        <AccommodationForm
-          formType={FormType.EDIT}
-          formSubmitStatus={formSubmitStatus}
-          editAccommodation={editAccommodation}
-          deleteAccommodation={deleteAccommodation}
-          currentRow={currentRow}
-        />
-      </FormModalContainer>
-    </Modal>
+      <AccommodationForm
+        formType={FormType.EDIT}
+        editAccommodation={editAccommodation}
+        deleteAccommodation={deleteAccommodation}
+        currentRow={currentRow}
+        formSubmitStatus={formSubmitStatus}
+        errorMessage={errorMessage}
+      />
+    </Dialog>
   );
 };
 

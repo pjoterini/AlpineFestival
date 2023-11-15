@@ -1,10 +1,9 @@
-import FormModalContainer from '@/components/common/FormModalContainer';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { useAppDispatch } from '@/redux/store';
 import { deleteUserAction, editUserAction } from '@/redux/users/actions';
 import { IUser, UserFormProps } from '@/redux/users/interfaces';
-import { Modal } from '@mui/material';
+import { Dialog } from '@mui/material';
 import { DefaultTFuncReturn, t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import UserForm from '../UserForm/UserForm.component';
@@ -48,26 +47,22 @@ const UserEditModal = ({ currentRow, setCurrentRow }: IProps) => {
   };
 
   return (
-    <Modal
+    <Dialog
       open={!!currentRow}
       onClose={() => {
         setFormSubmitStatus(Status.IDLE);
         setCurrentRow(null);
       }}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
     >
-      <FormModalContainer>
-        <UserForm
-          formType={FormType.EDIT}
-          formSubmitStatus={formSubmitStatus}
-          editUser={editUser}
-          deleteUser={deleteUser}
-          currentRow={currentRow}
-          errorMessage={errorMessage}
-        />
-      </FormModalContainer>
-    </Modal>
+      <UserForm
+        formType={FormType.EDIT}
+        formSubmitStatus={formSubmitStatus}
+        editUser={editUser}
+        deleteUser={deleteUser}
+        currentRow={currentRow}
+        errorMessage={errorMessage}
+      />
+    </Dialog>
   );
 };
 

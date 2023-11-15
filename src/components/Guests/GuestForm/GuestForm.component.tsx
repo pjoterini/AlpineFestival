@@ -1,3 +1,5 @@
+import FormButtonsContainer from '@/components/common/FormButtonsContainer';
+import FormContainer from '@/components/common/FormContainer';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import {
@@ -81,22 +83,11 @@ const GuestForm = ({
     >
       {({ values, touched, setFieldValue, errors }) => (
         <Form>
-          <Stack
-            mx="auto"
-            px={isCreateForm ? 2 : 0}
-            pb={isCreateForm ? 2 : 0}
-            mb={isCreateForm ? 2 : 0}
-            width={{
-              xs: '100%',
-              sm: isCreateForm ? '50%' : '100%',
-            }}
-          >
-            {isEditForm && (
-              <Typography variant="h5" component="h1">
-                {t('guestForm.editGuest')}
-              </Typography>
-            )}
-
+          <FormContainer>
+            <Typography variant="h5" component="h1" mb={1}>
+              {isCreateForm && t('guestForm.guestForm')}
+              {isEditForm && t('guestForm.editGuest')}
+            </Typography>
             <Field
               name="firstName"
               label={t('common.firstName')}
@@ -119,7 +110,7 @@ const GuestForm = ({
               error={errors.email}
               touched={touched.email}
             />
-            <Box mt={1}>
+            <Box mt={2}>
               <StyledPhoneInput
                 inputProps={{
                   name: 'tel',
@@ -253,8 +244,7 @@ const GuestForm = ({
                 />
               </>
             )}
-
-            <Box ml="auto" mt={2} mb={5}>
+            <FormButtonsContainer>
               {isEditForm && (
                 <Button
                   onClick={() =>
@@ -273,23 +263,17 @@ const GuestForm = ({
                 {isCreateForm && t('guestForm.submit')}
                 {isEditForm && t('common.save')}
               </Button>
-            </Box>
-
-            {isCreateForm && (
-              <FormStatusMessage
-                formSubmitStatus={formSubmitStatus}
-                errorMessage={errorMessage}
-                message={t('formValidation.formSubmitMessageSuccess')}
-              />
-            )}
-            {isEditForm && (
-              <FormStatusMessage
-                formSubmitStatus={formSubmitStatus}
-                errorMessage={errorMessage}
-                message={t('formValidation.formEditMessageSuccess')}
-              />
-            )}
-          </Stack>
+            </FormButtonsContainer>
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              errorMessage={errorMessage}
+              message={
+                isCreateForm
+                  ? t('formValidation.formSubmitMessageSuccess')
+                  : t('formValidation.formEditMessageSuccess')
+              }
+            />
+          </FormContainer>
         </Form>
       )}
     </Formik>

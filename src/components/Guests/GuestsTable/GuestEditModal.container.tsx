@@ -1,10 +1,9 @@
-import FormModalContainer from '@/components/common/FormModalContainer';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { deleteGuestAction, editGuestAction } from '@/redux/guests/actions';
 import { GuestEditFormProps, IGuest } from '@/redux/guests/interfaces';
 import { useAppDispatch } from '@/redux/store';
-import { Modal } from '@mui/material';
+import { Dialog } from '@mui/material';
 import { DefaultTFuncReturn, t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import GuestForm from '../GuestForm/GuestForm.component';
@@ -48,26 +47,22 @@ const GuestEditModal = ({ currentRow, setCurrentRow }: IProps) => {
   };
 
   return (
-    <Modal
-      open={!!currentRow}
+    <Dialog
       onClose={() => {
         setFormSubmitStatus(Status.IDLE);
         setCurrentRow(null);
       }}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+      open={!!currentRow}
     >
-      <FormModalContainer>
-        <GuestForm
-          formType={FormType.EDIT}
-          formSubmitStatus={formSubmitStatus}
-          editGuest={editGuest}
-          deleteGuest={deleteGuest}
-          currentRow={currentRow}
-          errorMessage={errorMessage}
-        />
-      </FormModalContainer>
-    </Modal>
+      <GuestForm
+        formType={FormType.EDIT}
+        formSubmitStatus={formSubmitStatus}
+        editGuest={editGuest}
+        deleteGuest={deleteGuest}
+        currentRow={currentRow}
+        errorMessage={errorMessage}
+      />
+    </Dialog>
   );
 };
 
