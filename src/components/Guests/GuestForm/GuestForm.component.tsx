@@ -65,7 +65,7 @@ const GuestForm = ({
       ...initialValues,
       checkIn: currentRow?.checkIn || false,
       type: currentRow?.type || '',
-      organizer: currentRow?.organizer || null,
+      organizer: currentRow?.organizer || '',
       accommodation: currentRow?.accommodation || '',
     };
   }
@@ -139,32 +139,31 @@ const GuestForm = ({
             {isEditForm && (
               <>
                 <Field
+                  component={CheckboxWithLabel}
+                  type="checkbox"
                   name="checkIn"
-                  label={t('common.checkIn')}
-                  component={GMInput}
-                  // error={errors.checkIn}
-                  // touched={touched.checkIn}
+                  Label={{ label: t('guestForm.checkIn') }}
                 />
                 <Field
                   name="type"
                   label={t('common.type')}
                   component={GMInput}
-                  // error={errors.checkIn}
-                  // touched={touched.checkIn}
+                  // error={errors.type}
+                  // touched={touched.type}
                 />
                 <Field
                   name="organizer"
                   label={t('common.organizer')}
                   component={GMInput}
-                  // error={errors.checkIn}
-                  // touched={touched.checkIn}
+                  // error={errors.organizer}
+                  // touched={touched.organizer}
                 />
                 <Field
                   name="accomodation"
                   label={t('common.accommodation')}
                   component={GMInput}
-                  // error={errors.checkIn}
-                  // touched={touched.checkIn}
+                  // error={errors.accommodation}
+                  // touched={touched.accommodation}
                 />
               </>
             )}

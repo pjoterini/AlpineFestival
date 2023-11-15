@@ -16,7 +16,7 @@ export interface IGuest {
   lastName: string;
   checkIn: boolean;
   type: string;
-  organizer: IUser | null;
+  organizer: IUser | '';
   email: string;
   tel: string;
   arrival: string;

@@ -68,6 +68,7 @@ export const translationsPL = {
   guestForm: {
     guestForm: 'Formularz Gościa',
     editGuest: 'Edytuj Dane Gościa',
+    checkIn: 'Zameldowanie',
     arrivalDate: 'Data Przyjazdu',
     departureDate: 'Data Wyjazdu',
     accomodationComment: 'Komentarz odnośnie zakwaterowania',

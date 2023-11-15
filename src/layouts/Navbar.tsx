@@ -9,7 +9,7 @@ import { t } from 'i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import logo from '../public/logo.png';
+import logo from '/public/logo.png';
 import AdminNavbar from './AdminNavbar';
 
 export const Navbar = () => {

@@ -57,15 +57,29 @@ const GuestEditModal = ({ currentRow, setCurrentRow }: IProps) => {
       aria-describedby="modal-modal-description"
     >
       <Box
+        display="block"
         position="absolute"
+        overflow="scroll"
+        height="90%"
         sx={{
           transform: 'translate(-50%, -50%)',
+          overflowX: 'hidden',
+          borderTopLeftRadius: '8px',
+          borderBottomLeftRadius: '8px',
+          '&::-webkit-scrollbar': {
+            width: '0.8em',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: '#e9e9e9',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#a9a9a9',
+          },
         }}
         top="50%"
         left="50%"
         p={3}
         width="320px"
-        borderRadius={2}
         boxShadow="10"
         bgcolor="background.paper"
       >
