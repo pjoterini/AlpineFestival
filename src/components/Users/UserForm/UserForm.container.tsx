@@ -6,7 +6,7 @@ import { DefaultTFuncReturn, t } from 'i18next';
 import { useState } from 'react';
 import UserForm from './UserForm.component';
 
-const UserRegistrationContainer = () => {
+const UserFormContainer = () => {
   const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
   const [errorMessage, setErrorMessage] = useState<string | DefaultTFuncReturn>(
     ''
@@ -39,4 +39,4 @@ const UserRegistrationContainer = () => {
   );
 };
 
-export default UserRegistrationContainer;
+export default UserFormContainer;

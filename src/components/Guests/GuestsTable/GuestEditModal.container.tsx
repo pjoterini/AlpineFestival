@@ -1,9 +1,10 @@
+import FormModalContainer from '@/components/common/FormModalContainer';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { deleteGuestAction, editGuestAction } from '@/redux/guests/actions';
 import { GuestEditFormProps, IGuest } from '@/redux/guests/interfaces';
 import { useAppDispatch } from '@/redux/store';
-import { Box, Modal } from '@mui/material';
+import { Modal } from '@mui/material';
 import { DefaultTFuncReturn, t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import GuestForm from '../GuestForm/GuestForm.component';
@@ -56,33 +57,7 @@ const GuestEditModal = ({ currentRow, setCurrentRow }: IProps) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box
-        display="block"
-        position="absolute"
-        overflow="scroll"
-        height="90%"
-        sx={{
-          transform: 'translate(-50%, -50%)',
-          overflowX: 'hidden',
-          borderTopLeftRadius: '8px',
-          borderBottomLeftRadius: '8px',
-          '&::-webkit-scrollbar': {
-            width: '0.8em',
-          },
-          '&::-webkit-scrollbar-track': {
-            backgroundColor: '#e9e9e9',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            backgroundColor: '#a9a9a9',
-          },
-        }}
-        top="50%"
-        left="50%"
-        p={3}
-        width="320px"
-        boxShadow="10"
-        bgcolor="background.paper"
-      >
+      <FormModalContainer>
         <GuestForm
           formType={FormType.EDIT}
           formSubmitStatus={formSubmitStatus}
@@ -91,7 +66,7 @@ const GuestEditModal = ({ currentRow, setCurrentRow }: IProps) => {
           currentRow={currentRow}
           errorMessage={errorMessage}
         />
-      </Box>
+      </FormModalContainer>
     </Modal>
   );
 };

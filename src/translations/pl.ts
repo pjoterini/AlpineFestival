@@ -92,6 +92,7 @@ export const translationsPL = {
     commentTooLong: 'Komentarz musi się składać z mniej niż 500 liter',
   },
   userForm: {
+    organizerData: 'Dane Organizatora',
     addUser: 'Dodaj Organizatora',
     editUser: 'Edytuj Dane Organizatora',
     isAdmin: 'Status Admina',

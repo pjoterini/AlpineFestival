@@ -1,9 +1,10 @@
+import FormModalContainer from '@/components/common/FormModalContainer';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { useAppDispatch } from '@/redux/store';
 import { deleteUserAction, editUserAction } from '@/redux/users/actions';
 import { IUser, UserFormProps } from '@/redux/users/interfaces';
-import { Box, Modal } from '@mui/material';
+import { Modal } from '@mui/material';
 import { DefaultTFuncReturn, t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import UserForm from '../UserForm/UserForm.component';
@@ -56,19 +57,7 @@ const UserEditModal = ({ currentRow, setCurrentRow }: IProps) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box
-        position="absolute"
-        sx={{
-          transform: 'translate(-50%, -50%)',
-        }}
-        top="50%"
-        left="50%"
-        p={3}
-        width="320px"
-        borderRadius={2}
-        boxShadow="10"
-        bgcolor="background.paper"
-      >
+      <FormModalContainer>
         <UserForm
           formType={FormType.EDIT}
           formSubmitStatus={formSubmitStatus}
@@ -77,7 +66,7 @@ const UserEditModal = ({ currentRow, setCurrentRow }: IProps) => {
           currentRow={currentRow}
           errorMessage={errorMessage}
         />
-      </Box>
+      </FormModalContainer>
     </Modal>
   );
 };

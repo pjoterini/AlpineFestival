@@ -55,19 +55,14 @@ const UserForm = ({
         <Form>
           <Stack
             mx="auto"
-            px={isCreateForm ? 2 : 0}
-            pb={isCreateForm ? 2 : 0}
-            mb={isCreateForm ? 2 : 0}
             width={{
               xs: '100%',
-              sm: isCreateForm ? '50%' : '100%',
             }}
           >
-            {isEditForm && (
-              <Typography variant="h5" component="h1">
-                {t('userForm.editUser')}
-              </Typography>
-            )}
+            <Typography variant="h5" component="h1" mb={1}>
+              {isCreateForm && t('userForm.organizerData')}
+              {isEditForm && t('userForm.editUser')}
+            </Typography>
             <Field
               name="firstName"
               label={t('common.firstName')}
@@ -113,7 +108,7 @@ const UserForm = ({
                 name="isAdmin"
                 Label={{ label: t('userForm.isAdmin') }}
               />
-              <Box ml="auto" mb={5}>
+              <Box ml="auto" my={1}>
                 {isEditForm && (
                   <Button
                     onClick={() =>
@@ -134,20 +129,15 @@ const UserForm = ({
                 </Button>
               </Box>
             </Stack>
-            {isCreateForm && (
-              <FormStatusMessage
-                formSubmitStatus={formSubmitStatus}
-                errorMessage={errorMessage}
-                message={t('formValidation.formSubmitMessageSuccess')}
-              />
-            )}
-            {isEditForm && (
-              <FormStatusMessage
-                formSubmitStatus={formSubmitStatus}
-                errorMessage={errorMessage}
-                message={t('formValidation.formEditMessageSuccess')}
-              />
-            )}
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              errorMessage={errorMessage}
+              message={
+                isCreateForm
+                  ? t('formValidation.formSubmitMessageSuccess')
+                  : t('formValidation.formEditMessageSuccess')
+              }
+            />
           </Stack>
         </Form>
       )}

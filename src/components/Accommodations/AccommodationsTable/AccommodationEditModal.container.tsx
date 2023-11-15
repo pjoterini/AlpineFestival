@@ -1,17 +1,19 @@
 import AccommodationForm from '@/components/Accommodations/AccommodationForm/AccommodationForm.component';
-import { IAccommodation } from '@/redux/accomodations/interfaces';
-import { Status } from '@/redux/enums/status';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+import FormModalContainer from '@/components/common/FormModalContainer';
 import {
   deleteAccommodationAction,
   updateAccommodation,
 } from '@/redux/accomodations/actions';
-import { AccommodationFormProps } from '@/redux/accomodations/interfaces';
-import { useAppDispatch } from '@/redux/store';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { t } from 'i18next';
+import {
+  AccommodationFormProps,
+  IAccommodation,
+} from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
+import { Status } from '@/redux/enums/status';
+import { useAppDispatch } from '@/redux/store';
+import Modal from '@mui/material/Modal';
+import { t } from 'i18next';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 interface IProps {
   currentRow: IAccommodation | null;
@@ -57,19 +59,7 @@ const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box
-        position="absolute"
-        sx={{
-          transform: 'translate(-50%, -50%)',
-        }}
-        top="50%"
-        left="50%"
-        p={3}
-        width="320px"
-        borderRadius={2}
-        boxShadow="10"
-        bgcolor="background.paper"
-      >
+      <FormModalContainer>
         <AccommodationForm
           formType={FormType.EDIT}
           formSubmitStatus={formSubmitStatus}
@@ -77,7 +67,7 @@ const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
           deleteAccommodation={deleteAccommodation}
           currentRow={currentRow}
         />
-      </Box>
+      </FormModalContainer>
     </Modal>
   );
 };
