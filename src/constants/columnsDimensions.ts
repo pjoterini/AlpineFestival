@@ -1,0 +1,17 @@
+export const firstNameCol = 120;
+export const lastNameCol = 150;
+export const emailCol = 200;
+export const telCol = 130;
+export const isAdminCol = 60;
+export const checkInCol = 80;
+export const arrivalCol = 120;
+export const departureCol = 120;
+export const typeCol = 80;
+export const organizerCol = 150;
+export const accommodationCommentCol = 150;
+export const accommodationCol = 200;
+export const addressCol = 200;
+export const presentsCol = 90;
+export const ownsPcCol = 130;
+export const speechLengthCol = 110;
+export const specialNeedsCol = 160;

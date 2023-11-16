@@ -1,5 +1,13 @@
+import {
+  emailCol,
+  firstNameCol,
+  isAdminCol,
+  lastNameCol,
+  telCol,
+} from '@/constants/columnsDimensions';
 import { useIsAdmin } from '@/firebase/auth/useIsAdmin';
 import { IUser } from '@/redux/users/interfaces';
+import { Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import i18next from 'i18next';
 import { useState } from 'react';
@@ -17,47 +25,43 @@ const UsersTable = ({ users }: IProps) => {
     {
       field: 'firstName',
       headerName: i18next.t<string>('common.firstName'),
-      width: 100,
-      editable: isAdmin,
+      width: firstNameCol,
     },
     {
       field: 'lastName',
       headerName: i18next.t<string>('common.lastName'),
-      width: 100,
-      editable: isAdmin,
+      width: lastNameCol,
     },
     {
       field: 'email',
       headerName: i18next.t<string>('common.email'),
-      width: 180,
+      width: emailCol,
     },
     {
       field: 'tel',
       headerName: i18next.t<string>('common.tel'),
-      width: 120,
-      editable: isAdmin,
+      width: telCol,
     },
     {
       field: 'isAdmin',
       headerName: i18next.t<string>('common.admin'),
-      width: 100,
+      width: isAdminCol,
       type: 'boolean',
-      editable: isAdmin,
     },
   ];
 
   return (
-    <>
+    <Box maxWidth="690px">
       <DataGrid
         rows={users}
         columns={columns}
         getRowId={(row) => row.id}
         onRowClick={(row) => {
-          setCurrentRow(row.row);
+          isAdmin && setCurrentRow(row.row);
         }}
       />
       <UserEditModal currentRow={currentRow} setCurrentRow={setCurrentRow} />
-    </>
+    </Box>
   );
 };
 

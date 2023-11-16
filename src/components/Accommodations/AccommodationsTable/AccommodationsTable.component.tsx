@@ -1,4 +1,8 @@
-import { useIsAdmin } from '@/firebase/auth/useIsAdmin';
+import {
+  accommodationCol,
+  addressCol,
+  telCol,
+} from '@/constants/columnsDimensions';
 import { IAccommodation } from '@/redux/accomodations/interfaces';
 import { Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -11,46 +15,41 @@ interface IProps {
 }
 
 const AccommodationsTable = ({ accommodations }: IProps) => {
-  const { isAdmin } = useIsAdmin();
   const [currentRow, setCurrentRow] = useState<IAccommodation | null>(null);
 
   const columns: GridColDef[] = [
     {
       field: 'name',
       headerName: i18next.t<string>('common.accommodation'),
-      width: 200,
-      editable: isAdmin,
+      width: accommodationCol,
     },
     {
       field: 'address',
-      headerName: i18next.t<string>('common.email'),
-      width: 180,
+      headerName: i18next.t<string>('common.address'),
+      width: addressCol,
     },
     {
       field: 'tel',
       headerName: i18next.t<string>('common.tel'),
-      width: 120,
-      editable: isAdmin,
+      width: telCol,
     },
   ];
 
   return (
-    <>
-      <Box mx="auto" maxWidth="576px">
-        <DataGrid
-          rows={accommodations}
-          columns={columns}
-          getRowId={(row) => row.id}
-          onRowClick={(row) => {
-            setCurrentRow(row.row);
-          }}
-        />
-      </Box>
+    <Box maxWidth="600px">
+      <DataGrid
+        rows={accommodations}
+        columns={columns}
+        getRowId={(row) => row.id}
+        onRowClick={(row) => {
+          setCurrentRow(row.row);
+        }}
+      />
       <AccommodationEditModal
         setCurrentRow={setCurrentRow}
         currentRow={currentRow}
       />
-    </>
+    </Box>
   );
 };
 

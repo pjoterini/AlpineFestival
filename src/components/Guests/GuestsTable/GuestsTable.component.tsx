@@ -1,4 +1,21 @@
 import { absenceOption } from '@/constants/absenceOption';
+import {
+  accommodationCol,
+  accommodationCommentCol,
+  arrivalCol,
+  checkInCol,
+  departureCol,
+  emailCol,
+  firstNameCol,
+  lastNameCol,
+  organizerCol,
+  ownsPcCol,
+  presentsCol,
+  specialNeedsCol,
+  speechLengthCol,
+  telCol,
+  typeCol,
+} from '@/constants/columnsDimensions';
 import { IGuest } from '@/redux/guests/interfaces';
 import { IUser } from '@/redux/users/interfaces';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -27,105 +44,93 @@ const GuestsTable = ({ guests, users }: IProps) => {
     {
       field: 'firstName',
       headerName: i18next.t<string>('common.firstName'),
-      width: 100,
-      editable: true,
+      width: firstNameCol,
     },
     {
       field: 'lastName',
       headerName: i18next.t<string>('common.lastName'),
-      width: 100,
-      editable: true,
+      width: lastNameCol,
     },
     {
       field: 'email',
       headerName: i18next.t<string>('common.email'),
-      width: 130,
-      editable: true,
+      width: emailCol,
     },
     {
       field: 'tel',
       headerName: i18next.t<string>('common.tel'),
-      width: 110,
+      width: telCol,
       valueGetter: ({ row }) => formatPolishTelNumber(row.tel),
-      editable: true,
     },
     {
       field: 'checkIn',
       headerName: i18next.t<string>('guest.checkIn'),
-      width: 67,
+      width: checkInCol,
       type: 'boolean',
-      editable: true,
     },
     {
       field: 'arrival',
       headerName: i18next.t<string>('guestForm.arrivalDate'),
+      width: arrivalCol,
       valueGetter: ({ row }) => `${dayjs(row.arrival).format('DD/MM/YYYY')}`,
-      editable: true,
     },
     {
       field: 'departure',
       headerName: i18next.t<string>('guestForm.departureDate'),
+      width: departureCol,
       valueGetter: ({ row }) => `${dayjs(row.departure).format('DD/MM/YYYY')}`,
-      editable: true,
     },
     {
       field: 'type',
       headerName: i18next.t<string>('common.type'),
-      width: 50,
-      editable: true,
+      width: typeCol,
     },
     {
       field: 'organizer',
       headerName: i18next.t<string>('common.guardian'),
-      width: 100,
+      width: organizerCol,
       valueGetter: ({ row }) =>
         row.organizer
           ? `${row.organizer.firstName} ${row.organizer.lastName}`
           : absenceOption,
       type: 'singleSelect',
       valueOptions: [absenceOption, ...organizersNames],
-      editable: true,
     },
     {
       field: 'accomodationComment',
       headerName: i18next.t<string>('guest.accommodationNote'),
-      width: 100,
-      editable: true,
+      width: accommodationCommentCol,
     },
     {
       field: 'accomodation',
       headerName: i18next.t<string>('guest.accommodation'),
-      width: 50,
-      editable: true,
+      width: accommodationCol,
     },
     {
       field: 'presents',
       headerName: i18next.t<string>('guest.presents'),
-      width: 50,
+      width: presentsCol,
       type: 'boolean',
-      editable: true,
     },
     {
       field: 'ownsPc',
       headerName: i18next.t<string>('guest.ownComputer'),
-      width: 50,
+      width: ownsPcCol,
       type: 'boolean',
-      editable: true,
     },
     {
       field: 'speechLength',
       headerName: i18next.t<string>('guest.speechLength'),
-      width: 60,
+      width: speechLengthCol,
       type: 'singleSelect',
       valueGetter: ({ row }) =>
         row.speechLength ? row.speechLength : absenceOption,
       valueOptions: [absenceOption, ...speechLengthOptionsArray],
-      editable: true,
     },
     {
       field: 'specialNeeds',
       headerName: i18next.t<string>('guest.specialRequirements'),
-      editable: true,
+      width: specialNeedsCol,
     },
   ];
 

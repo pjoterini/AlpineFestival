@@ -1,15 +1,19 @@
+import { useIsAdmin } from '@/firebase/auth/useIsAdmin';
 import { Button, Dialog } from '@mui/material';
 import { t } from 'i18next';
 import { useState } from 'react';
 import UserFormContainer from './UserForm.container';
 
 const UserFormModal = () => {
+  const { isAdmin } = useIsAdmin();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          isAdmin && setIsOpen(true);
+        }}
         variant="contained"
         type="submit"
         size="large"
