@@ -23,7 +23,6 @@ import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useState } from 'react';
 import { speechLengthOptions } from '../GuestForm/speechLengthOptions';
-import { formatPolishTelNumber } from './formatPolishTelNumber';
 import GuestEditModal from './GuestEditModal.container';
 
 interface IProps {
@@ -60,7 +59,6 @@ const GuestsTable = ({ guests, users }: IProps) => {
       field: 'tel',
       headerName: i18next.t<string>('common.tel'),
       width: telCol,
-      valueGetter: ({ row }) => formatPolishTelNumber(row.tel),
     },
     {
       field: 'checkIn',

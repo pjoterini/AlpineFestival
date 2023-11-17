@@ -15,8 +15,7 @@ export const guestFormSchema = Yup.object({
     .required(`${t('formValidation.emailRequired')}`),
   tel: Yup.string()
     .required(`${t('formValidation.telRequired')}`)
-    .min(8, `${t('formValidation.telTooShort')}`)
-    .max(13, `${t('formValidation.telTooLong')}`),
+    .min(8, `${t('formValidation.telTooShort')}`),
   type: Yup.string(),
   organizer: Yup.string(),
   accommodation: Yup.string(),

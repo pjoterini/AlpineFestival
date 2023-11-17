@@ -1,7 +1,7 @@
 export const firstNameCol = 120;
 export const lastNameCol = 150;
 export const emailCol = 200;
-export const telCol = 130;
+export const telCol = 165;
 export const isAdminCol = 60;
 export const checkInCol = 80;
 export const arrivalCol = 120;

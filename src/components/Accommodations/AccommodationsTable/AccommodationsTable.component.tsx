@@ -41,9 +41,7 @@ const AccommodationsTable = ({ accommodations }: IProps) => {
         rows={accommodations}
         columns={columns}
         getRowId={(row) => row.id}
-        onRowClick={(row) => {
-          setCurrentRow(row.row);
-        }}
+        onRowClick={(row) => setCurrentRow(row.row)}
       />
       <AccommodationEditModal
         setCurrentRow={setCurrentRow}

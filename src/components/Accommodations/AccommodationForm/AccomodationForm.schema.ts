@@ -12,6 +12,5 @@ export const accomodationFormSchema = Yup.object({
     .required(`${t('formValidation.addressRequired')}`),
   tel: Yup.string()
     .required(`${t('formValidation.telRequired')}`)
-    .min(9, `${t('formValidation.telLength')}`)
-    .max(9, `${t('formValidation.telLength')}`),
+    .min(8, `${t('formValidation.telLength')}`),
 });

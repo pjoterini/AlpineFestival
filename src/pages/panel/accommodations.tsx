@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Accommodations = () => {
   const [user, loading] = useAuthState(auth);
+
   return (
     <>
       <Head>

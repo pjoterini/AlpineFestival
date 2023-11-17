@@ -4,9 +4,8 @@ import { auth } from '@/firebase/config';
 import { t } from 'i18next';
 import Head from 'next/head';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { NextPageWithLayout } from '../_app';
 
-const GuestsTable: NextPageWithLayout = () => {
+const GuestsTable = () => {
   const [user, loading] = useAuthState(auth);
 
   return (

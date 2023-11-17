@@ -1,19 +1,19 @@
 import FormButtonsContainer from '@/components/common/FormButtonsContainer';
 import FormContainer from '@/components/common/FormContainer';
+import { GMPhoneInput } from '@/components/common/GMPhoneInput';
+import { FormType } from '@/redux/enums/formType';
+import { Status } from '@/redux/enums/status';
 import {
   AccommodationFormProps,
   IAccommodation,
   ResetAccommodationForm,
 } from '@/redux/accomodations/interfaces';
-import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
 import { Button, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { DefaultTFuncReturn, t } from 'i18next';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMInput from '../../common/GMInput';
 import { accomodationFormSchema } from './AccomodationForm.schema';
-
 interface IProps {
   formType: FormType;
   formSubmitStatus: Status;
@@ -51,14 +51,11 @@ const AccommodationForm = ({
       }}
       validationSchema={accomodationFormSchema}
       onSubmit={(values, { resetForm }) => {
-        if (isCreateForm) {
-          createAccommodation?.(values, resetForm);
-        } else if (isEditForm) {
-          editAccommodation?.(values, currentRow?.id);
-        }
+        isCreateForm && createAccommodation?.(values, resetForm);
+        isEditForm && editAccommodation?.(values, currentRow?.id);
       }}
     >
-      {({ touched, errors }) => (
+      {({ touched, setFieldValue, errors }) => (
         <Form>
           <FormContainer>
             <Typography variant="h5" component="h1" mb={1}>
@@ -79,13 +76,11 @@ const AccommodationForm = ({
               error={errors.address}
               touched={touched.address}
             />
-            <Field
-              name="tel"
-              type="tel"
-              label={t('common.tel')}
-              component={GMInput}
-              error={errors.tel}
-              touched={touched.tel}
+            <GMPhoneInput
+              currentRow={currentRow}
+              setFieldValue={setFieldValue}
+              errors={errors}
+              touched={touched}
             />
             <FormButtonsContainer>
               {isEditForm && (

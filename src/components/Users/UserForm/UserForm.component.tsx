@@ -1,5 +1,6 @@
 import FormButtonsContainer from '@/components/common/FormButtonsContainer';
 import FormContainer from '@/components/common/FormContainer';
+import { GMPhoneInput } from '@/components/common/GMPhoneInput';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { IUser, ResetUserForm, UserFormProps } from '@/redux/users/interfaces';
@@ -46,14 +47,11 @@ const UserForm = ({
       }}
       validationSchema={userRegistrationSchema}
       onSubmit={(values, { resetForm }) => {
-        if (isCreateForm) {
-          createUser?.(values, resetForm);
-        } else if (isEditForm) {
-          editUser?.(values, currentRow?.id);
-        }
+        isCreateForm && createUser?.(values, resetForm);
+        isEditForm && editUser?.(values, currentRow?.id);
       }}
     >
-      {({ touched, errors }) => (
+      {({ touched, setFieldValue, errors }) => (
         <Form>
           <FormContainer>
             <Typography variant="h5" component="h1" mb={1}>
@@ -90,13 +88,11 @@ const UserForm = ({
               error={errors.password}
               touched={touched.password}
             />
-            <Field
-              name="tel"
-              type="tel"
-              label={t('common.tel')}
-              component={GMInput}
-              error={errors.tel}
-              touched={touched.tel}
+            <GMPhoneInput
+              currentRow={currentRow}
+              setFieldValue={setFieldValue}
+              errors={errors}
+              touched={touched}
             />
             <Stack display="flex">
               <Field

@@ -48,11 +48,11 @@ const GuestEditModal = ({ currentRow, setCurrentRow }: IProps) => {
 
   return (
     <Dialog
+      open={!!currentRow}
       onClose={() => {
         setFormSubmitStatus(Status.IDLE);
         setCurrentRow(null);
       }}
-      open={!!currentRow}
     >
       <GuestForm
         formType={FormType.EDIT}

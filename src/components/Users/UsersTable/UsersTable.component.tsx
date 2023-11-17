@@ -51,7 +51,7 @@ const UsersTable = ({ users }: IProps) => {
   ];
 
   return (
-    <Box maxWidth="690px">
+    <Box maxWidth="710px">
       <DataGrid
         rows={users}
         columns={columns}

@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import { fetchGuests } from '@/redux/guests/actions';
 import { selectGuests } from '@/redux/guests/selectors';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useEffect } from 'react';
-import GuestsTable from './GuestsTable.component';
 import { selectUsers } from '@/redux/users/selectors';
 import { fetchUsers } from '@/redux/users/actions';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import GuestsTable from './GuestsTable.component';
 
 const GuestsTableContainer = () => {
   const guests = useAppSelector(selectGuests);

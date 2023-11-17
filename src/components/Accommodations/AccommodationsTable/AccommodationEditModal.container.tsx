@@ -1,4 +1,5 @@
-import AccommodationForm from '@/components/Accommodations/AccommodationForm/AccommodationForm.component';
+import { FormType } from '@/redux/enums/formType';
+import { Status } from '@/redux/enums/status';
 import {
   deleteAccommodationAction,
   updateAccommodation,
@@ -7,12 +8,11 @@ import {
   AccommodationFormProps,
   IAccommodation,
 } from '@/redux/accomodations/interfaces';
-import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
 import { useAppDispatch } from '@/redux/store';
 import { Dialog } from '@mui/material';
 import { DefaultTFuncReturn, t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
+import AccommodationForm from '../AccommodationForm/AccommodationForm.component';
 
 interface IProps {
   currentRow: IAccommodation | null;
@@ -62,10 +62,10 @@ const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
     >
       <AccommodationForm
         formType={FormType.EDIT}
+        formSubmitStatus={formSubmitStatus}
         editAccommodation={editAccommodation}
         deleteAccommodation={deleteAccommodation}
         currentRow={currentRow}
-        formSubmitStatus={formSubmitStatus}
         errorMessage={errorMessage}
       />
     </Dialog>

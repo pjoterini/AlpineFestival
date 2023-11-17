@@ -1,5 +1,6 @@
 import FormButtonsContainer from '@/components/common/FormButtonsContainer';
 import FormContainer from '@/components/common/FormContainer';
+import { GMPhoneInput } from '@/components/common/GMPhoneInput';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import {
@@ -8,20 +9,16 @@ import {
   IGuest,
   ResetGuestRegisterForm,
 } from '@/redux/guests/interfaces';
-import { Box, Button, MenuItem, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Box, Button, MenuItem, Stack, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
 import { DefaultTFuncReturn, t } from 'i18next';
-import 'react-phone-input-2/lib/style.css';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMDatePicker from '../../common/GMDatePicker';
 import GMInput from '../../common/GMInput';
-import { InputError } from '../../common/InputError';
 import { arrivalDate, departureDate } from './arrivalAndDepartureDates';
 import { guestFormSchema } from './guestForm.schema';
 import { speechLengthOptions } from './speechLengthOptions';
-import StyledPhoneInput from './StyledPhoneInput';
 
 interface IProps {
   formType: FormType;
@@ -110,23 +107,12 @@ const GuestForm = ({
               error={errors.email}
               touched={touched.email}
             />
-            <Box mt={2}>
-              <StyledPhoneInput
-                inputProps={{
-                  name: 'tel',
-                }}
-                onChange={(tel: string) => {
-                  setFieldValue('tel', tel);
-                }}
-                country={'pl'}
-                containerClass={`react-phone-number ${
-                  errors.tel ? 'error' : ''
-                }`}
-              />
-              <Box mt={1}>
-                {errors.tel && touched.tel && <InputError error={errors.tel} />}
-              </Box>
-            </Box>
+            <GMPhoneInput
+              currentRow={currentRow}
+              setFieldValue={setFieldValue}
+              errors={errors}
+              touched={touched}
+            />
             {isEditForm && (
               <>
                 <Field
@@ -195,7 +181,6 @@ const GuestForm = ({
               error={errors.accomodationComment}
               touched={touched.accomodationComment}
             />
-
             <Field
               component={CheckboxWithLabel}
               type="checkbox"
