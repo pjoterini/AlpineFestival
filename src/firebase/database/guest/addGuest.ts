@@ -1,3 +1,4 @@
+import { guestTypeOptions } from '@/components/Guests/GuestForm/selectInputsValues/guestTypeOptions';
 import { db } from '@/firebase/config';
 import { GuestRegisterFormProps } from '@/redux/guests/interfaces';
 import { push, ref, set } from 'firebase/database';
@@ -12,7 +13,7 @@ export const addGuest = async (guest: GuestRegisterFormProps) => {
     const guestWithAllProps = {
       id: createdId,
       checkIn: false,
-      type: '',
+      type: guestTypeOptions.Zwyczajny,
       organizer: '',
       accomodation: '',
       ...guest,

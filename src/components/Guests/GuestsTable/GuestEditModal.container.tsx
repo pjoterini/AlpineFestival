@@ -1,8 +1,10 @@
+import { IAccommodation } from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { deleteGuestAction, editGuestAction } from '@/redux/guests/actions';
 import { GuestEditFormProps, IGuest } from '@/redux/guests/interfaces';
 import { useAppDispatch } from '@/redux/store';
+import { IUser } from '@/redux/users/interfaces';
 import { Dialog } from '@mui/material';
 import { DefaultTFuncReturn, t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -11,9 +13,16 @@ import GuestForm from '../GuestForm/GuestForm.component';
 interface IProps {
   currentRow: IGuest | null;
   setCurrentRow: Dispatch<SetStateAction<IGuest | null>>;
+  users: IUser[];
+  accommodations: IAccommodation[];
 }
 
-const GuestEditModal = ({ currentRow, setCurrentRow }: IProps) => {
+const GuestEditModal = ({
+  currentRow,
+  setCurrentRow,
+  users,
+  accommodations,
+}: IProps) => {
   const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
   const [errorMessage, setErrorMessage] = useState<string | DefaultTFuncReturn>(
     ''
@@ -61,6 +70,8 @@ const GuestEditModal = ({ currentRow, setCurrentRow }: IProps) => {
         deleteGuest={deleteGuest}
         currentRow={currentRow}
         errorMessage={errorMessage}
+        users={users}
+        accommodations={accommodations}
       />
     </Dialog>
   );

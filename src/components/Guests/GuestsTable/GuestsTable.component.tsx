@@ -1,4 +1,3 @@
-import { absenceOption } from '@/constants/absenceOption';
 import {
   accommodationCol,
   accommodationCommentCol,
@@ -16,28 +15,23 @@ import {
   telCol,
   typeCol,
 } from '@/constants/columnsDimensions';
+import { IAccommodation } from '@/redux/accomodations/interfaces';
 import { IGuest } from '@/redux/guests/interfaces';
 import { IUser } from '@/redux/users/interfaces';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useState } from 'react';
-import { speechLengthOptions } from '../GuestForm/speechLengthOptions';
 import GuestEditModal from './GuestEditModal.container';
 
 interface IProps {
   guests: IGuest[];
   users: IUser[];
+  accommodations: IAccommodation[];
 }
 
-const GuestsTable = ({ guests, users }: IProps) => {
+const GuestsTable = ({ guests, users, accommodations }: IProps) => {
   const [currentRow, setCurrentRow] = useState<IGuest | null>(null);
-
-  const organizersNames = users.map(
-    (user) => `${user.firstName} ${user.lastName}`
-  );
-
-  const speechLengthOptionsArray = Object.keys(speechLengthOptions);
 
   const columns: GridColDef[] = [
     {
@@ -61,12 +55,6 @@ const GuestsTable = ({ guests, users }: IProps) => {
       width: telCol,
     },
     {
-      field: 'checkIn',
-      headerName: i18next.t<string>('guest.checkIn'),
-      width: checkInCol,
-      type: 'boolean',
-    },
-    {
       field: 'arrival',
       headerName: i18next.t<string>('guestForm.arrivalDate'),
       width: arrivalCol,
@@ -79,6 +67,12 @@ const GuestsTable = ({ guests, users }: IProps) => {
       valueGetter: ({ row }) => `${dayjs(row.departure).format('DD/MM/YYYY')}`,
     },
     {
+      field: 'checkIn',
+      headerName: i18next.t<string>('guest.checkIn'),
+      width: checkInCol,
+      type: 'boolean',
+    },
+    {
       field: 'type',
       headerName: i18next.t<string>('common.type'),
       width: typeCol,
@@ -87,22 +81,35 @@ const GuestsTable = ({ guests, users }: IProps) => {
       field: 'organizer',
       headerName: i18next.t<string>('common.guardian'),
       width: organizerCol,
-      valueGetter: ({ row }) =>
-        row.organizer
-          ? `${row.organizer.firstName} ${row.organizer.lastName}`
-          : absenceOption,
-      type: 'singleSelect',
-      valueOptions: [absenceOption, ...organizersNames],
-    },
-    {
-      field: 'accomodationComment',
-      headerName: i18next.t<string>('guest.accommodationNote'),
-      width: accommodationCommentCol,
+      valueGetter: ({ row }) => {
+        const user = users.find((user) => user.id === row.organizer);
+        if (!user) {
+          return '';
+        }
+        const userName = `${user?.firstName} ${user?.lastName}`;
+
+        return userName;
+      },
     },
     {
       field: 'accomodation',
       headerName: i18next.t<string>('guest.accommodation'),
       width: accommodationCol,
+      valueGetter: ({ row }) => {
+        const accommodation = accommodations.find(
+          (accommodation) => accommodation.id === row.accommodation
+        );
+        if (!accommodation) {
+          return '';
+        }
+
+        return accommodation.name;
+      },
+    },
+    {
+      field: 'accomodationComment',
+      headerName: i18next.t<string>('guest.accommodationNote'),
+      width: accommodationCommentCol,
     },
     {
       field: 'presents',
@@ -120,10 +127,6 @@ const GuestsTable = ({ guests, users }: IProps) => {
       field: 'speechLength',
       headerName: i18next.t<string>('guest.speechLength'),
       width: speechLengthCol,
-      type: 'singleSelect',
-      valueGetter: ({ row }) =>
-        row.speechLength ? row.speechLength : absenceOption,
-      valueOptions: [absenceOption, ...speechLengthOptionsArray],
     },
     {
       field: 'specialNeeds',
@@ -140,7 +143,12 @@ const GuestsTable = ({ guests, users }: IProps) => {
         getRowId={(row) => row.id}
         onRowClick={(row) => setCurrentRow(row.row)}
       />
-      <GuestEditModal currentRow={currentRow} setCurrentRow={setCurrentRow} />
+      <GuestEditModal
+        currentRow={currentRow}
+        setCurrentRow={setCurrentRow}
+        users={users}
+        accommodations={accommodations}
+      />
     </>
   );
 };

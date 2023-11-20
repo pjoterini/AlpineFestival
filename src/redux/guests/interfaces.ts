@@ -1,4 +1,5 @@
 import { FormikState } from 'formik';
+import { IAccommodation } from '../accomodations/interfaces';
 import { IUser } from '../users/interfaces';
 
 export enum SpeechLength {
@@ -10,23 +11,39 @@ export enum SpeechLength {
   min75_90 = '75-90',
 }
 
+export enum GuestType {
+  NORMAL = 'Zwyczajny',
+  VIP = 'VIP',
+}
+
 export interface IGuest {
   id: string;
   firstName: string;
   lastName: string;
   checkIn: boolean;
-  type: string;
-  organizer: IUser | '';
+  type: GuestType;
+  organizer: IUser | null;
   email: string;
   tel: string;
   arrival: string;
   departure: string;
-  accommodation: string;
+  accommodation: IAccommodation | null;
   accomodationComment?: string;
   presents: boolean;
   ownsPc?: boolean;
   speechLength: SpeechLength | null;
   specialNeeds?: string;
+}
+
+export interface GuestInitialValues
+  extends Omit<
+    IGuest,
+    'id' | 'checkIn' | 'type' | 'organizer' | 'accommodation'
+  > {
+  checkIn?: boolean;
+  type?: GuestType;
+  organizer?: IUser | null;
+  accommodation?: IAccommodation | null;
 }
 
 export type GuestRegisterFormProps = Omit<

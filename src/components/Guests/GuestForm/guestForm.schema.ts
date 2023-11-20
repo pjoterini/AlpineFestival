@@ -16,9 +16,6 @@ export const guestFormSchema = Yup.object({
   tel: Yup.string()
     .required(`${t('formValidation.telRequired')}`)
     .min(8, `${t('formValidation.telTooShort')}`),
-  type: Yup.string(),
-  organizer: Yup.string(),
-  accommodation: Yup.string(),
   arrival: Yup.string()
     .typeError(`${t('guestFormValidation.dateTypeError')}`)
     .required(`${t('guestFormValidation.arrivalRequired')}`),

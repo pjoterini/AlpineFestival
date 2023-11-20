@@ -1,14 +1,18 @@
 import FormButtonsContainer from '@/components/common/FormButtonsContainer';
 import FormContainer from '@/components/common/FormContainer';
 import { GMPhoneInput } from '@/components/common/GMPhoneInput';
+import { IAccommodation } from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import {
   GuestEditFormProps,
+  GuestInitialValues,
   GuestRegisterFormProps,
+  GuestType,
   IGuest,
   ResetGuestRegisterForm,
 } from '@/redux/guests/interfaces';
+import { IUser } from '@/redux/users/interfaces';
 import { Box, Button, MenuItem, Stack, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
@@ -16,9 +20,13 @@ import { DefaultTFuncReturn, t } from 'i18next';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMDatePicker from '../../common/GMDatePicker';
 import GMInput from '../../common/GMInput';
-import { arrivalDate, departureDate } from './arrivalAndDepartureDates';
 import { guestFormSchema } from './guestForm.schema';
-import { speechLengthOptions } from './speechLengthOptions';
+import {
+  arrivalDate,
+  departureDate,
+} from './selectInputsValues/arrivalAndDepartureDates';
+import { guestTypeOptions } from './selectInputsValues/guestTypeOptions';
+import { speechLengthOptions } from './selectInputsValues/speechLengthOptions';
 
 interface IProps {
   formType: FormType;
@@ -31,6 +39,8 @@ interface IProps {
   deleteGuest?: (userId: string) => void;
   currentRow?: IGuest | null;
   errorMessage: string | DefaultTFuncReturn;
+  users?: IUser[];
+  accommodations?: IAccommodation[];
 }
 
 const GuestForm = ({
@@ -41,18 +51,20 @@ const GuestForm = ({
   deleteGuest,
   currentRow,
   errorMessage,
+  users,
+  accommodations,
 }: IProps) => {
   const isCreateForm = formType === FormType.CREATE;
   const isEditForm = formType === FormType.EDIT;
 
-  let initialValues: GuestRegisterFormProps | GuestEditFormProps = {
+  let initialValues: GuestInitialValues = {
     firstName: currentRow?.firstName || '',
     lastName: currentRow?.lastName || '',
     email: currentRow?.email || '',
     tel: currentRow?.tel || '',
     arrival: currentRow?.arrival || arrivalDate,
     departure: currentRow?.departure || departureDate,
-    accomodationComment: currentRow?.firstName || '',
+    accomodationComment: currentRow?.accomodationComment || '',
     presents: currentRow?.presents || false,
     ownsPc: currentRow?.ownsPc || false,
     speechLength: currentRow?.speechLength || null,
@@ -63,9 +75,9 @@ const GuestForm = ({
     initialValues = {
       ...initialValues,
       checkIn: currentRow?.checkIn || false,
-      type: currentRow?.type || '',
-      organizer: currentRow?.organizer || '',
-      accommodation: currentRow?.accommodation || '',
+      type: currentRow?.type || GuestType.NORMAL,
+      organizer: currentRow?.organizer || null,
+      accommodation: currentRow?.accommodation || null,
     };
   }
 
@@ -113,37 +125,6 @@ const GuestForm = ({
               errors={errors}
               touched={touched}
             />
-            {isEditForm && (
-              <>
-                <Field
-                  component={CheckboxWithLabel}
-                  type="checkbox"
-                  name="checkIn"
-                  Label={{ label: t('guestForm.checkIn') }}
-                />
-                <Field
-                  name="type"
-                  label={t('common.type')}
-                  component={GMInput}
-                  // error={errors.type}
-                  // touched={touched.type}
-                />
-                <Field
-                  name="organizer"
-                  label={t('common.organizer')}
-                  component={GMInput}
-                  // error={errors.organizer}
-                  // touched={touched.organizer}
-                />
-                <Field
-                  name="accomodation"
-                  label={t('common.accommodation')}
-                  component={GMInput}
-                  // error={errors.accommodation}
-                  // touched={touched.accommodation}
-                />
-              </>
-            )}
             <Stack direction={{ xs: 'column', sm: 'row' }} pt={2}>
               {/* DateRangePicker is included on Pro package, thus we're using DatePickers */}
               <Box>
@@ -172,6 +153,64 @@ const GuestForm = ({
                 />
               </Box>
             </Stack>
+            {isEditForm && (
+              <>
+                <Field
+                  component={CheckboxWithLabel}
+                  type="checkbox"
+                  name="checkIn"
+                  Label={{ label: t('guestForm.checkIn') }}
+                />
+                <Field
+                  component={Select}
+                  name="type"
+                  label={t('common.type')}
+                  value={values.type || ''}
+                  formHelperText={{
+                    children: t('guestForm.typeHelperText'),
+                  }}
+                  MenuProps={{ disableScrollLock: true }}
+                >
+                  {Object.entries(guestTypeOptions).map(([key, name]) => (
+                    <MenuItem key={key} value={key}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Field>
+                <Field
+                  component={Select}
+                  name="organizer"
+                  label={t('common.organizer')}
+                  value={values.organizer || ''}
+                  formHelperText={{
+                    children: t('guestForm.organizerHelperText'),
+                  }}
+                  MenuProps={{ disableScrollLock: true }}
+                >
+                  {users?.map((user) => (
+                    <MenuItem key={user.id} value={user.id}>
+                      {user.firstName} {user.lastName}
+                    </MenuItem>
+                  ))}
+                </Field>
+                <Field
+                  component={Select}
+                  name="accommodation"
+                  label={t('common.accommodation')}
+                  value={values.accommodation || ''}
+                  formHelperText={{
+                    children: t('guestForm.accommodationHelperText'),
+                  }}
+                  MenuProps={{ disableScrollLock: true }}
+                >
+                  {accommodations?.map((accommodation) => (
+                    <MenuItem key={accommodation.id} value={accommodation.id}>
+                      {accommodation.name}
+                    </MenuItem>
+                  ))}
+                </Field>
+              </>
+            )}
             <Field
               component={GMInput}
               name="accomodationComment"
