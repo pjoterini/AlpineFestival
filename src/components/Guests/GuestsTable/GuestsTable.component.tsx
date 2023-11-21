@@ -86,7 +86,7 @@ const GuestsTable = ({ guests, users, accommodations }: IProps) => {
         if (!user) {
           return '';
         }
-        const userName = `${user?.firstName} ${user?.lastName}`;
+        const userName = `${user.firstName} ${user.lastName}`;
 
         return userName;
       },

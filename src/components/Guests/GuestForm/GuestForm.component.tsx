@@ -161,54 +161,60 @@ const GuestForm = ({
                   name="checkIn"
                   Label={{ label: t('guestForm.checkIn') }}
                 />
-                <Field
-                  component={Select}
-                  name="type"
-                  label={t('common.type')}
-                  value={values.type || ''}
-                  formHelperText={{
-                    children: t('guestForm.typeHelperText'),
-                  }}
-                  MenuProps={{ disableScrollLock: true }}
-                >
-                  {Object.entries(guestTypeOptions).map(([key, name]) => (
-                    <MenuItem key={key} value={key}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Field>
-                <Field
-                  component={Select}
-                  name="organizer"
-                  label={t('common.organizer')}
-                  value={values.organizer || ''}
-                  formHelperText={{
-                    children: t('guestForm.organizerHelperText'),
-                  }}
-                  MenuProps={{ disableScrollLock: true }}
-                >
-                  {users?.map((user) => (
-                    <MenuItem key={user.id} value={user.id}>
-                      {user.firstName} {user.lastName}
-                    </MenuItem>
-                  ))}
-                </Field>
-                <Field
-                  component={Select}
-                  name="accommodation"
-                  label={t('common.accommodation')}
-                  value={values.accommodation || ''}
-                  formHelperText={{
-                    children: t('guestForm.accommodationHelperText'),
-                  }}
-                  MenuProps={{ disableScrollLock: true }}
-                >
-                  {accommodations?.map((accommodation) => (
-                    <MenuItem key={accommodation.id} value={accommodation.id}>
-                      {accommodation.name}
-                    </MenuItem>
-                  ))}
-                </Field>
+                <Stack mt={2}>
+                  <Field
+                    component={Select}
+                    name="type"
+                    label={t('common.type')}
+                    value={values.type || ''}
+                    formHelperText={{
+                      children: t('guestForm.typeHelperText'),
+                    }}
+                    MenuProps={{ disableScrollLock: true }}
+                  >
+                    {Object.entries(guestTypeOptions).map(([key, name]) => (
+                      <MenuItem key={key} value={key}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Field>
+                </Stack>
+                <Stack mt={2}>
+                  <Field
+                    component={Select}
+                    name="organizer"
+                    label={t('common.organizer')}
+                    value={values.organizer || ''}
+                    formHelperText={{
+                      children: t('guestForm.organizerHelperText'),
+                    }}
+                    MenuProps={{ disableScrollLock: true }}
+                  >
+                    {users?.map((user) => (
+                      <MenuItem key={user.id} value={user.id}>
+                        {user.firstName} {user.lastName}
+                      </MenuItem>
+                    ))}
+                  </Field>
+                </Stack>
+                <Stack mt={2}>
+                  <Field
+                    component={Select}
+                    name="accommodation"
+                    label={t('common.accommodation')}
+                    value={values.accommodation || ''}
+                    formHelperText={{
+                      children: t('guestForm.accommodationHelperText'),
+                    }}
+                    MenuProps={{ disableScrollLock: true }}
+                  >
+                    {accommodations?.map((accommodation) => (
+                      <MenuItem key={accommodation.id} value={accommodation.id}>
+                        {accommodation.name}
+                      </MenuItem>
+                    ))}
+                  </Field>
+                </Stack>
               </>
             )}
             <Field

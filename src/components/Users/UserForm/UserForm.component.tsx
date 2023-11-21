@@ -5,7 +5,7 @@ import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import { IUser, ResetUserForm, UserFormProps } from '@/redux/users/interfaces';
 import { Button, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Box, Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel } from 'formik-mui';
 import { DefaultTFuncReturn, t } from 'i18next';
@@ -51,7 +51,7 @@ const UserForm = ({
         isEditForm && editUser?.(values, currentRow?.id);
       }}
     >
-      {({ touched, setFieldValue, errors }) => (
+      {({ touched, setFieldValue, errors, values }) => (
         <Form>
           <FormContainer>
             <Typography variant="h5" component="h1" mb={1}>
@@ -132,6 +132,7 @@ const UserForm = ({
               }
             />
           </FormContainer>
+          <Box width="800px">{JSON.stringify(values)}</Box>
         </Form>
       )}
     </Formik>
