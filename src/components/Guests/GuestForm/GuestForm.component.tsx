@@ -124,6 +124,7 @@ const GuestForm = ({
               setFieldValue={setFieldValue}
               errors={errors}
               touched={touched}
+              formatNumber={true}
             />
             <Stack direction={{ xs: 'column', sm: 'row' }} pt={2}>
               {/* DateRangePicker is included on Pro package, thus we're using DatePickers */}

@@ -63,6 +63,7 @@ export const translationsPL = {
     emailInvalid: 'Niepoprawny email',
     emailRequired: 'Podaj Email',
     passwordRequired: 'Podaj hasło',
+    passwordTooShort: 'Hasło musi się składać z ponad 5 znaków',
     formSubmitMessageError: 'Coś poszło nie tak.',
     formSubmitMessageSuccess: 'Twój formularz został wysłany',
     formEditMessageSuccess: 'Dane pomyślnie edytowane',

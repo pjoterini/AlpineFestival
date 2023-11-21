@@ -71,6 +71,7 @@ export const updateUser = https.onCall(async (request, context) => {
         displayName: `${request.firstName} ${request.lastName}`,
         email: request.email,
         phoneNumber: request.tel,
+        password: request.password,
       });
 
       await getAuth().setCustomUserClaims(updatedUser.uid, {

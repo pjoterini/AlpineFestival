@@ -19,7 +19,6 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
 export const editUserAction = createAsyncThunk(
   'users/updateUser',
   async (editedUser: IUser) => {
-    editedUser.tel = editedUser.tel.replace(/\s/g, '');
     try {
       const data = await setUser(editedUser);
       return data;

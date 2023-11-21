@@ -19,7 +19,6 @@ export const fetchGuests = createAsyncThunk('guests/fetchGuests', async () => {
 export const editGuestAction = createAsyncThunk(
   'guests/editGuest',
   async (editedGuest: IGuest) => {
-    editedGuest.tel = editedGuest.tel.replace(/\s/g, '');
     try {
       const data = await setGuest(editedGuest);
       return data;

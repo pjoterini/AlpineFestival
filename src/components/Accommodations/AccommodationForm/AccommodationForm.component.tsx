@@ -81,6 +81,7 @@ const AccommodationForm = ({
               setFieldValue={setFieldValue}
               errors={errors}
               touched={touched}
+              formatNumber={true}
             />
             <FormButtonsContainer>
               {isEditForm && (

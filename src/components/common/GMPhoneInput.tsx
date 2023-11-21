@@ -38,6 +38,7 @@ interface IProps {
     | AccommodationFormProps
     | UserFormProps
   >;
+  formatNumber: boolean;
 }
 
 const StyledPhoneInput = styled(PhoneInput)(({ theme }) => ({
@@ -74,6 +75,7 @@ export const GMPhoneInput = ({
   setFieldValue,
   errors,
   touched,
+  formatNumber,
 }: IProps) => {
   return (
     <Box mt={2}>
@@ -82,8 +84,9 @@ export const GMPhoneInput = ({
         inputProps={{
           name: 'tel',
         }}
-        onChange={(_0, _1, _2, formattedValue: string) => {
-          setFieldValue('tel', formattedValue);
+        onChange={(value, _1, _2, formattedValue: string) => {
+          formatNumber && setFieldValue('tel', formattedValue);
+          !formatNumber && setFieldValue('tel', `+${value}`);
         }}
         country={'pl'}
         containerClass={`react-phone-number ${errors.tel ? 'error' : ''}`}
