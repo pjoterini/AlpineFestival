@@ -275,6 +275,15 @@ const GuestForm = ({
                 />
               </>
             )}
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              errorMessage={errorMessage}
+              message={
+                isCreateForm
+                  ? t('formValidation.formSubmitMessageSuccess')
+                  : t('formValidation.formEditMessageSuccess')
+              }
+            />
             <FormButtonsContainer>
               {isEditForm && (
                 <Button
@@ -295,15 +304,6 @@ const GuestForm = ({
                 {isEditForm && t('common.save')}
               </Button>
             </FormButtonsContainer>
-            <FormStatusMessage
-              formSubmitStatus={formSubmitStatus}
-              errorMessage={errorMessage}
-              message={
-                isCreateForm
-                  ? t('formValidation.formSubmitMessageSuccess')
-                  : t('formValidation.formEditMessageSuccess')
-              }
-            />
           </FormContainer>
         </Form>
       )}

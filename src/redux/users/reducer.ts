@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Status } from '../enums/status';
-import { deleteUserAction, editUserAction, fetchUsers } from './actions';
+import {
+  createUserAction,
+  deleteUserAction,
+  editUserAction,
+  fetchUsers,
+} from './actions';
 import { IUser } from './interfaces';
 
 interface IProps {
@@ -32,6 +37,17 @@ export const usersSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, { payload }) => {
         state.status = Status.SUCCEEDED;
         state.users = payload;
+      })
+      .addCase(createUserAction.rejected, (state, action) => {
+        state.status = Status.FAILED;
+        state.error = action.error.message;
+      })
+      .addCase(createUserAction.fulfilled, (state, { payload }) => {
+        state.status = Status.SUCCEEDED;
+
+        if (payload?.createdUserWithId) {
+          state.users.push(payload.createdUserWithId);
+        }
       })
       .addCase(editUserAction.fulfilled, (state, { payload }) => {
         state.status = Status.SUCCEEDED;

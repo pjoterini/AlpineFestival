@@ -16,12 +16,12 @@ const FormStatusMessage = ({
   return (
     <>
       {formSubmitStatus === Status.SUCCEEDED && (
-        <Typography pt={2} variant="h5" mx="auto" color="success.main">
+        <Typography pt={4} pb={3} variant="h5" mx="auto" color="success.main">
           {message}
         </Typography>
       )}
       {formSubmitStatus === Status.FAILED && (
-        <Typography pt={2} variant="h5" mx="auto" color="error.main">
+        <Typography pt={4} pb={3} variant="h5" mx="auto" color="error.main">
           {errorMessage
             ? errorMessage
             : t('formValidation.formSubmitMessageError')}

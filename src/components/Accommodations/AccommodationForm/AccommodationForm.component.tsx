@@ -83,6 +83,15 @@ const AccommodationForm = ({
               touched={touched}
               formatNumber={true}
             />
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              errorMessage={errorMessage}
+              message={
+                isCreateForm
+                  ? t('formValidation.formSubmitMessageSuccess')
+                  : t('formValidation.formEditMessageSuccess')
+              }
+            />
             <FormButtonsContainer>
               {isEditForm && (
                 <Button
@@ -103,15 +112,6 @@ const AccommodationForm = ({
                 {isEditForm && t('common.save')}
               </Button>
             </FormButtonsContainer>
-            <FormStatusMessage
-              formSubmitStatus={formSubmitStatus}
-              errorMessage={errorMessage}
-              message={
-                isCreateForm
-                  ? t('formValidation.formSubmitMessageSuccess')
-                  : t('formValidation.formEditMessageSuccess')
-              }
-            />
           </FormContainer>
         </Form>
       )}

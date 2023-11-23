@@ -1,6 +1,7 @@
-import { createUserFirebase } from '@/firebase/database/user/createUser';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
+import { useAppDispatch } from '@/redux/store';
+import { createUserAction } from '@/redux/users/actions';
 import { ResetUserForm, UserFormProps } from '@/redux/users/interfaces';
 import { DefaultTFuncReturn, t } from 'i18next';
 import { useState } from 'react';
@@ -12,18 +13,21 @@ const UserFormContainer = () => {
     ''
   );
 
+  const dispatch = useAppDispatch();
+
   const createUser = async (
     values: UserFormProps,
     resetForm: ResetUserForm
   ) => {
-    const response = await createUserFirebase(values);
-    if (response?.data.errorInfo) {
+    const action = await dispatch(createUserAction(values));
+
+    if (action.payload.response.data?.errorInfo) {
       setFormSubmitStatus(Status.FAILED);
-      setErrorMessage(response.data.errorInfo.message);
-    } else if (!response) {
+      setErrorMessage(action.payload.response.data.errorInfo.message);
+    } else if (!action) {
       setFormSubmitStatus(Status.FAILED);
       setErrorMessage(t('formValidation.formSubmitMessageError'));
-    } else {
+    } else if (action.payload.response.createdUserWithId) {
       setFormSubmitStatus(Status.SUCCEEDED);
       resetForm();
     }

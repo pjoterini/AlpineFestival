@@ -102,6 +102,15 @@ const UserForm = ({
                 name="isAdmin"
                 Label={{ label: t('userForm.isAdmin') }}
               />
+              <FormStatusMessage
+                formSubmitStatus={formSubmitStatus}
+                errorMessage={errorMessage}
+                message={
+                  isCreateForm
+                    ? t('formValidation.formSubmitMessageSuccess')
+                    : t('formValidation.formEditMessageSuccess')
+                }
+              />
               <FormButtonsContainer>
                 {isEditForm && (
                   <Button
@@ -123,15 +132,6 @@ const UserForm = ({
                 </Button>
               </FormButtonsContainer>
             </Stack>
-            <FormStatusMessage
-              formSubmitStatus={formSubmitStatus}
-              errorMessage={errorMessage}
-              message={
-                isCreateForm
-                  ? t('formValidation.formSubmitMessageSuccess')
-                  : t('formValidation.formEditMessageSuccess')
-              }
-            />
           </FormContainer>
         </Form>
       )}
