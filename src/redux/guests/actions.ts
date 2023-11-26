@@ -1,8 +1,9 @@
 import { getGuests } from '@/firebase/database/guest/getGuests';
 import { setGuest } from '@/firebase/database/guest/setGuest';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IGuest } from './interfaces';
+import { GuestRegisterFormProps, IGuest } from './interfaces';
 import { deleteGuestFB } from '@/firebase/database/guest/deleteGuest';
+import { addGuest } from '@/firebase/database/guest/addGuest';
 
 export const fetchGuests = createAsyncThunk('guests/fetchGuests', async () => {
   try {
@@ -15,6 +16,19 @@ export const fetchGuests = createAsyncThunk('guests/fetchGuests', async () => {
   }
   return [];
 });
+
+export const createGuestAction = createAsyncThunk(
+  'guests/createGuest',
+  async (createdGuest: GuestRegisterFormProps) => {
+    try {
+      const data = await addGuest(createdGuest);
+      return data;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
+);
 
 export const editGuestAction = createAsyncThunk(
   'guests/editGuest',

@@ -1,30 +1,24 @@
-import { addGuest } from '@/firebase/database/guest/addGuest';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
+import { createGuestAction } from '@/redux/guests/actions';
 import {
   GuestRegisterFormProps,
   ResetGuestRegisterForm,
 } from '@/redux/guests/interfaces';
-import { DefaultTFuncReturn, t } from 'i18next';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import GuestForm from './GuestForm.component';
 
 const GuestFormContainer = () => {
-  const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
-  const [errorMessage, setErrorMessage] = useState<string | DefaultTFuncReturn>(
-    ''
-  );
+  const errorMessage = useAppSelector((state) => state.guests.error);
+  const formSubmitStatus = useAppSelector((state) => state.guests.status);
+  const dispatch = useAppDispatch();
 
   const CreateGuest = async (
     values: GuestRegisterFormProps,
     resetForm: ResetGuestRegisterForm
   ) => {
-    const result = await addGuest(values);
-    if (!result) {
-      setFormSubmitStatus(Status.FAILED);
-      setErrorMessage(t('formValidation.formSubmitMessageError'));
-    } else {
-      setFormSubmitStatus(Status.SUCCEEDED);
+    await dispatch(createGuestAction(values));
+    if (formSubmitStatus === Status.SUCCEEDED) {
       resetForm();
     }
   };

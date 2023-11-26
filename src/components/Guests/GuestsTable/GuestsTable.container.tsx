@@ -18,10 +18,8 @@ const GuestsTableContainer = () => {
   useEffect(() => {
     dispatch(fetchGuests());
     dispatch(fetchAccommodations());
-    if (users.length === 0) {
-      dispatch(fetchUsers());
-    }
-  }, [dispatch, users.length]);
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   return (
     <GuestsTable

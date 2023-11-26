@@ -1,13 +1,13 @@
 import { IAccommodation } from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
 import { deleteGuestAction, editGuestAction } from '@/redux/guests/actions';
-import { GuestEditFormProps, IGuest } from '@/redux/guests/interfaces';
-import { useAppDispatch } from '@/redux/store';
+import { IGuest } from '@/redux/guests/interfaces';
+import { closeGuestForm } from '@/redux/guests/reducer';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { IUser } from '@/redux/users/interfaces';
 import { Dialog } from '@mui/material';
-import { DefaultTFuncReturn, t } from 'i18next';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { t } from 'i18next';
+import { Dispatch, SetStateAction } from 'react';
 import GuestForm from '../GuestForm/GuestForm.component';
 
 interface IProps {
@@ -23,35 +23,17 @@ const GuestEditModal = ({
   users,
   accommodations,
 }: IProps) => {
-  const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
-  const [errorMessage, setErrorMessage] = useState<string | DefaultTFuncReturn>(
-    ''
-  );
+  const errorMessage = useAppSelector((state) => state.guests.error);
+  const formSubmitStatus = useAppSelector((state) => state.guests.status);
   const dispatch = useAppDispatch();
 
-  const editGuest = async (
-    values: GuestEditFormProps,
-    guestId: string | undefined
-  ) => {
-    const result =
-      guestId && (await dispatch(editGuestAction({ id: guestId, ...values })));
-    if (!result) {
-      setFormSubmitStatus(Status.FAILED);
-      setErrorMessage('something went wrong');
-    } else {
-      setFormSubmitStatus(Status.SUCCEEDED);
-    }
+  const editGuest = async (values: IGuest) => {
+    await dispatch(editGuestAction(values));
   };
 
   const deleteGuest = async (guestId: string) => {
     if (window.confirm(t<string>('validation.deleteGuest'))) {
-      const result = await dispatch(deleteGuestAction(guestId));
-      if (!result) {
-        setFormSubmitStatus(Status.FAILED);
-        setErrorMessage(t('formValidation.formSubmitMessageError'));
-      } else {
-        setFormSubmitStatus(Status.SUCCEEDED);
-      }
+      await dispatch(deleteGuestAction(guestId));
     }
   };
 
@@ -59,7 +41,7 @@ const GuestEditModal = ({
     <Dialog
       open={!!selectedGuest}
       onClose={() => {
-        setFormSubmitStatus(Status.IDLE);
+        dispatch(closeGuestForm());
         setSelectedGuest(null);
       }}
     >

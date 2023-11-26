@@ -16,9 +16,7 @@ const UserFormContainer = () => {
   ) => {
     await dispatch(createUserAction(values));
 
-    if (formSubmitStatus === Status.SUCCEEDED) {
-      resetForm();
-    }
+    if (formSubmitStatus === Status.SUCCEEDED) resetForm();
   };
 
   return (

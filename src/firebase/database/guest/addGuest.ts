@@ -1,6 +1,9 @@
-import { guestTypeOptions } from '@/components/Guests/GuestForm/selectInputsValues/guestTypeOptions';
 import { db } from '@/firebase/config';
-import { GuestRegisterFormProps } from '@/redux/guests/interfaces';
+import {
+  GuestRegisterFormProps,
+  GuestType,
+  IGuest,
+} from '@/redux/guests/interfaces';
 import { push, ref, set } from 'firebase/database';
 
 export const addGuest = async (guest: GuestRegisterFormProps) => {
@@ -10,17 +13,17 @@ export const addGuest = async (guest: GuestRegisterFormProps) => {
 
     const createdId = newReference.key;
 
-    const guestWithAllProps = {
-      id: createdId,
+    const guestWithAllProps: IGuest = {
+      id: createdId as string,
       checkIn: false,
-      type: guestTypeOptions.Zwyczajny,
+      type: GuestType.NORMAL,
       organizer: '',
-      accomodation: '',
+      accommodation: '',
       ...guest,
     };
     await set(newReference, guestWithAllProps);
 
-    return guest;
+    return guestWithAllProps;
   } catch (error) {
     console.error(error);
     return false;

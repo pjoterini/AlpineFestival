@@ -2,11 +2,7 @@ import {
   AccommodationFormProps,
   IAccommodation,
 } from '@/redux/accomodations/interfaces';
-import {
-  GuestEditFormProps,
-  GuestRegisterFormProps,
-  IGuest,
-} from '@/redux/guests/interfaces';
+import { GuestRegisterFormProps, IGuest } from '@/redux/guests/interfaces';
 import {
   IUser,
   UserEditFormProps,
@@ -26,21 +22,21 @@ interface IProps {
     shouldValidate?: boolean | undefined
   ) => Promise<void | FormikErrors<
     | GuestRegisterFormProps
-    | GuestEditFormProps
+    | IGuest
     | AccommodationFormProps
     | UserRegisterFormProps
     | UserEditFormProps
   >>;
   errors: FormikErrors<
     | GuestRegisterFormProps
-    | GuestEditFormProps
+    | IGuest
     | AccommodationFormProps
     | UserRegisterFormProps
     | UserEditFormProps
   >;
   touched: FormikTouched<
     | GuestRegisterFormProps
-    | GuestEditFormProps
+    | IGuest
     | AccommodationFormProps
     | UserRegisterFormProps
     | UserEditFormProps

@@ -98,8 +98,8 @@ export const usersSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(deleteUserAction.fulfilled, (state, { payload }) => {
-        state.status = Status.SUCCEEDED;
         if (payload) {
+          state.status = Status.SUCCEEDED;
           state.users = state.users.filter((user) => user.id !== payload);
         }
       });

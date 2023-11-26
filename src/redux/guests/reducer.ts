@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Status } from '../enums/status';
-import { deleteGuestAction, editGuestAction, fetchGuests } from './actions';
+import {
+  createGuestAction,
+  deleteGuestAction,
+  editGuestAction,
+  fetchGuests,
+} from './actions';
 import { IGuest } from './interfaces';
 
 interface IProps {
@@ -18,7 +23,12 @@ const initialState: IProps = {
 export const guestsSlice = createSlice({
   name: 'guests',
   initialState,
-  reducers: {},
+  reducers: {
+    closeGuestForm: (state) => {
+      state.status = Status.IDLE;
+      state.error = undefined;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchGuests.pending, (state) => {
@@ -30,12 +40,34 @@ export const guestsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(fetchGuests.fulfilled, (state, { payload }) => {
-        state.status = Status.SUCCEEDED;
+        state.status = Status.IDLE;
         state.guests = payload;
       })
-      .addCase(editGuestAction.fulfilled, (state, { payload }) => {
-        state.status = Status.SUCCEEDED;
+      .addCase(createGuestAction.pending, (state) => {
+        state.status = Status.LOADING;
+        state.error = undefined;
+      })
+      .addCase(createGuestAction.rejected, (state, action) => {
+        state.status = Status.FAILED;
+        state.error = action.error.message;
+      })
+      .addCase(createGuestAction.fulfilled, (state, { payload }) => {
         if (payload) {
+          state.status = Status.SUCCEEDED;
+          state.guests.push(payload);
+        }
+      })
+      .addCase(editGuestAction.pending, (state) => {
+        state.status = Status.LOADING;
+        state.error = undefined;
+      })
+      .addCase(editGuestAction.rejected, (state, action) => {
+        state.status = Status.FAILED;
+        state.error = action.error.message;
+      })
+      .addCase(editGuestAction.fulfilled, (state, { payload }) => {
+        if (payload) {
+          state.status = Status.SUCCEEDED;
           state.guests = state.guests.map((guest) => {
             if (guest.id === payload.id) {
               return payload;
@@ -44,14 +76,23 @@ export const guestsSlice = createSlice({
           });
         }
       })
+      .addCase(deleteGuestAction.pending, (state) => {
+        state.status = Status.LOADING;
+        state.error = undefined;
+      })
+      .addCase(deleteGuestAction.rejected, (state, action) => {
+        state.status = Status.FAILED;
+        state.error = action.error.message;
+      })
       .addCase(deleteGuestAction.fulfilled, (state, { payload }) => {
-        state.status = Status.SUCCEEDED;
-
         if (payload) {
+          state.status = Status.SUCCEEDED;
           state.guests = state.guests.filter((guest) => guest.id !== payload);
         }
       });
   },
 });
+
+export const { closeGuestForm } = guestsSlice.actions;
 
 export default guestsSlice.reducer;

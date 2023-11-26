@@ -5,7 +5,6 @@ import { IAccommodation } from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
 import {
-  GuestEditFormProps,
   GuestInitialValues,
   GuestRegisterFormProps,
   GuestType,
@@ -16,7 +15,7 @@ import { IUser } from '@/redux/users/interfaces';
 import { Box, Button, MenuItem, Stack, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
-import { DefaultTFuncReturn, t } from 'i18next';
+import { t } from 'i18next';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMDatePicker from '../../common/GMDatePicker';
 import GMInput from '../../common/GMInput';
@@ -35,10 +34,10 @@ interface IProps {
     values: GuestRegisterFormProps,
     resetForm: ResetGuestRegisterForm
   ) => void;
-  editGuest?: (values: GuestEditFormProps, guestId?: string) => void;
+  editGuest?: (values: IGuest) => void;
   deleteGuest?: (userId: string) => void;
   selectedGuest?: IGuest | null;
-  errorMessage: string | DefaultTFuncReturn;
+  errorMessage: string | undefined;
   users?: IUser[];
   accommodations?: IAccommodation[];
 }
@@ -74,6 +73,7 @@ const GuestForm = ({
   if (isEditForm) {
     initialValues = {
       ...initialValues,
+      id: selectedGuest?.id || '',
       checkIn: selectedGuest?.checkIn || false,
       type: selectedGuest?.type || GuestType.NORMAL,
       organizer: selectedGuest?.organizer || null,
@@ -87,8 +87,7 @@ const GuestForm = ({
       validationSchema={guestFormSchema}
       onSubmit={(values, { resetForm }) => {
         isCreateForm && createGuest?.(values, resetForm);
-        isEditForm &&
-          editGuest?.(values as GuestEditFormProps, selectedGuest?.id);
+        isEditForm && editGuest?.(values as IGuest);
       }}
     >
       {({ values, touched, setFieldValue, errors }) => (
