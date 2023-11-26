@@ -1,9 +1,9 @@
 import { createUserFirebase } from '@/firebase/database/user/createUser';
-import { deleteUserFB } from '@/firebase/database/user/deleteUser';
+import { deleteUserFirebase } from '@/firebase/database/user/deleteUser';
 import { getUsers } from '@/firebase/database/user/getUsers';
-import { setUser } from '@/firebase/database/user/setUser';
+import { setUserFirebase } from '@/firebase/database/user/setUser';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IUser, UserFormProps } from './interfaces';
+import { IUser, UserEditFormProps, UserRegisterFormProps } from './interfaces';
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   try {
@@ -19,7 +19,7 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
 
 export const createUserAction = createAsyncThunk(
   'users/createUser',
-  async (createdUser: UserFormProps) => {
+  async (createdUser: UserRegisterFormProps) => {
     const response = await createUserFirebase(createdUser);
 
     if (response?.data.uid) {
@@ -28,20 +28,21 @@ export const createUserAction = createAsyncThunk(
         ...createdUser,
       };
       return { response, createdUserWithId };
+    } else if (response?.data.errorInfo) {
+      return { response };
     }
-    return { response };
   }
 );
 
 export const editUserAction = createAsyncThunk(
   'users/updateUser',
-  async (editedUser: IUser) => {
-    try {
-      const data = await setUser(editedUser);
-      return data;
-    } catch (err) {
-      console.error(err);
-      return false;
+  async (editedUser: UserEditFormProps) => {
+    const response = await setUserFirebase(editedUser);
+
+    if (response?.data.uid) {
+      return { response, editedUser };
+    } else if (response?.data.errorInfo && !response.data) {
+      return { response };
     }
   }
 );
@@ -50,7 +51,7 @@ export const deleteUserAction = createAsyncThunk(
   'users/deleteUser',
   async (userId: string) => {
     try {
-      const data = await deleteUserFB(userId);
+      const data = await deleteUserFirebase(userId);
       return data;
     } catch (err) {
       console.error(err);

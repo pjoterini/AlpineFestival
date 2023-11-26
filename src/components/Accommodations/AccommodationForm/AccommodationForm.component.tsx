@@ -77,7 +77,7 @@ const AccommodationForm = ({
               touched={touched.address}
             />
             <GMPhoneInput
-              currentRow={currentRow}
+              selectedRow={currentRow}
               setFieldValue={setFieldValue}
               errors={errors}
               touched={touched}

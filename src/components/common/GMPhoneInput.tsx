@@ -7,15 +7,19 @@ import {
   GuestRegisterFormProps,
   IGuest,
 } from '@/redux/guests/interfaces';
-import { IUser, UserFormProps } from '@/redux/users/interfaces';
+import {
+  IUser,
+  UserEditFormProps,
+  UserRegisterFormProps,
+} from '@/redux/users/interfaces';
 import { Box, styled } from '@mui/material';
 import { FormikErrors, FormikTouched } from 'formik';
 import PhoneInput from 'react-phone-input-2';
-import { InputError } from './InputError';
 import 'react-phone-input-2/lib/style.css';
+import { InputError } from './InputError';
 
 interface IProps {
-  currentRow?: IAccommodation | IGuest | IUser | null;
+  selectedRow?: IAccommodation | IGuest | IUser | null;
   setFieldValue: (
     field: string,
     value: string,
@@ -24,19 +28,22 @@ interface IProps {
     | GuestRegisterFormProps
     | GuestEditFormProps
     | AccommodationFormProps
-    | UserFormProps
+    | UserRegisterFormProps
+    | UserEditFormProps
   >>;
   errors: FormikErrors<
     | GuestRegisterFormProps
     | GuestEditFormProps
     | AccommodationFormProps
-    | UserFormProps
+    | UserRegisterFormProps
+    | UserEditFormProps
   >;
   touched: FormikTouched<
     | GuestRegisterFormProps
     | GuestEditFormProps
     | AccommodationFormProps
-    | UserFormProps
+    | UserRegisterFormProps
+    | UserEditFormProps
   >;
   formatNumber: boolean;
 }
@@ -71,7 +78,7 @@ const StyledPhoneInput = styled(PhoneInput)(({ theme }) => ({
 }));
 
 export const GMPhoneInput = ({
-  currentRow,
+  selectedRow,
   setFieldValue,
   errors,
   touched,
@@ -80,7 +87,7 @@ export const GMPhoneInput = ({
   return (
     <Box mt={2}>
       <StyledPhoneInput
-        value={currentRow?.tel}
+        value={selectedRow?.tel}
         inputProps={{
           name: 'tel',
         }}

@@ -1,17 +1,21 @@
-import { updateUser } from '@/firebase/cloudFunctions';
+import { updateUserCloudFunction } from '@/firebase/cloudFunctions';
 import { db } from '@/firebase/config';
-import { IUser } from '@/redux/users/interfaces';
+import { UserEditFormProps } from '@/redux/users/interfaces';
 import { ref, set } from 'firebase/database';
 
-export const setUser = async (editedUser: IUser) => {
+export const setUserFirebase = async (editedUser: UserEditFormProps) => {
   try {
-    await updateUser(editedUser);
+    const response = await updateUserCloudFunction(editedUser);
+
+    if (response.data.errorInfo || !response.data) {
+      return response;
+    }
 
     const reference = ref(db, `users/${editedUser.id}`);
     await set(reference, editedUser);
-    return editedUser;
+
+    return response;
   } catch (error) {
     console.error(error);
-    return false;
   }
 };

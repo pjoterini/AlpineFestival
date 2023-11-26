@@ -6,7 +6,6 @@ import UsersTable from './UsersTable.component';
 
 const UsersTableContainer = () => {
   const users = useAppSelector(selectUsers);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {

@@ -11,15 +11,15 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import GuestForm from '../GuestForm/GuestForm.component';
 
 interface IProps {
-  currentRow: IGuest | null;
-  setCurrentRow: Dispatch<SetStateAction<IGuest | null>>;
+  selectedGuest: IGuest | null;
+  setSelectedGuest: Dispatch<SetStateAction<IGuest | null>>;
   users: IUser[];
   accommodations: IAccommodation[];
 }
 
 const GuestEditModal = ({
-  currentRow,
-  setCurrentRow,
+  selectedGuest,
+  setSelectedGuest,
   users,
   accommodations,
 }: IProps) => {
@@ -57,10 +57,10 @@ const GuestEditModal = ({
 
   return (
     <Dialog
-      open={!!currentRow}
+      open={!!selectedGuest}
       onClose={() => {
         setFormSubmitStatus(Status.IDLE);
-        setCurrentRow(null);
+        setSelectedGuest(null);
       }}
     >
       <GuestForm
@@ -68,7 +68,7 @@ const GuestEditModal = ({
         formSubmitStatus={formSubmitStatus}
         editGuest={editGuest}
         deleteGuest={deleteGuest}
-        currentRow={currentRow}
+        selectedGuest={selectedGuest}
         errorMessage={errorMessage}
         users={users}
         accommodations={accommodations}

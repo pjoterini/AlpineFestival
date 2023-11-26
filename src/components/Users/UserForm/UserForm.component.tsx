@@ -3,24 +3,34 @@ import FormContainer from '@/components/common/FormContainer';
 import { GMPhoneInput } from '@/components/common/GMPhoneInput';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
-import { IUser, ResetUserForm, UserFormProps } from '@/redux/users/interfaces';
+import {
+  IUser,
+  ResetUserForm,
+  UserEditFormProps,
+  UserInitialValues,
+  UserRegisterFormProps,
+} from '@/redux/users/interfaces';
 import { Button, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel } from 'formik-mui';
-import { DefaultTFuncReturn, t } from 'i18next';
+import { t } from 'i18next';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMInput from '../../common/GMInput';
-import { userRegistrationSchema } from './userForm.schema';
+import { userEditSchema } from './validation/userEditForm.schema';
+import { userRegistrerSchema } from './validation/userRegisterForm.schema';
 
 interface IProps {
   formType: FormType;
   formSubmitStatus: Status;
-  createUser?: (values: UserFormProps, resetForm: ResetUserForm) => void;
-  editUser?: (values: UserFormProps, userId?: string) => void;
+  createUser?: (
+    values: UserRegisterFormProps,
+    resetForm: ResetUserForm
+  ) => void;
+  editUser?: (values: UserEditFormProps, userId?: string) => void;
   deleteUser?: (userId: string) => void;
-  currentRow?: IUser | null;
-  errorMessage: string | DefaultTFuncReturn;
+  selectedUser?: IUser | null;
+  errorMessage: string | undefined;
 }
 
 const UserForm = ({
@@ -29,26 +39,47 @@ const UserForm = ({
   createUser,
   editUser,
   deleteUser,
-  currentRow,
+  selectedUser,
   errorMessage,
 }: IProps) => {
   const isCreateForm = formType === FormType.CREATE;
   const isEditForm = formType === FormType.EDIT;
 
+  let initialValues: UserInitialValues = {
+    firstName: selectedUser?.firstName || '',
+    lastName: selectedUser?.lastName || '',
+    email: selectedUser?.email || '',
+    password: selectedUser?.password || '',
+    tel: selectedUser?.tel || '',
+    isAdmin: selectedUser?.isAdmin || false,
+  };
+
+  if (isEditForm) {
+    initialValues = {
+      id: selectedUser?.id || '',
+      firstName: selectedUser?.firstName || '',
+      lastName: selectedUser?.lastName || '',
+      email: selectedUser?.email || '',
+      tel: selectedUser?.tel || '',
+      isAdmin: selectedUser?.isAdmin || false,
+    };
+  }
+
+  let validationSchema;
+  if (isCreateForm) {
+    validationSchema = userRegistrerSchema;
+  } else if (isEditForm) {
+    validationSchema = userEditSchema;
+  }
+
   return (
     <Formik
-      initialValues={{
-        firstName: currentRow?.firstName || '',
-        lastName: currentRow?.lastName || '',
-        email: currentRow?.email || '',
-        password: currentRow?.password || '',
-        tel: currentRow?.tel || '',
-        isAdmin: currentRow?.isAdmin || false,
-      }}
-      validationSchema={userRegistrationSchema}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
-        isCreateForm && createUser?.(values, resetForm);
-        isEditForm && editUser?.(values, currentRow?.id);
+        isCreateForm &&
+          createUser?.(values as UserRegisterFormProps, resetForm);
+        isEditForm && editUser?.(values as UserEditFormProps);
       }}
     >
       {({ touched, setFieldValue, errors }) => (
@@ -77,19 +108,22 @@ const UserForm = ({
               type="email"
               label={t('common.email')}
               component={GMInput}
+              disabled={isEditForm && true}
               error={errors.email}
               touched={touched.email}
             />
-            <Field
-              name="password"
-              type="password"
-              label={t('common.password')}
-              component={GMInput}
-              error={errors.password}
-              touched={touched.password}
-            />
+            {isCreateForm && (
+              <Field
+                name="password"
+                type="password"
+                label={t('common.password')}
+                component={GMInput}
+                error={errors.password}
+                touched={touched.password}
+              />
+            )}
             <GMPhoneInput
-              currentRow={currentRow}
+              selectedRow={selectedUser}
               setFieldValue={setFieldValue}
               errors={errors}
               touched={touched}
@@ -115,7 +149,7 @@ const UserForm = ({
                 {isEditForm && (
                   <Button
                     onClick={() =>
-                      currentRow && deleteUser && deleteUser(currentRow.id)
+                      selectedUser && deleteUser && deleteUser(selectedUser.id)
                     }
                     sx={{ mr: 1 }}
                     color="error"

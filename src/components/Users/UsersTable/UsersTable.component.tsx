@@ -19,7 +19,7 @@ interface IProps {
 
 const UsersTable = ({ users }: IProps) => {
   const { isAdmin } = useIsAdmin();
-  const [currentRow, setCurrentRow] = useState<IUser | null>(null);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
   const columns: GridColDef[] = [
     {
@@ -57,10 +57,13 @@ const UsersTable = ({ users }: IProps) => {
         columns={columns}
         getRowId={(row) => row.id}
         onRowClick={(row) => {
-          isAdmin && setCurrentRow(row.row);
+          isAdmin && setSelectedUser(row.row);
         }}
       />
-      <UserEditModal currentRow={currentRow} setCurrentRow={setCurrentRow} />
+      <UserEditModal
+        selectedUser={selectedUser}
+        setSelectedUser={setSelectedUser}
+      />
     </Box>
   );
 };

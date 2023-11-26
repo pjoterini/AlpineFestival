@@ -31,7 +31,7 @@ interface IProps {
 }
 
 const GuestsTable = ({ guests, users, accommodations }: IProps) => {
-  const [currentRow, setCurrentRow] = useState<IGuest | null>(null);
+  const [selectedGuest, setSelectedGuest] = useState<IGuest | null>(null);
 
   const columns: GridColDef[] = [
     {
@@ -141,11 +141,11 @@ const GuestsTable = ({ guests, users, accommodations }: IProps) => {
         rows={guests}
         columns={columns}
         getRowId={(row) => row.id}
-        onRowClick={(row) => setCurrentRow(row.row)}
+        onRowClick={(row) => setSelectedGuest(row.row)}
       />
       <GuestEditModal
-        currentRow={currentRow}
-        setCurrentRow={setCurrentRow}
+        selectedGuest={selectedGuest}
+        setSelectedGuest={setSelectedGuest}
         users={users}
         accommodations={accommodations}
       />

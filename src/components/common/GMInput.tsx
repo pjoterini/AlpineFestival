@@ -13,6 +13,7 @@ interface IProps extends FieldProps {
   size: 'small' | 'medium' | undefined;
   error: string;
   touched: boolean | undefined;
+  disabled: boolean;
 }
 
 const GMInput = ({
@@ -26,6 +27,7 @@ const GMInput = ({
   error,
   touched,
   field,
+  disabled = false,
 }: IProps) => {
   return (
     <>
@@ -38,6 +40,7 @@ const GMInput = ({
         label={label}
         size={size}
         error={!!error && !!touched}
+        disabled={disabled}
         {...field}
       />
       {error && touched && <InputError error={error} />}

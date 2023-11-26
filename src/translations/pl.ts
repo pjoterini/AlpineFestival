@@ -13,6 +13,7 @@ export const translationsPL = {
     guest: 'Gość',
     guests: 'Goście',
     hello: 'Cześć',
+    id: 'ID',
     lastName: 'Nazwisko',
     login: 'Zaloguj',
     logout: 'Wyloguj',

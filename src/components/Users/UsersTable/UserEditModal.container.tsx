@@ -1,57 +1,39 @@
 import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
-import { useAppDispatch } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { deleteUserAction, editUserAction } from '@/redux/users/actions';
-import { IUser, UserFormProps } from '@/redux/users/interfaces';
+import { IUser, UserEditFormProps } from '@/redux/users/interfaces';
+import { closeUserForm } from '@/redux/users/reducer';
 import { Dialog } from '@mui/material';
-import { DefaultTFuncReturn, t } from 'i18next';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { t } from 'i18next';
+import { Dispatch, SetStateAction } from 'react';
 import UserForm from '../UserForm/UserForm.component';
 
 interface IProps {
-  currentRow: IUser | null;
-  setCurrentRow: Dispatch<SetStateAction<IUser | null>>;
+  selectedUser: IUser | null;
+  setSelectedUser: Dispatch<SetStateAction<IUser | null>>;
 }
 
-const UserEditModal = ({ currentRow, setCurrentRow }: IProps) => {
-  const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
-  const [errorMessage, setErrorMessage] = useState<string | DefaultTFuncReturn>(
-    ''
-  );
+const UserEditModal = ({ selectedUser, setSelectedUser }: IProps) => {
+  const errorMessage = useAppSelector((state) => state.users.error);
+  const formSubmitStatus = useAppSelector((state) => state.users.status);
   const dispatch = useAppDispatch();
 
-  const editUser = async (
-    values: UserFormProps,
-    userId: string | undefined
-  ) => {
-    const result =
-      userId && (await dispatch(editUserAction({ id: userId, ...values })));
-    if (!result) {
-      setFormSubmitStatus(Status.FAILED);
-      setErrorMessage('something went wrong');
-    } else {
-      setFormSubmitStatus(Status.SUCCEEDED);
-    }
+  const editUser = async (values: UserEditFormProps) => {
+    await dispatch(editUserAction(values));
   };
 
   const deleteUser = async (userId: string) => {
     if (window.confirm(t<string>('validation.deleteUser'))) {
-      const result = await dispatch(deleteUserAction(userId));
-      if (!result) {
-        setFormSubmitStatus(Status.FAILED);
-        setErrorMessage(t('formValidation.formSubmitMessageError'));
-      } else {
-        setFormSubmitStatus(Status.SUCCEEDED);
-      }
+      await dispatch(deleteUserAction(userId));
     }
   };
 
   return (
     <Dialog
-      open={!!currentRow}
+      open={!!selectedUser}
       onClose={() => {
-        setFormSubmitStatus(Status.IDLE);
-        setCurrentRow(null);
+        dispatch(closeUserForm());
+        setSelectedUser(null);
       }}
     >
       <UserForm
@@ -59,7 +41,7 @@ const UserEditModal = ({ currentRow, setCurrentRow }: IProps) => {
         formSubmitStatus={formSubmitStatus}
         editUser={editUser}
         deleteUser={deleteUser}
-        currentRow={currentRow}
+        selectedUser={selectedUser}
         errorMessage={errorMessage}
       />
     </Dialog>

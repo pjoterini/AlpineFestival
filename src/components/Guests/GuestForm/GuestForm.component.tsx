@@ -37,7 +37,7 @@ interface IProps {
   ) => void;
   editGuest?: (values: GuestEditFormProps, guestId?: string) => void;
   deleteGuest?: (userId: string) => void;
-  currentRow?: IGuest | null;
+  selectedGuest?: IGuest | null;
   errorMessage: string | DefaultTFuncReturn;
   users?: IUser[];
   accommodations?: IAccommodation[];
@@ -49,7 +49,7 @@ const GuestForm = ({
   createGuest,
   editGuest,
   deleteGuest,
-  currentRow,
+  selectedGuest,
   errorMessage,
   users,
   accommodations,
@@ -58,26 +58,26 @@ const GuestForm = ({
   const isEditForm = formType === FormType.EDIT;
 
   let initialValues: GuestInitialValues = {
-    firstName: currentRow?.firstName || '',
-    lastName: currentRow?.lastName || '',
-    email: currentRow?.email || '',
-    tel: currentRow?.tel || '',
-    arrival: currentRow?.arrival || arrivalDate,
-    departure: currentRow?.departure || departureDate,
-    accomodationComment: currentRow?.accomodationComment || '',
-    presents: currentRow?.presents || false,
-    ownsPc: currentRow?.ownsPc || false,
-    speechLength: currentRow?.speechLength || null,
-    specialNeeds: currentRow?.specialNeeds || '',
+    firstName: selectedGuest?.firstName || '',
+    lastName: selectedGuest?.lastName || '',
+    email: selectedGuest?.email || '',
+    tel: selectedGuest?.tel || '',
+    arrival: selectedGuest?.arrival || arrivalDate,
+    departure: selectedGuest?.departure || departureDate,
+    accomodationComment: selectedGuest?.accomodationComment || '',
+    presents: selectedGuest?.presents || false,
+    ownsPc: selectedGuest?.ownsPc || false,
+    speechLength: selectedGuest?.speechLength || null,
+    specialNeeds: selectedGuest?.specialNeeds || '',
   };
 
   if (isEditForm) {
     initialValues = {
       ...initialValues,
-      checkIn: currentRow?.checkIn || false,
-      type: currentRow?.type || GuestType.NORMAL,
-      organizer: currentRow?.organizer || null,
-      accommodation: currentRow?.accommodation || null,
+      checkIn: selectedGuest?.checkIn || false,
+      type: selectedGuest?.type || GuestType.NORMAL,
+      organizer: selectedGuest?.organizer || null,
+      accommodation: selectedGuest?.accommodation || null,
     };
   }
 
@@ -87,7 +87,8 @@ const GuestForm = ({
       validationSchema={guestFormSchema}
       onSubmit={(values, { resetForm }) => {
         isCreateForm && createGuest?.(values, resetForm);
-        isEditForm && editGuest?.(values as GuestEditFormProps, currentRow?.id);
+        isEditForm &&
+          editGuest?.(values as GuestEditFormProps, selectedGuest?.id);
       }}
     >
       {({ values, touched, setFieldValue, errors }) => (
@@ -120,7 +121,7 @@ const GuestForm = ({
               touched={touched.email}
             />
             <GMPhoneInput
-              currentRow={currentRow}
+              selectedRow={selectedGuest}
               setFieldValue={setFieldValue}
               errors={errors}
               touched={touched}
@@ -288,7 +289,9 @@ const GuestForm = ({
               {isEditForm && (
                 <Button
                   onClick={() =>
-                    currentRow && deleteGuest && deleteGuest(currentRow.id)
+                    selectedGuest &&
+                    deleteGuest &&
+                    deleteGuest(selectedGuest.id)
                   }
                   sx={{ mr: 1 }}
                   color="error"
