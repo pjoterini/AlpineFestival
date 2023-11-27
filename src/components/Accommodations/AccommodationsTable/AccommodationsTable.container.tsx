@@ -6,7 +6,6 @@ import AccommodationsTable from './AccommodationsTable.component';
 
 const AccommodationsTableContainer = () => {
   const accommodations = useAppSelector(selectAccommodations);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {

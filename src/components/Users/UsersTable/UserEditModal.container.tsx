@@ -24,7 +24,11 @@ const UserEditModal = ({ selectedUser, setSelectedUser }: IProps) => {
 
   const deleteUser = async (userId: string) => {
     if (window.confirm(t<string>('validation.deleteUser'))) {
-      await dispatch(deleteUserAction(userId));
+      const response = await dispatch(deleteUserAction(userId));
+      if (response) {
+        setSelectedUser(null);
+        dispatch(closeUserForm());
+      }
     }
   };
 

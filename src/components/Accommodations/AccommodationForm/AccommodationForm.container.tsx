@@ -1,32 +1,25 @@
-import { addAccommodation } from '@/firebase/database/accommodation/addAccommodation';
+import { createAccommodationAction } from '@/redux/accomodations/actions';
 import {
   AccommodationFormProps,
   ResetAccommodationForm,
 } from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
-import { DefaultTFuncReturn, t } from 'i18next';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import AccomodationForm from './AccommodationForm.component';
 
 const AccommodationFormContainer = () => {
-  const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
-  const [errorMessage, setErrorMessage] = useState<string | DefaultTFuncReturn>(
-    ''
+  const errorMessage = useAppSelector((state) => state.accommodations.error);
+  const formSubmitStatus = useAppSelector(
+    (state) => state.accommodations.status
   );
+  const dispatch = useAppDispatch();
 
   const createAccommodation = async (
     values: AccommodationFormProps,
     resetForm: ResetAccommodationForm
   ) => {
-    const result = await addAccommodation(values);
-    if (!result) {
-      setFormSubmitStatus(Status.FAILED);
-      setErrorMessage(t('formValidation.formSubmitMessageError'));
-    } else {
-      setFormSubmitStatus(Status.SUCCEEDED);
-      resetForm();
-    }
+    const response = await dispatch(createAccommodationAction(values));
+    if (response) resetForm();
   };
 
   return (

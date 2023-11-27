@@ -1,5 +1,4 @@
 import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { createUserAction } from '@/redux/users/actions';
 import { ResetUserForm, UserRegisterFormProps } from '@/redux/users/interfaces';
@@ -14,9 +13,8 @@ const UserFormContainer = () => {
     values: UserRegisterFormProps,
     resetForm: ResetUserForm
   ) => {
-    await dispatch(createUserAction(values));
-
-    if (formSubmitStatus === Status.SUCCEEDED) resetForm();
+    const response = await dispatch(createUserAction(values));
+    if (response) resetForm();
   };
 
   return (

@@ -1,16 +1,16 @@
 import FormButtonsContainer from '@/components/common/FormButtonsContainer';
 import FormContainer from '@/components/common/FormContainer';
 import { GMPhoneInput } from '@/components/common/GMPhoneInput';
-import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
 import {
   AccommodationFormProps,
   IAccommodation,
   ResetAccommodationForm,
 } from '@/redux/accomodations/interfaces';
+import { FormType } from '@/redux/enums/formType';
+import { Status } from '@/redux/enums/status';
 import { Button, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
-import { DefaultTFuncReturn, t } from 'i18next';
+import { t } from 'i18next';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMInput from '../../common/GMInput';
 import { accomodationFormSchema } from './AccomodationForm.schema';
@@ -26,8 +26,8 @@ interface IProps {
     accommodationId?: string
   ) => void;
   deleteAccommodation?: (accommodationId: string) => void;
-  currentRow?: IAccommodation | null;
-  errorMessage: string | DefaultTFuncReturn;
+  selectedAccommodation?: IAccommodation | null;
+  errorMessage: string | undefined;
 }
 
 const AccommodationForm = ({
@@ -36,7 +36,7 @@ const AccommodationForm = ({
   createAccommodation,
   editAccommodation,
   deleteAccommodation,
-  currentRow,
+  selectedAccommodation,
   errorMessage,
 }: IProps) => {
   const isCreateForm = formType === FormType.CREATE;
@@ -45,14 +45,14 @@ const AccommodationForm = ({
   return (
     <Formik
       initialValues={{
-        name: currentRow?.name || '',
-        address: currentRow?.address || '',
-        tel: currentRow?.tel || '',
+        name: selectedAccommodation?.name || '',
+        address: selectedAccommodation?.address || '',
+        tel: selectedAccommodation?.tel || '',
       }}
       validationSchema={accomodationFormSchema}
       onSubmit={(values, { resetForm }) => {
         isCreateForm && createAccommodation?.(values, resetForm);
-        isEditForm && editAccommodation?.(values, currentRow?.id);
+        isEditForm && editAccommodation?.(values, selectedAccommodation?.id);
       }}
     >
       {({ touched, setFieldValue, errors }) => (
@@ -77,7 +77,7 @@ const AccommodationForm = ({
               touched={touched.address}
             />
             <GMPhoneInput
-              selectedRow={currentRow}
+              selectedRow={selectedAccommodation}
               setFieldValue={setFieldValue}
               errors={errors}
               touched={touched}
@@ -96,7 +96,8 @@ const AccommodationForm = ({
               {isEditForm && (
                 <Button
                   onClick={() =>
-                    currentRow && deleteAccommodation?.(currentRow.id)
+                    selectedAccommodation &&
+                    deleteAccommodation?.(selectedAccommodation.id)
                   }
                   sx={{ mr: 1 }}
                   color="error"

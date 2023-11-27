@@ -1,28 +1,31 @@
-import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
 import {
   deleteAccommodationAction,
-  updateAccommodation,
+  updateAccommodationAction,
 } from '@/redux/accomodations/actions';
 import {
   AccommodationFormProps,
   IAccommodation,
 } from '@/redux/accomodations/interfaces';
-import { useAppDispatch } from '@/redux/store';
+import { closeAccommodationForm } from '@/redux/accomodations/reducer';
+import { FormType } from '@/redux/enums/formType';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { Dialog } from '@mui/material';
-import { DefaultTFuncReturn, t } from 'i18next';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { t } from 'i18next';
+import { Dispatch, SetStateAction } from 'react';
 import AccommodationForm from '../AccommodationForm/AccommodationForm.component';
 
 interface IProps {
-  currentRow: IAccommodation | null;
-  setCurrentRow: Dispatch<SetStateAction<IAccommodation | null>>;
+  selectedAccommodation: IAccommodation | null;
+  setSelectedAccommodation: Dispatch<SetStateAction<IAccommodation | null>>;
 }
 
-const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
-  const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
-  const [errorMessage, setErrorMessage] = useState<string | DefaultTFuncReturn>(
-    ''
+const AccommodationEditModal = ({
+  selectedAccommodation,
+  setSelectedAccommodation,
+}: IProps) => {
+  const errorMessage = useAppSelector((state) => state.accommodations.error);
+  const formSubmitStatus = useAppSelector(
+    (state) => state.accommodations.status
   );
   const dispatch = useAppDispatch();
 
@@ -30,34 +33,30 @@ const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
     values: AccommodationFormProps,
     accommodationId: string | undefined
   ) => {
-    const result =
-      accommodationId &&
-      (await dispatch(updateAccommodation({ id: accommodationId, ...values })));
-    if (!result) {
-      setFormSubmitStatus(Status.FAILED);
-      setErrorMessage('something went wrong');
-    } else {
-      setFormSubmitStatus(Status.SUCCEEDED);
-    }
+    accommodationId &&
+      (await dispatch(
+        updateAccommodationAction({ id: accommodationId, ...values })
+      ));
   };
 
   const deleteAccommodation = async (accommodationId: string) => {
     if (window.confirm(t<string>('validation.deleteGuest'))) {
-      const result = await dispatch(deleteAccommodationAction(accommodationId));
-      if (!result) {
-        setFormSubmitStatus(Status.FAILED);
-      } else {
-        setFormSubmitStatus(Status.SUCCEEDED);
+      const response = await dispatch(
+        deleteAccommodationAction(accommodationId)
+      );
+      if (response) {
+        setSelectedAccommodation(null);
+        dispatch(closeAccommodationForm());
       }
     }
   };
 
   return (
     <Dialog
-      open={!!currentRow}
+      open={!!selectedAccommodation}
       onClose={() => {
-        setFormSubmitStatus(Status.IDLE);
-        setCurrentRow(null);
+        dispatch(closeAccommodationForm());
+        setSelectedAccommodation(null);
       }}
     >
       <AccommodationForm
@@ -65,7 +64,7 @@ const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
         formSubmitStatus={formSubmitStatus}
         editAccommodation={editAccommodation}
         deleteAccommodation={deleteAccommodation}
-        currentRow={currentRow}
+        selectedAccommodation={selectedAccommodation}
         errorMessage={errorMessage}
       />
     </Dialog>

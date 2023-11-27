@@ -33,7 +33,11 @@ const GuestEditModal = ({
 
   const deleteGuest = async (guestId: string) => {
     if (window.confirm(t<string>('validation.deleteGuest'))) {
-      await dispatch(deleteGuestAction(guestId));
+      const response = await dispatch(deleteGuestAction(guestId));
+      if (response) {
+        setSelectedGuest(null);
+        dispatch(closeGuestForm());
+      }
     }
   };
 

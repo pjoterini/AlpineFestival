@@ -22,7 +22,7 @@ export const createUserCloudFunction = async (user: UserRegisterFormProps) => {
     IMutateUserCloudFunctionResponse
   >(functions, 'createUser');
   const response = await createUser(user);
-  console.log(response);
+
   return response;
 };
 
@@ -32,7 +32,6 @@ export const updateUserCloudFunction = async (user: UserEditFormProps) => {
     IMutateUserCloudFunctionResponse
   >(functions, 'updateUser');
   const response = await updateUser(user);
-  console.log(response);
 
   return response;
 };
@@ -43,7 +42,6 @@ export const deleteUserCloudFunction = async (userId: string) => {
     'deleteUser'
   );
   const response = await deleteUser(userId);
-  console.log(response);
 
   return response;
 };

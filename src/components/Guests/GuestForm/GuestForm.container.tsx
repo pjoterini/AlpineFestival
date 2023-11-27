@@ -1,5 +1,4 @@
 import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
 import { createGuestAction } from '@/redux/guests/actions';
 import {
   GuestRegisterFormProps,
@@ -17,10 +16,8 @@ const GuestFormContainer = () => {
     values: GuestRegisterFormProps,
     resetForm: ResetGuestRegisterForm
   ) => {
-    await dispatch(createGuestAction(values));
-    if (formSubmitStatus === Status.SUCCEEDED) {
-      resetForm();
-    }
+    const response = await dispatch(createGuestAction(values));
+    if (response) resetForm();
   };
 
   return (

@@ -15,7 +15,8 @@ interface IProps {
 }
 
 const AccommodationsTable = ({ accommodations }: IProps) => {
-  const [currentRow, setCurrentRow] = useState<IAccommodation | null>(null);
+  const [selectedAccommodation, setSelectedAccommodation] =
+    useState<IAccommodation | null>(null);
 
   const columns: GridColDef[] = [
     {
@@ -41,11 +42,11 @@ const AccommodationsTable = ({ accommodations }: IProps) => {
         rows={accommodations}
         columns={columns}
         getRowId={(row) => row.id}
-        onRowClick={(row) => setCurrentRow(row.row)}
+        onRowClick={(row) => setSelectedAccommodation(row.row)}
       />
       <AccommodationEditModal
-        setCurrentRow={setCurrentRow}
-        currentRow={currentRow}
+        setSelectedAccommodation={setSelectedAccommodation}
+        selectedAccommodation={selectedAccommodation}
       />
     </Box>
   );
