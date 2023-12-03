@@ -25,7 +25,6 @@ export const createGuestAction = createAsyncThunk(
       return data;
     } catch (err) {
       console.error(err);
-      return false;
     }
   }
 );
@@ -38,7 +37,6 @@ export const editGuestAction = createAsyncThunk(
       return data;
     } catch (err) {
       console.error(err);
-      return false;
     }
   }
 );
@@ -51,7 +49,6 @@ export const deleteGuestAction = createAsyncThunk(
       return data;
     } catch (err) {
       console.error(err);
-      return false;
     }
   }
 );

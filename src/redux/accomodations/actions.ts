@@ -28,7 +28,6 @@ export const createAccommodationAction = createAsyncThunk(
       return data;
     } catch (err) {
       console.error(err);
-      return false;
     }
   }
 );
@@ -41,7 +40,6 @@ export const updateAccommodationAction = createAsyncThunk(
       return data;
     } catch (err) {
       console.error(err);
-      return false;
     }
   }
 );
@@ -54,7 +52,6 @@ export const deleteAccommodationAction = createAsyncThunk(
       return data;
     } catch (err) {
       console.error(err);
-      return false;
     }
   }
 );

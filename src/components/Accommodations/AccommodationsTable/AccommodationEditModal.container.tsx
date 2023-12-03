@@ -29,14 +29,12 @@ const AccommodationEditModal = ({
   );
   const dispatch = useAppDispatch();
 
-  const editAccommodation = async (
+  const editAccommodation = (
     values: AccommodationFormProps,
     accommodationId: string | undefined
   ) => {
     accommodationId &&
-      (await dispatch(
-        updateAccommodationAction({ id: accommodationId, ...values })
-      ));
+      dispatch(updateAccommodationAction({ id: accommodationId, ...values }));
   };
 
   const deleteAccommodation = async (accommodationId: string) => {

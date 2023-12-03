@@ -18,8 +18,8 @@ const UserEditModal = ({ selectedUser, setSelectedUser }: IProps) => {
   const formSubmitStatus = useAppSelector((state) => state.users.status);
   const dispatch = useAppDispatch();
 
-  const editUser = async (values: UserEditFormProps) => {
-    await dispatch(editUserAction(values));
+  const editUser = (values: UserEditFormProps) => {
+    dispatch(editUserAction(values));
   };
 
   const deleteUser = async (userId: string) => {

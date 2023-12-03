@@ -27,8 +27,8 @@ const GuestEditModal = ({
   const formSubmitStatus = useAppSelector((state) => state.guests.status);
   const dispatch = useAppDispatch();
 
-  const editGuest = async (values: IGuest) => {
-    await dispatch(editGuestAction(values));
+  const editGuest = (values: IGuest) => {
+    dispatch(editGuestAction(values));
   };
 
   const deleteGuest = async (guestId: string) => {

@@ -13,10 +13,14 @@ export const LoginFormContainer = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
 
-  const redirectToUserPanel = () => router.replace(PANEL);
-
   const handleLogin = async (values: ILogin) => {
-    await loginUser(values, setErrorMessage, redirectToUserPanel);
+    const result = await loginUser(values);
+
+    if (result instanceof Error) {
+      setErrorMessage(result.message);
+    } else {
+      router.replace(PANEL);
+    }
   };
 
   return <LoginForm handleLogin={handleLogin} errorMessage={errorMessage} />;
