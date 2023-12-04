@@ -45,6 +45,7 @@ export const LoginForm = ({ handleLogin, errorMessage }: IProps) => {
               name="password"
               label={t('common.password')}
               component={GMInput}
+              type="password"
               error={errors.password}
               touched={touched.password}
             />

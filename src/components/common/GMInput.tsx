@@ -17,6 +17,7 @@ interface IProps extends FieldProps {
 }
 
 const GMInput = ({
+  name,
   variant = 'outlined',
   margin = 'normal',
   multiline,
@@ -32,6 +33,7 @@ const GMInput = ({
   return (
     <>
       <TextField
+        id={name}
         multiline={multiline}
         minRows={rows}
         variant={variant}
@@ -41,6 +43,7 @@ const GMInput = ({
         size={size}
         error={!!error && !!touched}
         disabled={disabled}
+        autoComplete="on"
         {...field}
       />
       {error && touched && <InputError error={error} />}
