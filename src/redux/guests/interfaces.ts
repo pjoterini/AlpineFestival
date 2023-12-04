@@ -10,7 +10,7 @@ export enum SpeechLength {
 }
 
 export enum GuestType {
-  NORMAL = 'Zwyczajny',
+  NORMAL = 'Normal',
   VIP = 'VIP',
 }
 
