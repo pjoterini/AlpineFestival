@@ -1,34 +1,33 @@
-import { addAccommodation } from '@/firebase/database/accommodation/addAccommodation';
+import { createAccommodationAction } from '@/redux/accomodations/actions';
 import {
   AccommodationFormProps,
   ResetAccommodationForm,
 } from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
-import { Status } from '@/redux/enums/status';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import AccomodationForm from './AccommodationForm.component';
 
 const AccommodationFormContainer = () => {
-  const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
+  const errorMessage = useAppSelector((state) => state.accommodations.error);
+  const formSubmitStatus = useAppSelector(
+    (state) => state.accommodations.status
+  );
+  const dispatch = useAppDispatch();
 
   const createAccommodation = async (
     values: AccommodationFormProps,
     resetForm: ResetAccommodationForm
   ) => {
-    const result = await addAccommodation(values);
-    if (!result) {
-      setFormSubmitStatus(Status.FAILED);
-    } else {
-      setFormSubmitStatus(Status.SUCCEEDED);
-      resetForm();
-    }
+    const response = await dispatch(createAccommodationAction(values));
+    if (response) resetForm();
   };
 
   return (
     <AccomodationForm
       formType={FormType.CREATE}
-      formSubmitStatus={formSubmitStatus}
       createAccommodation={createAccommodation}
+      formSubmitStatus={formSubmitStatus}
+      errorMessage={errorMessage}
     />
   );
 };

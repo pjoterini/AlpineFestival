@@ -1,25 +1,29 @@
 import { db } from '@/firebase/config';
-import { GuestRegistrationFormProps } from '@/redux/guests/interfaces';
+import {
+  GuestRegisterFormProps,
+  GuestType,
+  IGuest,
+} from '@/redux/guests/interfaces';
 import { push, ref, set } from 'firebase/database';
 
-export const addGuest = async (guest: GuestRegistrationFormProps) => {
+export const addGuest = async (guest: GuestRegisterFormProps) => {
   try {
     const reference = ref(db, 'guests/');
     const newReference = await push(reference);
 
     const createdId = newReference.key;
 
-    const guestWithAllProps = {
-      id: createdId,
+    const guestWithAllProps: IGuest = {
+      id: createdId as string,
       checkIn: false,
-      type: '',
+      type: GuestType.NORMAL,
       organizer: '',
-      accomodation: '',
+      accommodation: '',
       ...guest,
     };
     await set(newReference, guestWithAllProps);
 
-    return guest;
+    return guestWithAllProps;
   } catch (error) {
     console.error(error);
     return false;

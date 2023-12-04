@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import * as Yup from 'yup';
 
-export const guestRegistrationSchema = Yup.object({
+export const guestFormSchema = Yup.object({
   firstName: Yup.string()
     .min(2, `${t('formValidation.firstNameTooShort')}`)
     .max(50, `${t('formValidation.firstNameTooLong')}`)
@@ -15,8 +15,7 @@ export const guestRegistrationSchema = Yup.object({
     .required(`${t('formValidation.emailRequired')}`),
   tel: Yup.string()
     .required(`${t('formValidation.telRequired')}`)
-    .min(8, `${t('formValidation.telTooShort')}`)
-    .max(13, `${t('formValidation.telTooLong')}`),
+    .min(8, `${t('formValidation.telTooShort')}`),
   arrival: Yup.string()
     .typeError(`${t('guestFormValidation.dateTypeError')}`)
     .required(`${t('guestFormValidation.arrivalRequired')}`),

@@ -1,9 +1,20 @@
+import { ILogin } from '@/components/LoginForm/LoginForm.container';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config';
-import { ILogin } from '@/components/LoginForm/LoginForm.container';
 
 export const loginUser = async (values: ILogin) => {
   const { userEmail, password } = values;
-
-  await signInWithEmailAndPassword(auth, userEmail, password);
+  try {
+    const response = await signInWithEmailAndPassword(
+      auth,
+      userEmail,
+      password
+    );
+    return response;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      return error;
+    }
+  }
 };

@@ -5,29 +5,31 @@ export interface IUser {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
+  password?: string;
   tel: string;
   isAdmin: boolean;
 }
 
-export interface UserFormProps {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  tel: string;
-  isAdmin: boolean;
+export interface UserInitialValues
+  extends Omit<IUser, 'id' | 'email' | 'password'> {
+  id?: string;
+  email?: string;
+  password?: string;
 }
 
-type UserFormPropsRequired = Required<UserFormProps>;
+export type UserRegisterFormProps = Omit<IUser, 'id'>;
+
+export type UserEditFormProps = Omit<IUser, 'password'>;
+
+type UserRegisterFormPropsRequired = Required<UserRegisterFormProps>;
 
 export type ResetUserForm = (
-  nextState?: Partial<FormikState<UserFormPropsRequired>> | undefined
+  nextState?: Partial<FormikState<UserRegisterFormPropsRequired>> | undefined
 ) => void;
 
 export type IFirebaseUser = Omit<IUser, 'id'>;
 
-export interface ICreateUserCloudFunctionResponse {
+export interface IMutateUserCloudFunctionResponse {
   uid?: string;
   errorInfo?: {
     code: string;

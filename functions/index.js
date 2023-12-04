@@ -69,7 +69,6 @@ export const updateUser = https.onCall(async (request, context) => {
     if (isAdmin) {
       const updatedUser = await getAuth().updateUser(request.id, {
         displayName: `${request.firstName} ${request.lastName}`,
-        email: request.email,
         phoneNumber: request.tel,
       });
 

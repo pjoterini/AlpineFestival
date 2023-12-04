@@ -1,12 +1,12 @@
-import { deleteUser } from '@/firebase/cloudFunctions';
+import { deleteUserCloudFunction } from '@/firebase/cloudFunctions';
 import { db } from '@/firebase/config';
 import { ref, remove } from 'firebase/database';
 
-export const deleteUserFB = async (userId: string) => {
+export const deleteUserFirebase = async (userId: string) => {
   try {
     const reference = ref(db, `users/${userId}`);
     await remove(reference);
-    await deleteUser(userId);
+    await deleteUserCloudFunction(userId);
     return userId;
   } catch (error) {
     console.error(error);

@@ -1,21 +1,19 @@
-import GuestsTableContainer from '@/components/GuestsTable/GuestsTable.container';
 import Loader from '@/components/common/Loader';
+import GuestsContainer from '@/components/Guests/GuestsContainer';
 import { auth } from '@/firebase/config';
+import { t } from 'i18next';
 import Head from 'next/head';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { NextPageWithLayout } from '../_app';
 
-const GuestsTable: NextPageWithLayout = () => {
+const GuestsTable = () => {
   const [user, loading] = useAuthState(auth);
 
   return (
     <>
       <Head>
-        <title>Guests Table</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>{t('common.guests')}</title>
       </Head>
-      {!loading && user ? <GuestsTableContainer /> : <Loader />}
+      {!loading && user ? <GuestsContainer /> : <Loader />}
     </>
   );
 };

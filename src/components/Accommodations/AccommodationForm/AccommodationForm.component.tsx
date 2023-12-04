@@ -1,3 +1,6 @@
+import FormButtonsContainer from '@/components/common/FormButtonsContainer';
+import FormContainer from '@/components/common/FormContainer';
+import { GMPhoneInput } from '@/components/common/GMPhoneInput';
 import {
   AccommodationFormProps,
   IAccommodation,
@@ -5,14 +8,12 @@ import {
 } from '@/redux/accomodations/interfaces';
 import { FormType } from '@/redux/enums/formType';
 import { Status } from '@/redux/enums/status';
-import { Box, Button, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Button, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { t } from 'i18next';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMInput from '../../common/GMInput';
 import { accomodationFormSchema } from './AccomodationForm.schema';
-
 interface IProps {
   formType: FormType;
   formSubmitStatus: Status;
@@ -25,7 +26,8 @@ interface IProps {
     accommodationId?: string
   ) => void;
   deleteAccommodation?: (accommodationId: string) => void;
-  currentRow?: IAccommodation | null;
+  selectedAccommodation?: IAccommodation | null;
+  errorMessage: string | undefined;
 }
 
 const AccommodationForm = ({
@@ -34,7 +36,8 @@ const AccommodationForm = ({
   createAccommodation,
   editAccommodation,
   deleteAccommodation,
-  currentRow,
+  selectedAccommodation,
+  errorMessage,
 }: IProps) => {
   const isCreateForm = formType === FormType.CREATE;
   const isEditForm = formType === FormType.EDIT;
@@ -42,39 +45,23 @@ const AccommodationForm = ({
   return (
     <Formik
       initialValues={{
-        name: currentRow?.name || '',
-        address: currentRow?.address || '',
-        tel: currentRow?.tel || '',
+        name: selectedAccommodation?.name || '',
+        address: selectedAccommodation?.address || '',
+        tel: selectedAccommodation?.tel || '',
       }}
       validationSchema={accomodationFormSchema}
       onSubmit={(values, { resetForm }) => {
-        if (isCreateForm) {
-          createAccommodation?.(values, resetForm);
-        } else if (isEditForm) {
-          editAccommodation?.(values, currentRow?.id);
-        }
+        isCreateForm && createAccommodation?.(values, resetForm);
+        isEditForm && editAccommodation?.(values, selectedAccommodation?.id);
       }}
     >
-      {({ touched, errors }) => (
+      {({ touched, setFieldValue, errors }) => (
         <Form>
-          <Stack
-            border={isCreateForm ? 'solid 1px' : 'none'}
-            borderRadius={1}
-            borderColor="primary.main"
-            mx="auto"
-            px={isCreateForm ? 2 : 0}
-            pb={isCreateForm ? 2 : 0}
-            mb={isCreateForm ? 2 : 0}
-            width={{
-              xs: '100%',
-              sm: isCreateForm ? '50%' : '100%',
-            }}
-          >
-            {isEditForm && (
-              <Typography variant="h5" component="h1">
-                {t('accommodationForm.editAccommodation')}
-              </Typography>
-            )}
+          <FormContainer>
+            <Typography variant="h5" component="h1" mb={1}>
+              {isCreateForm && t('accommodationForm.addAccommodation')}
+              {isEditForm && t('accommodationForm.editAccommodation')}
+            </Typography>
             <Field
               name="name"
               label={t('common.accommodation')}
@@ -89,19 +76,28 @@ const AccommodationForm = ({
               error={errors.address}
               touched={touched.address}
             />
-            <Field
-              name="tel"
-              type="tel"
-              label={t('common.tel')}
-              component={GMInput}
-              error={errors.tel}
-              touched={touched.tel}
+            <GMPhoneInput
+              selectedRow={selectedAccommodation}
+              setFieldValue={setFieldValue}
+              errors={errors}
+              touched={touched}
+              formatNumber={true}
             />
-            <Box ml="auto" mt={1}>
+            <FormStatusMessage
+              formSubmitStatus={formSubmitStatus}
+              errorMessage={errorMessage}
+              message={
+                isCreateForm
+                  ? t('formValidation.formSubmitMessageSuccess')
+                  : t('formValidation.formEditMessageSuccess')
+              }
+            />
+            <FormButtonsContainer>
               {isEditForm && (
                 <Button
                   onClick={() =>
-                    currentRow && deleteAccommodation?.(currentRow.id)
+                    selectedAccommodation &&
+                    deleteAccommodation?.(selectedAccommodation.id)
                   }
                   sx={{ mr: 1 }}
                   color="error"
@@ -116,20 +112,8 @@ const AccommodationForm = ({
                 {isCreateForm && t('accommodationForm.addAccommodation')}
                 {isEditForm && t('common.save')}
               </Button>
-            </Box>
-            {isCreateForm && (
-              <FormStatusMessage
-                formSubmitStatus={formSubmitStatus}
-                message={t('formValidation.formSubmitMessageSuccess')}
-              />
-            )}
-            {isEditForm && (
-              <FormStatusMessage
-                formSubmitStatus={formSubmitStatus}
-                message={t('formValidation.formEditMessageSuccess')}
-              />
-            )}
-          </Stack>
+            </FormButtonsContainer>
+          </FormContainer>
         </Form>
       )}
     </Formik>

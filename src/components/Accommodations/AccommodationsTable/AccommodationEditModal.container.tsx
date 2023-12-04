@@ -1,84 +1,71 @@
-import AccommodationForm from '@/components/Accommodations/AccommodationForm/AccommodationForm.component';
-import { IAccommodation } from '@/redux/accomodations/interfaces';
-import { Status } from '@/redux/enums/status';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import {
   deleteAccommodationAction,
-  updateAccommodation,
+  updateAccommodationAction,
 } from '@/redux/accomodations/actions';
-import { AccommodationFormProps } from '@/redux/accomodations/interfaces';
-import { useAppDispatch } from '@/redux/store';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { t } from 'i18next';
+import {
+  AccommodationFormProps,
+  IAccommodation,
+} from '@/redux/accomodations/interfaces';
+import { closeAccommodationForm } from '@/redux/accomodations/reducer';
 import { FormType } from '@/redux/enums/formType';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { Dialog } from '@mui/material';
+import { t } from 'i18next';
+import { Dispatch, SetStateAction } from 'react';
+import AccommodationForm from '../AccommodationForm/AccommodationForm.component';
 
 interface IProps {
-  currentRow: IAccommodation | null;
-  setCurrentRow: Dispatch<SetStateAction<IAccommodation | null>>;
+  selectedAccommodation: IAccommodation | null;
+  setSelectedAccommodation: Dispatch<SetStateAction<IAccommodation | null>>;
 }
 
-const AccommodationEditModal = ({ currentRow, setCurrentRow }: IProps) => {
-  const [formSubmitStatus, setFormSubmitStatus] = useState<Status>(Status.IDLE);
+const AccommodationEditModal = ({
+  selectedAccommodation,
+  setSelectedAccommodation,
+}: IProps) => {
+  const errorMessage = useAppSelector((state) => state.accommodations.error);
+  const formSubmitStatus = useAppSelector(
+    (state) => state.accommodations.status
+  );
   const dispatch = useAppDispatch();
 
-  const editAccommodation = async (
+  const editAccommodation = (
     values: AccommodationFormProps,
     accommodationId: string | undefined
   ) => {
-    const result =
-      accommodationId &&
-      (await dispatch(updateAccommodation({ id: accommodationId, ...values })));
-    if (!result) {
-      setFormSubmitStatus(Status.FAILED);
-    } else {
-      setFormSubmitStatus(Status.SUCCEEDED);
-    }
+    accommodationId &&
+      dispatch(updateAccommodationAction({ id: accommodationId, ...values }));
   };
 
   const deleteAccommodation = async (accommodationId: string) => {
     if (window.confirm(t<string>('validation.deleteGuest'))) {
-      const result = await dispatch(deleteAccommodationAction(accommodationId));
-      if (!result) {
-        setFormSubmitStatus(Status.FAILED);
-      } else {
-        setFormSubmitStatus(Status.SUCCEEDED);
+      const response = await dispatch(
+        deleteAccommodationAction(accommodationId)
+      );
+      if (response) {
+        setSelectedAccommodation(null);
+        dispatch(closeAccommodationForm());
       }
     }
   };
 
   return (
-    <Modal
-      open={!!currentRow}
+    <Dialog
+      open={!!selectedAccommodation}
       onClose={() => {
-        setFormSubmitStatus(Status.IDLE);
-        setCurrentRow(null);
+        dispatch(closeAccommodationForm());
+        setSelectedAccommodation(null);
       }}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
     >
-      <Box
-        position="absolute"
-        sx={{
-          transform: 'translate(-50%, -50%)',
-        }}
-        top="50%"
-        left="50%"
-        p={3}
-        width="320px"
-        borderRadius={2}
-        boxShadow="10"
-        bgcolor="background.paper"
-      >
-        <AccommodationForm
-          formType={FormType.EDIT}
-          formSubmitStatus={formSubmitStatus}
-          editAccommodation={editAccommodation}
-          deleteAccommodation={deleteAccommodation}
-          currentRow={currentRow}
-        />
-      </Box>
-    </Modal>
+      <AccommodationForm
+        formType={FormType.EDIT}
+        formSubmitStatus={formSubmitStatus}
+        editAccommodation={editAccommodation}
+        deleteAccommodation={deleteAccommodation}
+        selectedAccommodation={selectedAccommodation}
+        errorMessage={errorMessage}
+      />
+    </Dialog>
   );
 };
 

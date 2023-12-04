@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Status } from '../enums/status';
 import {
+  createAccommodationAction,
   deleteAccommodationAction,
   fetchAccommodations,
-  updateAccommodation,
+  updateAccommodationAction,
 } from './actions';
 import { IAccommodation } from './interfaces';
 
@@ -22,7 +23,12 @@ const initialState: IProps = {
 export const accommodationsSlice = createSlice({
   name: 'accommodations',
   initialState,
-  reducers: {},
+  reducers: {
+    closeAccommodationForm: (state) => {
+      state.status = Status.IDLE;
+      state.error = undefined;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAccommodations.pending, (state) => {
@@ -34,12 +40,34 @@ export const accommodationsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(fetchAccommodations.fulfilled, (state, { payload }) => {
-        state.status = Status.SUCCEEDED;
+        state.status = Status.IDLE;
         state.accommodations = payload;
       })
-      .addCase(updateAccommodation.fulfilled, (state, { payload }) => {
-        state.status = Status.SUCCEEDED;
+      .addCase(createAccommodationAction.pending, (state) => {
+        state.status = Status.LOADING;
+        state.error = undefined;
+      })
+      .addCase(createAccommodationAction.rejected, (state, action) => {
+        state.status = Status.FAILED;
+        state.error = action.error.message;
+      })
+      .addCase(createAccommodationAction.fulfilled, (state, { payload }) => {
         if (payload) {
+          state.status = Status.SUCCEEDED;
+          state.accommodations.push(payload);
+        }
+      })
+      .addCase(updateAccommodationAction.pending, (state) => {
+        state.status = Status.LOADING;
+        state.error = undefined;
+      })
+      .addCase(updateAccommodationAction.rejected, (state, action) => {
+        state.status = Status.FAILED;
+        state.error = action.error.message;
+      })
+      .addCase(updateAccommodationAction.fulfilled, (state, { payload }) => {
+        if (payload) {
+          state.status = Status.SUCCEEDED;
           state.accommodations = state.accommodations.map((accommodation) => {
             if (accommodation.id === payload.id) {
               return payload;
@@ -48,10 +76,17 @@ export const accommodationsSlice = createSlice({
           });
         }
       })
+      .addCase(deleteAccommodationAction.pending, (state) => {
+        state.status = Status.LOADING;
+        state.error = undefined;
+      })
+      .addCase(deleteAccommodationAction.rejected, (state, action) => {
+        state.status = Status.FAILED;
+        state.error = action.error.message;
+      })
       .addCase(deleteAccommodationAction.fulfilled, (state, { payload }) => {
-        state.status = Status.SUCCEEDED;
-
         if (payload) {
+          state.status = Status.SUCCEEDED;
           state.accommodations = state.accommodations.filter(
             (accommodation) => accommodation.id !== payload
           );
@@ -59,5 +94,7 @@ export const accommodationsSlice = createSlice({
       });
   },
 });
+
+export const { closeAccommodationForm } = accommodationsSlice.actions;
 
 export default accommodationsSlice.reducer;

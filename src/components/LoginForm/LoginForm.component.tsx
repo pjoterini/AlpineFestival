@@ -1,6 +1,6 @@
 import GMInput from '@/components/common/GMInput';
 import { auth } from '@/firebase/config';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { t } from 'i18next';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -9,9 +9,10 @@ import { userLoginSchema } from './loginForm.schema';
 
 interface IProps {
   handleLogin: (values: ILogin) => void;
+  errorMessage: string;
 }
 
-export const LoginForm = ({ handleLogin }: IProps) => {
+export const LoginForm = ({ handleLogin, errorMessage }: IProps) => {
   const [user, loading] = useAuthState(auth);
 
   if (user && !loading) return null;
@@ -44,6 +45,7 @@ export const LoginForm = ({ handleLogin }: IProps) => {
               name="password"
               label={t('common.password')}
               component={GMInput}
+              type="password"
               error={errors.password}
               touched={touched.password}
             />
@@ -53,6 +55,18 @@ export const LoginForm = ({ handleLogin }: IProps) => {
                 {t('common.login')}
               </Button>
             </Box>
+
+            {errorMessage && (
+              <Typography
+                pt={4}
+                pb={3}
+                variant="h5"
+                mx="auto"
+                color="error.main"
+              >
+                {errorMessage}
+              </Typography>
+            )}
           </Stack>
         </Form>
       )}

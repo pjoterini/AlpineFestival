@@ -1,5 +1,4 @@
 import { FormikState } from 'formik';
-import { IUser } from '../users/interfaces';
 
 export enum SpeechLength {
   min0_15 = '0-15',
@@ -10,18 +9,23 @@ export enum SpeechLength {
   min75_90 = '75-90',
 }
 
+export enum GuestType {
+  NORMAL = 'Normal',
+  VIP = 'VIP',
+}
+
 export interface IGuest {
   id: string;
   firstName: string;
   lastName: string;
   checkIn: boolean;
-  type: string;
-  organizer: IUser | null;
+  type: GuestType;
+  organizer: string | null;
   email: string;
   tel: string;
   arrival: string;
   departure: string;
-  accommodation: string;
+  accommodation: string | null;
   accomodationComment?: string;
   presents: boolean;
   ownsPc?: boolean;
@@ -29,20 +33,32 @@ export interface IGuest {
   specialNeeds?: string;
 }
 
-export type GuestRegistrationFormProps = Omit<
+export interface GuestInitialValues
+  extends Omit<
+    IGuest,
+    'id' | 'checkIn' | 'type' | 'organizer' | 'accommodation'
+  > {
+  id?: string;
+  checkIn?: boolean;
+  type?: GuestType;
+  organizer?: string | null;
+  accommodation?: string | null;
+}
+
+export type GuestRegisterFormProps = Omit<
   IGuest,
   'id' | 'checkIn' | 'type' | 'organizer' | 'accommodation'
 >;
 
-type GuestRegistrationFormPropsRequired = Required<GuestRegistrationFormProps>;
+type GuestRegisterFormPropsRequired = Required<GuestRegisterFormProps>;
 
-interface GuestRegistrationResetFormProps
-  extends Omit<GuestRegistrationFormPropsRequired, 'speechLength'> {
+interface GuestRegisterResetFormProps
+  extends Omit<GuestRegisterFormPropsRequired, 'speechLength'> {
   speechLength: null;
 }
 
-export type ResetGuestForm = (
-  nextState?: Partial<FormikState<GuestRegistrationResetFormProps>> | undefined
+export type ResetGuestRegisterForm = (
+  nextState?: Partial<FormikState<GuestRegisterResetFormProps>> | undefined
 ) => void;
 
 export type IFirebaseGuest = Omit<IGuest, 'id'>;

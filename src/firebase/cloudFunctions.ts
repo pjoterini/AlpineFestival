@@ -1,7 +1,7 @@
 import {
-  ICreateUserCloudFunctionResponse,
-  IUser,
-  UserFormProps,
+  IMutateUserCloudFunctionResponse,
+  UserEditFormProps,
+  UserRegisterFormProps,
 } from '@/redux/users/interfaces';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from './config';
@@ -16,24 +16,32 @@ export const removeAdminRole = async (userId: string) => {
   await removeAdminRole(userId);
 };
 
-export const createUser = async (user: UserFormProps) => {
+export const createUserCloudFunction = async (user: UserRegisterFormProps) => {
   const createUser = httpsCallable<
-    UserFormProps,
-    ICreateUserCloudFunctionResponse
+    UserRegisterFormProps,
+    IMutateUserCloudFunctionResponse
   >(functions, 'createUser');
-  const result = await createUser(user);
+  const response = await createUser(user);
 
-  return result;
+  return response;
 };
 
-export const updateUser = async (user: IUser) => {
-  const updateUser = httpsCallable(functions, 'updateUser');
-  const updatedUser = await updateUser(user);
-  return updatedUser;
+export const updateUserCloudFunction = async (user: UserEditFormProps) => {
+  const updateUser = httpsCallable<
+    UserEditFormProps,
+    IMutateUserCloudFunctionResponse
+  >(functions, 'updateUser');
+  const response = await updateUser(user);
+
+  return response;
 };
 
-export const deleteUser = async (userId: string) => {
-  const deleteUser = httpsCallable(functions, 'deleteUser');
-  const deletedUser = await deleteUser(userId);
-  return deletedUser;
+export const deleteUserCloudFunction = async (userId: string) => {
+  const deleteUser = httpsCallable<string, IMutateUserCloudFunctionResponse>(
+    functions,
+    'deleteUser'
+  );
+  const response = await deleteUser(userId);
+
+  return response;
 };
