@@ -1,3 +1,3 @@
-## Getting Started
+## CURRENT CODE ON DEVELOP BRANCH
 
-This is a [Documentation](https://docs.google.com/document/d/1GQ4KpdeHGmcEcFy_Iq41LqFiox9HpSRTr3_woMgvLvI/edit#heading=h.y3t6yt7zn5k9)
+Info about project can be found [HERE](https://piotrgorski.com/#projects)
