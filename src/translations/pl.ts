@@ -5,6 +5,7 @@ export const translationsPL = {
     admin: 'Admin',
     accommodation: 'Nocleg',
     accommodations: 'Noclegi',
+    backToForm: 'Wróć do formularza',
     delete: 'Usuń',
     email: 'Email',
     firstName: 'Imię',

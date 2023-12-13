@@ -1,8 +1,10 @@
 import GMInput from '@/components/common/GMInput';
+import { GUEST_FORM } from '@/constants/routes';
 import { auth } from '@/firebase/config';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
 import { t } from 'i18next';
+import Link from 'next/link';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ILogin } from './LoginForm.container';
 import { userLoginSchema } from './loginForm.schema';
@@ -51,6 +53,16 @@ export const LoginForm = ({ handleLogin, errorMessage }: IProps) => {
             />
 
             <Box ml="auto" mt={2} mb={5}>
+              <Link href={GUEST_FORM}>
+                <Button
+                  sx={{ mr: 2 }}
+                  color="primary"
+                  variant="outlined"
+                  size="large"
+                >
+                  {t('common.backToForm')}
+                </Button>
+              </Link>
               <Button variant="contained" type="submit" size="large">
                 {t('common.login')}
               </Button>
