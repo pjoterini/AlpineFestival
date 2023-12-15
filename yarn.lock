@@ -1755,12 +1755,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.15":
+"@types/react-dom@npm:18.2.15":
   version: 18.2.15
   resolution: "@types/react-dom@npm:18.2.15"
   dependencies:
     "@types/react": "*"
   checksum: 8e9631600c21ff561328e38a951d1991b3b3b20f538af4c0efbd1327c883a5573a63f50e1b945c34fa51b114b30e1ca5e62317bd54f21e063d6697b4be843a03
+  languageName: node
+  linkType: hard
+
+"@types/react-google-recaptcha@npm:^2.1.8":
+  version: 2.1.8
+  resolution: "@types/react-google-recaptcha@npm:2.1.8"
+  dependencies:
+    "@types/react": "*"
+  checksum: 9a19eceea432929588e0b9e3392905fcba92bdb6c9da66d4f54d66eefd0efca2d619371b6143b62462e3a96f8cfd74b9c8ef8dc13f2ac84dcab91ea5f04a3786
   languageName: node
   linkType: hard
 
@@ -1785,7 +1794,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.37":
+"@types/react@npm:*, @types/react@npm:18.2.37":
   version: 18.2.37
   resolution: "@types/react@npm:18.2.37"
   dependencies:
@@ -7829,7 +7838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8111,6 +8120,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-async-script@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "react-async-script@npm:1.2.0"
+  dependencies:
+    hoist-non-react-statics: ^3.3.0
+    prop-types: ^15.5.0
+  peerDependencies:
+    react: ">=16.4.1"
+  checksum: 303890eeaf9e18d59fca77f9c891bf3b52d2ec9ea88f0af9d19c160a1f101b447c5104ca46e2dd84c19de756d4797f1f054d041b888a3d57204d9145f4b1b532
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
@@ -8137,6 +8158,18 @@ __metadata:
     firebase: ">= 9.0.0"
     react: ">= 16.8.0"
   checksum: f7dbc42202082e35a4bbd60e6b729cf7a1a14ca300850f35dbcbda3fe3ecef0c1f8157c5dec711edfd3d6e021f2626e768241296598896731a56ce768bab829b
+  languageName: node
+  linkType: hard
+
+"react-google-recaptcha@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "react-google-recaptcha@npm:3.1.0"
+  dependencies:
+    prop-types: ^15.5.0
+    react-async-script: ^1.2.0
+  peerDependencies:
+    react: ">=16.4.1"
+  checksum: 9dc64daf9684d979b1f66d97e00a42c9ceaa9b9fe8b29c4d02d77edf86781e2008f2ae1bef14509351ff3b2ffbcc26463f0d88dd612d7280b455b8c07101e663
   languageName: node
   linkType: hard
 
@@ -9719,8 +9752,9 @@ __metadata:
     "@mui/x-date-pickers": ^6.1.0
     "@reduxjs/toolkit": ^1.9.5
     "@types/node": 18.15.7
-    "@types/react": ^18.2.37
-    "@types/react-dom": ^18.2.15
+    "@types/react": 18.2.37
+    "@types/react-dom": 18.2.15
+    "@types/react-google-recaptcha": ^2.1.8
     "@types/react-redux": ^7.1.25
     "@types/redux": ^3.6.0
     "@typescript-eslint/eslint-plugin": ^5.59.1
@@ -9740,6 +9774,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     react-firebase-hooks: ^5.1.1
+    react-google-recaptcha: ^3.1.0
     react-i18next: ^12.2.0
     react-phone-input-2: ^2.15.1
     react-redux: ^8.0.5

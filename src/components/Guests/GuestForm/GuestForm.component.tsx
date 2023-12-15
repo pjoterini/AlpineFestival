@@ -13,9 +13,12 @@ import {
 } from '@/redux/guests/interfaces';
 import { IUser } from '@/redux/users/interfaces';
 import { Box, Button, MenuItem, Stack, Typography } from '@mui/material';
+import { User } from 'firebase/auth';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select } from 'formik-mui';
 import { t } from 'i18next';
+import { Dispatch, SetStateAction } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import FormStatusMessage from '../../common/FormStatusMessage';
 import GMDatePicker from '../../common/GMDatePicker';
 import GMInput from '../../common/GMInput';
@@ -40,6 +43,9 @@ interface IProps {
   errorMessage: string | undefined;
   users?: IUser[];
   accommodations?: IAccommodation[];
+  captcha?: string | null;
+  setCaptcha?: Dispatch<SetStateAction<string | null | undefined>>;
+  userAuth?: User | null;
 }
 
 const GuestForm = ({
@@ -52,6 +58,9 @@ const GuestForm = ({
   errorMessage,
   users,
   accommodations,
+  captcha,
+  setCaptcha,
+  userAuth,
 }: IProps) => {
   const isCreateForm = formType === FormType.CREATE;
   const isEditForm = formType === FormType.EDIT;
@@ -86,7 +95,7 @@ const GuestForm = ({
       initialValues={initialValues}
       validationSchema={guestFormSchema}
       onSubmit={(values, { resetForm }) => {
-        isCreateForm && createGuest?.(values, resetForm);
+        isCreateForm && captcha && createGuest?.(values, resetForm);
         isEditForm && editGuest?.(values as IGuest);
       }}
     >
@@ -284,6 +293,14 @@ const GuestForm = ({
                   : t('formValidation.formEditMessageSuccess')
               }
             />
+            {isCreateForm && !userAuth && (
+              <Box mt={3} mb={1} mx="auto">
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+                  onChange={setCaptcha}
+                />
+              </Box>
+            )}
             <FormButtonsContainer>
               {isEditForm && (
                 <Button
