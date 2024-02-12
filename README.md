@@ -10,7 +10,7 @@ Application is aimed to be used in 2024 edition.
 
 ## STACK
 
-Next.js • TypeScript  Redux • MUI • Firebase 
+Next.js • TypeScript • Redux • MUI • Firebase 
 
 Forms handled with Formik + MUI + yup(error handling). 
 Redux Toolkit used for State Management.
